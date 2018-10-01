@@ -6,11 +6,17 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
-const app = express();
+const passport = require('passport');
+const session = require('express-session');
 
 require('./configs/db.config');
+require('./configs/passport.config').setup(passport);//le paso passport al setup
 
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users.route');
+const housesRouter = require('./routes/houses.route');
+const sessionsRouter = require('./routes/sessions.route');
+
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -18,7 +24,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+require("./configs/session.config")(app);
+
+app.use(passport.initialize()); 
+app.use(passport.session());
+
 app.use('/users', usersRouter);
+app.use('/sessions', sessionsRouter);
+app.use('/houses', housesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -26,7 +39,6 @@ app.use(function(req, res, next) {
 });
 
 app.use(function (error, req, res, next) {
-  console.error('ERROR:', error.message);
   res.status(error.status || 500);
   
   const data = {};

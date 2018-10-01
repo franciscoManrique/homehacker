@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const SALT_WORK_FACTOR = 10;
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: 'The name is required'
@@ -20,9 +22,41 @@ const userSchema = mongoose.Schema({
         required: 'The password is required'
     },
     // houses:{
-    //     type: 
+    //     type: [{type: mongoose.Schema.Types.ObjectId, ref: 'House'}]
     // }
+}, {timestamps: true,
+    toJSON: {
+        transform: (doc, ret) => {
+            ret.id = doc._id;
+            delete ret._id;
+            delete ret.__v;
+            delete ret.password;
+            return ret;
+        }
+    }
 });
+
+userSchema.pre('save', function(next){
+    if (!this.isModified('password')) {        
+        next();
+    } else{       
+        bcrypt.genSalt(SALT_WORK_FACTOR)
+        .then(salt =>{
+            return bcrypt.hash(this.password, salt);
+        })
+        .then(hash =>{
+            this.password = hash;
+            next();
+        })
+        .catch(error => {
+            next(error);
+        });
+    }
+});
+
+userSchema.methods.checkPassword = function(password){
+    return bcrypt.compare(password, this.password);
+};
 
 const User = mongoose.model('User', userSchema);
 
