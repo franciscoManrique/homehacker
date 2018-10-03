@@ -3,14 +3,6 @@ const bcrypt = require('bcrypt');
 const SALT_WORK_FACTOR = 10;
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: 'The name is required'
-    },
-    lastname: {
-        type: String,
-        required: 'The lastname is required'
-    },
     email: {
         type: String,
         required: 'The email is required',
@@ -21,9 +13,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: 'The password is required'
     },
-    // houses:{
-    //     type: [{type: mongoose.Schema.Types.ObjectId, ref: 'House'}]
-    // }
 }, {timestamps: true,
     toJSON: {
         transform: (doc, ret) => {

@@ -9,13 +9,19 @@ const houseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    // bookings: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Booking'
+    // },
+    
+    
     price:{
         type: Number,
         default: 0
     },
     start: {
 		type: Date,
-		default: Date.now,
+		// default: Date.now,
 		required: 'Must have start date - default value is the created date'
 	},
 	end: {
@@ -26,12 +32,17 @@ const houseSchema = new mongoose.Schema({
         type: String,
         required: 'Image of your house is required'
     },
-    // location: {
-    //     type: String,
-    //     enum: ['Point'],
-    //     default: ['40.4312831', '-3.6836046'],
-    //     required: 'The location is required'
-    // },
+    location: {
+        type: {
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
+            // required: true
+        },
+        coordinates: {
+            type: [Number],
+            // required: true
+        }
+    },
     people: {
         type: [String],
         default: '2 people'
@@ -51,6 +62,6 @@ const houseSchema = new mongoose.Schema({
     }
 });
 
-const User = mongoose.model('House', houseSchema);
+const House = mongoose.model('House', houseSchema);
 
-module.exports = User;
+module.exports = House;
