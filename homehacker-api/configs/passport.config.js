@@ -31,10 +31,14 @@ module.exports.setup = passport => {
                     if(match){
                         next(null, user); 
                     } else{
+                        console.log('WRONG PASSWORD');
+                        
                         throw createError(401, `invalid email or password`);
                     }
                 });
             } else {
+                console.log('WRONG PASSWORD');
+                
                 throw createError(401, `invalid email or password`);
             }
         })

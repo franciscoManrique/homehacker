@@ -5,7 +5,6 @@ const House = require('./../models/house.model');
 const Booking = require('./../models/booking.model');
 const moment = require('moment');
 
-
 //CREATE USER
 module.exports.createUser = (req, res, next)=>{
     User.findOne({email:req.body.email})

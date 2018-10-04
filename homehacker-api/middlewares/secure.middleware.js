@@ -6,10 +6,10 @@ const moment = require('moment');
 
 module.exports.isAuthenticated = (req, res, next) =>{
   if(req.isAuthenticated()){      
-    console.log('YOU ARE AUTHHENTICATED');
+    console.log('YOU ARE AUTHENTICATED BACK');
     next();
-  } else{
-    console.log('YOU ARE NOT AUTHHENTICATED');
+  } else{    
+    console.log('YOU ARE NOT AUTHENTICATED BACK');
     throw createError(403);
   }
 };
@@ -20,7 +20,7 @@ module.exports.isMe = (req, res, next) =>{
   } else if(!req.user._id.equals(req.params.userId)){
     throw createError(401, `YOU ARE TRYING TO ACCESS WITH ANOTHER ID ${req.user.name}`);
   } else{
-    console.log('IS YOU');
+    console.log('IS YOU BACK');
     next();
   }
 };
@@ -31,7 +31,7 @@ module.exports.datesCheck = (req, res, next) =>{
   } else if(new Date(req.body.start) > new Date(req.body.end)){
     throw createError(401, `You cannot create a house with a date of start after the end date ${req.user.name}`);
   } else{
-    console.log('PASSED DATES VALIDATION');
+    console.log('PASSED DATES VALIDATION BACK');
     next();
   }
 };

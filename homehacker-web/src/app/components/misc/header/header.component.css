@@ -24,8 +24,8 @@ nav a{
     display: block;
     padding: 0 7px;
     line-height: 70px;
-    text-transform: uppercase;
     letter-spacing: 1px;
+    text-decoration: none;
 }
 
 nav a:hover{

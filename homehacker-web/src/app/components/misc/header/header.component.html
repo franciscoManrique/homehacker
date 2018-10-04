@@ -1,13 +1,20 @@
-<span class="hamburgesa" (click)="showMenu()">&equiv;</span>
-
-<nav [ngClass]="{'apareceMenu': !toggleMenu}">  
-  <ul>
-    <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/houses']">Home</a>
-    </li>
-    <li class="nav-item" routerLinkActive="active">
-      <a class="nav-link" [routerLink]="['/login']">Login</a>
-    </li>
-  </ul>
-</nav>
-
+<!-- <div *ngIf="user"> -->
+  <span class="hamburgesa" (click)="showMenu()">&equiv;</span>
+  
+  <nav [ngClass]="{'apareceMenu': !toggleMenu}">  
+    <ul>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/houses']">Home</a>
+      </li>
+      <!-- <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/login']">Login</a>
+      </li> -->
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/createHouse']">Publish house</a>
+      </li>
+      <li><a class="nav-link">{{user.email}}</a></li>
+      <li><button class="btn btn-link" (click)="onClickLogOut()">Logout</button></li>
+    </ul>
+  </nav>
+  <!-- </div> -->
+ asddas {{user | json}}

@@ -19,6 +19,7 @@ export class HouseListComponent implements OnInit {
       console.log(this.houses);
     },
     (error: ApiError) =>{
+      //ESTO NO ME HACE FALTA PORQUE LO BLOQUEO CON GUARDAS NO? ESTO ES SOLO PARA MOSTRAR ERRORES
       console.log('ERROR FRONT HOME LIST', error);
       this.apiError = error;
     }

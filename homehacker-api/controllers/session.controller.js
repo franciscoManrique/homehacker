@@ -19,7 +19,7 @@ module.exports.create = (req, res, next) =>{
                     if (error) {
                         next(error); 
                     } else{
-                        console.log('YOU ARE LOGGED');
+                        console.log('CORRECT PASSWORD');
                         res.status(200).json(user);                        
                     }
                 });
@@ -32,5 +32,4 @@ module.exports.delete = (req, res, next) =>{
     req.logout();
     res.status(204).json();
     console.log('YOU LOGGED OUT');
-    
 };
