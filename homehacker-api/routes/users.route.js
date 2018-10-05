@@ -14,10 +14,17 @@ router.patch('/:userId/edit', middlewares.isAuthenticated, middlewares.isMe, use
 router.get('/:userId/houses/:homeId', middlewares.isAuthenticated, userController.getHouse);//GET HOME OF A USER
 router.get('/:userId/houses', middlewares.isAuthenticated, userController.listHouses);//GET houses OF USER ID
 
-//USER CREATE A HOUSE
-router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, uploader.array('photos'),  userController.createHouse);
 
-//USER MAKE A BOOKING LO HAGO AQUI PORQUE SI HAGO houses/:homeid/booking no puedo comprobar el is me del req.params
-router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, middlewares.reservationsCheck, userController.makeBooking);
+//USER CREATE A HOUSE
+//TEMPORAL=>
+router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, uploader.array('photos'), userController.createHouse);
+// router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, uploader.array('photos'),  userController.createHouse);
+
+
+//CREATE A BOOKING
+//TEMPORAL=>
+router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, userController.makeBooking);
+// router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, middlewares.reservationsCheck, userController.makeBooking);
 
 module.exports = router;
+

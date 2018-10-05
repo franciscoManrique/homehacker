@@ -35,9 +35,10 @@ export class HomeService extends BaseApiService {
     )
   }
   
-  create():Observable<House | ApiError>{    
+  create(house: House):any{   
+    console.log(house);
+     
     // console.log(`${HomeService.HOUSE_API}/${BaseApiService.USER_LOGGED.id}/`);
-    return 
     // this.http.post<House>(`HomeService.HOUSE_API/${BaseApiService.USER_LOGGED}/`);
   }
   

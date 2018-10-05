@@ -1,19 +1,30 @@
-<div class="container">
+<!-- <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-6 col-sm-12">
-      <div class="form" (ngSubmit)="onSubmitCreateHouse()" #formHouseCreate>
-        <form>
+      <div>
+        <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
           <h1>Crete your house</h1>
           <input type="email" class="buttonStyled" name="name" placeholder="Your house name" [(ngModel)]="house.name"/>
           <input type="email" class="buttonStyled" name="price" placeholder="Price of the rent" [(ngModel)]="house.price"/>
           <input class="buttonStyled" placeholder="start date" name="dp" [(ngModel)]="house.from" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
           <input class="buttonStyled" placeholder="end date" name="dp" [(ngModel)]="house.end" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()">
-          <input type="email" class="buttonStyled" name="profilePhoto" placeholder="profile Photo" [(ngModel)]="house.profilePhoto"/>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-file-o"></i></span>
+            </div>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" #postFiles required (change)="onChangeImageFile(postFiles)" multiple>
+              <label class="custom-file-label">{{ post.imageFiles[0]?.name || 'Choose files' }}</label>
+            </div>
+            <div class="invalid-feedback" *ngIf="postFiles.errors && postFiles.errors.required">
+              Please chose file.
+            </div>
+          </div>
           <input type="email" class="buttonStyled" name="description" placeholder="description" [(ngModel)]="house.description"/>
           <input type="email" class="buttonStyled" name="location" placeholder="loocation" [(ngModel)]="house.location"/>
           <input type="email" class="buttonStyled" name="people" placeholder="how menay people" [(ngModel)]="house.people"/>
           <input type="email" class="buttonStyled" name="amenities" placeholder="amenities" [(ngModel)]="house.amenities"/>
-          <button type="submit" class="btn btn-block btn-primary">Create house</button>
+          <button type="submit" class="btn btn-primary btn-block">create house</button>
         </form>
       </div>
       <div *ngIf="apiError">
@@ -21,9 +32,91 @@
       </div>
     </div>
     <div class="col-lg-4 col-md-6">
-      <img class="imagePreview" [src]="house.profilePhoto">
+      <img [src]="house.profilePhoto">
     </div>
   </div>
 </div>
+-->
 
-<button (click)=onSubmitCreateHouse()>asdas</button>
+
+
+
+
+<div class="container">
+  
+  <div class="row mb-5">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="house.name" #name="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Description" name="description" [(ngModel)]="house.description" #name="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Location" name="description" [(ngModel)]="house.location" #location="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-group"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="For how many people" name="people" [(ngModel)]="house.people" #people="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-bed"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Amenities" name="amenities" [(ngModel)]="house.amenities" #people="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-money"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="Money" name="price" [(ngModel)]="house.price" #price="ngModel" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="house.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+          </div>
+          <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-file-o"></i></span>
+          </div>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" required #houseFiles name="photos" (change)="onChangeImageFile(houseFiles)" multiple>
+            <label class="custom-file-label">Choose a file</label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block">Create house</button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="col-lg-6">
+      <div class="row mt-3 mb-3">
+        <div *ngFor="let previewImage of previewImages">
+          <img class="card-img-top img-thumbnail" [src]="previewImage">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
 import { House } from '../../../models/house.model';
 import { FormGroup } from '@angular/forms';
 import { HomeService } from '../../../shared/services/home.service';
@@ -10,21 +10,39 @@ import { HomeService } from '../../../shared/services/home.service';
 })
 export class CreateHouseFormComponent implements OnInit {
   @ViewChild('formHouseCreate') houseCreateForm: FormGroup;
+  @Output() houseSubmit: EventEmitter<House> = new EventEmitter();
+  @Input() house: House = new House();
   
-  previewImage: string = 'https://www.google.es/imgres?imgurl=https%3A%2F%2Fimage.shutterstock.com%2Fimage-vector%2Fhome-icon-estate-premium-house-260nw-716338615.jpg&imgrefurl=https%3A%2F%2Fwww.shutterstock.com%2Fsearch%2Fhouse%2Bicon&docid=yov62DAAVIFV0M&tbnid=Lx3YHL2vdFc_-M%3A&vet=10ahUKEwjpspKCvO3dAhWSuIsKHZT2BsgQMwg0KAIwAg..i&w=260&h=280&bih=718&biw=1309&q=house%20image%20icon&ved=0ahUKEwjpspKCvO3dAhWSuIsKHZT2BsgQMwg0KAIwAg&iact=mrc&uact=8';
-  house: House = new House();
+  previewImages: Array<String | ArrayBuffer> = [];
   
-  constructor(private homeService: HomeService) { }
+  constructor(private homeService: HomeService, private changesDetector: ChangeDetectorRef) { }
   
   ngOnInit() {
+    
   }
   
-  onSubmitCreateHouse(){
-    console.log('dasdasd');
-    
-    this.homeService.create();
+  onSubmitCreateHouse(){        
     if (this.houseCreateForm.valid) {
+      this.houseSubmit.emit(this.house);
     }
   }
   
+  onChangeImageFile(images: HTMLInputElement){
+    if (images.files) {
+      this.previewImages = [];
+      for (let i = 0; i < images.files.length; i++) {        
+        this.house.photos.push(images.files[i]);
+        this.renderPreviewImg(images.files[i]);
+      }      
+    }
+  }
+
+  renderPreviewImg(photoFile: File){
+    const reader = new FileReader();
+    reader.readAsDataURL(photoFile);
+    reader.onload = () =>{
+      this.previewImages.push(reader.result);
+      this.changesDetector.markForCheck(); // ???? PARA QUE, SIN ESTO TAMBIEN SIRVE
+    }
+  }
 }

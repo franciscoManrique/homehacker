@@ -71,38 +71,35 @@ module.exports.edit = (req, res, next) =>{
     });
 };
 
-module.exports.edit = (req, res, next) =>{
-    criteria = {
-        $set: req.body
-    };
-    User.findByIdAndUpdate(req.params.userId, criteria, { runValidators: true, new: true })
-    .then(user => {
-        res.status(200).json(user);
-    })
-    .catch(error =>{
-        console.log('Error to get 1 user', error);
-        next(error);
-    });
-};
 
 //CREATE HOUSE
-module.exports.createHouse = (req, res, next) =>{    
-    const house = new House(req.body);
-    house.owner = req.params.userId;
+module.exports.createHouse = (req, res, next) =>{  
     
-    if (req.files) {
-        house.photos = [];
-        for (const file of req.files) {            
-            house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+    //TERMPORAL=>
+    if(new Date(req.body.start) < new Date()){
+        throw createError(401, `You cannot create a house with a date before today ${req.user.email}`);
+    } else if(new Date(req.body.start) > new Date(req.body.end)){
+        throw createError(401, `You cannot create a house with a date of start after the end date ${req.user.email}`);
+    } else{
+        
+        //ONLY THIS=>
+        const house = new House(req.body);
+        house.owner = req.params.userId;
+        
+        if (req.files) {
+            house.photos = [];
+            for (const file of req.files) {            
+                house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+            }
         }
+        house.save()
+        .then(house => {
+            res.status(201).json(house);
+        })
+        .catch(error => {
+            next(error);
+        });
     }
-    house.save()
-    .then(house => {
-        res.status(201).json(house);
-    })
-    .catch(error => {
-        next(error);
-    });
 };
 
 //LIST ALL HOUSES
@@ -134,44 +131,71 @@ module.exports.getHouse = (req, res, next) =>{
 
 
 module.exports.makeBooking = (req, res, next) =>{   
-    console.log('dasdasda');
-     
-    House.findById(req.params.homeId)
-    .populate('owner')
-    .then(house => {
-        if (house) {
-            console.log(req.params.userId);
-            console.log(house.owner._id);
-                                  
-            if(req.params.userId == house.owner._id){ //.equals?
-                throw createError(403, `You cannot make a booking in your own house ${req.user.email}`);
-            } else{
-                const startRequest = moment(new Date(req.body.start));
-                const endRequest = moment(new Date(req.body.end));
-                const startHouse = moment(house.start);
-                const endHouse = moment(house.end);
+    //TERMPORAL=>
+    Booking.find({house: req.params.homeId})
+    .then(bookings => {
+        if (bookings.length > 0) {
+            bookings.map((booking)=> {        
+                const accept = moment(new Date(req.body.start)).isSameOrAfter(booking.start);
+                const accept2 = moment(new Date(req.body.end)).isSameOrBefore(booking.end);
                 
-                const accept = moment(startRequest).isSameOrAfter(startHouse);
-                const accept2 = moment(endRequest).isSameOrBefore(endHouse);
-                
-                if (accept && accept2) {
-                    
-                    booking = new Booking({user:req.params.userId, house: req.params.homeId, start: req.body.start, end: req.body.end});
-                    return booking.save()
-                    .then(booking => {
-                        console.log('BOOKED');
-                        res.status(201).json(booking);                    
-                    });
+                if(accept || accept2){
+                    throw createError(403, `This dates are already booked ${req.user.email}`);
                 } else{
-                    throw createError(409, `This dates are not available for this house ${req.user.email}`);
-                } 
-            } 
+                    next();
+                }      
+            });    
         } else{
-            console.log('jokmmk');
-            throw createError(404, `This house doesnt exist`);
-        } 
-    }) 
-    .catch(error =>{                
-        next(error);        
+            //TEMPORAL=>
+            if(new Date(req.body.start) < new Date()){
+                throw createError(401, `You cannot create a house with a date before today ${req.user.email}`);
+            } else if(new Date(req.body.start) > new Date(req.body.end)){
+                throw createError(401, `You cannot create a house with a date of start after the end date ${req.user.email}`);
+            } else{
+                console.log('PASSED DATES VALIDATION BACK');
+                //ONLY THIS=> 
+                House.findById(req.params.homeId)
+                .populate('owner')
+                .then(house => {
+                    if (house) {
+                        if(req.params.userId == house.owner._id){ //.equals?
+                            throw createError(403, `You cannot make a booking in your own house ${req.user.email}`);
+                        } else{
+                            const startRequest = moment(new Date(req.body.start));
+                            const endRequest = moment(new Date(req.body.end));
+                            const startHouse = moment(house.start);
+                            const endHouse = moment(house.end);
+                            
+                            const accept = moment(startRequest).isSameOrAfter(startHouse);
+                            const accept2 = moment(endRequest).isSameOrBefore(endHouse);
+                            
+                            if (accept && accept2) {
+                                
+                                booking = new Booking({user:req.params.userId, house: req.params.homeId, start: req.body.start, end: req.body.end});
+                                return booking.save()
+                                .then(booking => {
+                                    console.log('BOOKED');
+                                    res.status(201).json(booking);                    
+                                });
+                            } else{
+                                throw createError(409, `This dates are not available for this house ${req.user.email}`);
+                            } 
+                        } 
+                    } else{
+                        console.log('jokmmk');
+                        throw createError(404, `This house doesnt exist`);
+                    } 
+                }) 
+                .catch(error =>{                
+                    next(error);        
+                });
+                
+            }
+            
+        }  
+    })
+    .catch(error => {
+        next(error);
     });
+    
 };
