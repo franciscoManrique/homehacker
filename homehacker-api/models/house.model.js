@@ -9,12 +9,10 @@ const houseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    // bookings: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Booking'
-    // },
-    
-    
+    description: {
+        type: String,
+        // required: 'Description is required'
+    },
     price:{
         type: Number,
         default: 0
@@ -22,15 +20,15 @@ const houseSchema = new mongoose.Schema({
     start: {
 		type: Date,
 		// default: Date.now,
-		required: 'Must have start date - default value is the created date'
+		// required: 'Must have start date - default value is the created date'
 	},
 	end: {
 		type: Date,
-		required: 'Must have end date - default value is the created date + 1 week'
+		// required: 'Must have end date - default value is the created date + 1 week'
     },
-    photo:{
-        type: String,
-        required: 'Image of your house is required'
+    photos:{
+        type: [String],
+        required: 'image is required'
     },
     location: {
         type: {

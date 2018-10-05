@@ -86,24 +86,19 @@ module.exports.edit = (req, res, next) =>{
 };
 
 //CREATE HOUSE
-module.exports.createHouse = (req, res, next) =>{
-    House.findOne({name: req.body.name})
-    .then(house =>{      
-        if (house) {             
-            throw createError(409, `home with this name exists`);
-        } else{
-            console.log('creating house');
-            house = new House(req.body);
-            req.body.start =  new Date(req.body.start);
-            req.body.end =  new Date(req.body.end);
-            
-            house.owner = req.params.userId; 
-            return house.save()
-            .then(house =>{                
-                res.status(201).json(house);
-                console.log(`${req.user.name} CREATED A HOUSE NAMED: ${house.name} - ${house.id}`);
-            });
+module.exports.createHouse = (req, res, next) =>{    
+    const house = new House(req.body);
+    house.owner = req.params.userId;
+    
+    if (req.files) {
+        house.photos = [];
+        for (const file of req.files) {            
+            house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
         }
+    }
+    house.save()
+    .then(house => {
+        res.status(201).json(house);
     })
     .catch(error => {
         next(error);
@@ -115,11 +110,9 @@ module.exports.listHouses = (req, res, next) =>{
     
     House.find({owner: req.params.userId})
     .then(houses =>{
-        console.log('FOUND THIS HOUSES: ', houses);
         res.status(200).json(houses);
     })
     .catch(error => {
-        console.log('ERROR FINDING HOMES: ', error);
         next(error);
     });
 };
@@ -140,13 +133,18 @@ module.exports.getHouse = (req, res, next) =>{
 };
 
 
-module.exports.makeBooking = (req, res, next) =>{    
+module.exports.makeBooking = (req, res, next) =>{   
+    console.log('dasdasda');
+     
     House.findById(req.params.homeId)
     .populate('owner')
     .then(house => {
-        if (house) {                      
+        if (house) {
+            console.log(req.params.userId);
+            console.log(house.owner._id);
+                                  
             if(req.params.userId == house.owner._id){ //.equals?
-                throw createError(403, `You cannot make a booking in your own house ${req.user.name}`);
+                throw createError(403, `You cannot make a booking in your own house ${req.user.email}`);
             } else{
                 const startRequest = moment(new Date(req.body.start));
                 const endRequest = moment(new Date(req.body.end));
@@ -162,20 +160,18 @@ module.exports.makeBooking = (req, res, next) =>{
                     return booking.save()
                     .then(booking => {
                         console.log('BOOKED');
-                        
                         res.status(201).json(booking);                    
                     });
                 } else{
-                    throw createError(409, `This dates are not available for this house ${req.user.name}`);
+                    throw createError(409, `This dates are not available for this house ${req.user.email}`);
                 } 
             } 
         } else{
             console.log('jokmmk');
-            
             throw createError(404, `This house doesnt exist`);
         } 
     }) 
-    .catch(error => {                
+    .catch(error =>{                
         next(error);        
     });
 };

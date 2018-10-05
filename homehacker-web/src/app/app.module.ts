@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -11,15 +11,11 @@ import { LoginComponent } from './components/misc/login/login.component';
 import { RegisterComponent } from './components/misc/register/register.component';
 import { HouseListComponent } from './components/house/house-list/house-list.component';
 import { HouseItemComponent } from './components/house/house-item/house-item.component';
-import { MainNavComponent } from './components/misc/main-nav/main-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { CreateHouseFormComponent } from './components/house/create-house-form/create-house-form.component';
 import { CreateHouseWrapperComponent } from './components/house/create-house-wrapper/create-house-wrapper.component';
 import { HouseDetailComponent } from './components/house/house-detail/house-detail.component';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -30,7 +26,6 @@ import { HouseDetailComponent } from './components/house/house-detail/house-deta
     RegisterComponent,
     HouseListComponent,
     HouseItemComponent,
-    MainNavComponent,
     CreateHouseFormComponent,
     CreateHouseWrapperComponent,
     HouseDetailComponent,
@@ -40,13 +35,7 @@ import { HouseDetailComponent } from './components/house/house-detail/house-deta
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    BrowserAnimationsModule
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

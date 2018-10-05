@@ -10,6 +10,7 @@ export class HouseDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  
   }
 
 }

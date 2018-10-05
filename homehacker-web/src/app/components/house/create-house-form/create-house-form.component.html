@@ -1,3 +1,29 @@
-<p>
-  create-house-form works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-6 col-sm-12">
+      <div class="form" (ngSubmit)="onSubmitCreateHouse()" #formHouseCreate>
+        <form>
+          <h1>Crete your house</h1>
+          <input type="email" class="buttonStyled" name="name" placeholder="Your house name" [(ngModel)]="house.name"/>
+          <input type="email" class="buttonStyled" name="price" placeholder="Price of the rent" [(ngModel)]="house.price"/>
+          <input class="buttonStyled" placeholder="start date" name="dp" [(ngModel)]="house.from" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
+          <input class="buttonStyled" placeholder="end date" name="dp" [(ngModel)]="house.end" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()">
+          <input type="email" class="buttonStyled" name="profilePhoto" placeholder="profile Photo" [(ngModel)]="house.profilePhoto"/>
+          <input type="email" class="buttonStyled" name="description" placeholder="description" [(ngModel)]="house.description"/>
+          <input type="email" class="buttonStyled" name="location" placeholder="loocation" [(ngModel)]="house.location"/>
+          <input type="email" class="buttonStyled" name="people" placeholder="how menay people" [(ngModel)]="house.people"/>
+          <input type="email" class="buttonStyled" name="amenities" placeholder="amenities" [(ngModel)]="house.amenities"/>
+          <button type="submit" class="btn btn-block btn-primary">Create house</button>
+        </form>
+      </div>
+      <div *ngIf="apiError">
+        {{apiError.message}}
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <img class="imagePreview" [src]="house.profilePhoto">
+    </div>
+  </div>
+</div>
+
+<button (click)=onSubmitCreateHouse()>asdas</button>

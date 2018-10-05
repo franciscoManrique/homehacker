@@ -12,23 +12,16 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit {
   toggleMenu: boolean = true;
   user: User;
-  userSuscriptor: Subscription;
+  onUserChanges: Subscription;
   
   constructor(private sessionService: SessionService, private router: Router) { }
-  
+
+
   ngOnInit() {
     this.user = this.sessionService.user;
-    this.userSuscriptor = this.sessionService.onUserChanges()
-    .subscribe((user: User)=>{
-      this.user = user;
-    })
+    this.onUserChanges = this.sessionService.onUserChanges()
+      .subscribe((user: User) => this.user = user);
   }
-
-  // ngOnInit() {
-  //   this.user = this.sessionService.user;
-  //   this.onUserChanges = this.sessionService.onUserChanges()
-  //     .subscribe((user: User) => this.user = user);
-  // }
   
   showMenu(){
     this.toggleMenu = !this.toggleMenu;
@@ -38,7 +31,7 @@ export class HeaderComponent implements OnInit {
   onClickLogOut(){
     this.sessionService.logout().subscribe(()=>{
       console.log('Logged out from header');
-      // this.router.navigate(['/login']);
+      this.router.navigate(['/login']);
     });
   }
 }

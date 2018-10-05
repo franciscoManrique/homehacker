@@ -19,7 +19,7 @@ module.exports.listByDateRange = (req, res, next)=>{
     const end = new Date(req.query.end);
     
     if(start < new Date()){
-        throw createError(403, `You cannot find houses before today`);
+        throw createError(403, `You cannot find houses before today ${req.user.email}`);
     }else{
         House.find({$and: [{start:{ $lte: start}},{end:{ $gte: end}}]})
         .populate('owner')

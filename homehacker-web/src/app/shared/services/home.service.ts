@@ -5,24 +5,27 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ApiError } from '../../models/api-error.model';
 import { House } from '../../models/house.model';
+import { BaseApiService } from './base.api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class HomeService {
+export class HomeService extends BaseApiService {
   
   houses: Array<House> = [];
   
-  private static readonly SESSION_API = `${environment.homehackerApi}/houses`;
+  private static readonly HOUSE_API = `${environment.homehackerApi}/houses`;
   private static readonly defaultOptions = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
     withCredentials: true
   };
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    super();
+  }
   
   list():Observable<Array<House> | ApiError>{
-    return this.http.get(HomeService.SESSION_API, HomeService.defaultOptions)
+    return this.http.get<Array<House>>(HomeService.HOUSE_API, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
         this.houses = houses;
@@ -30,6 +33,12 @@ export class HomeService {
       }),
       catchError(this.handleError)
     )
+  }
+  
+  create():Observable<House | ApiError>{    
+    // console.log(`${HomeService.HOUSE_API}/${BaseApiService.USER_LOGGED.id}/`);
+    return 
+    // this.http.post<House>(`HomeService.HOUSE_API/${BaseApiService.USER_LOGGED}/`);
   }
   
   private handleError(error: HttpErrorResponse): Observable<ApiError> {

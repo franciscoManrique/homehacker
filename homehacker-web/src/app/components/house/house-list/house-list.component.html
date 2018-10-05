@@ -1,7 +1,11 @@
 <div class="container-fluid">
   <!-- <div layout="row" style="height: 100%;" layout-padding> -->
-    <app-house-item *ngFor="let house of houses" [house]=house></app-house-item>
+  <div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let house of houses">
+        <app-house-item  [house]=house></app-house-item>
+    </div>
   </div>
+</div>
   
 
 <!-- 

@@ -25,7 +25,7 @@ export class SessionService {
     // this.user = Object.assign(new User(), userData); // PORQUE HACER OBJECT ASSIGN Y PORQUE MUESTRA EL USER RARO?
     const userData = localStorage.getItem(SessionService.CURRENT_USER);
     this.user = JSON.parse(userData);
-    this.notifyChanges();
+    this.notifyUserChanges();
   }
   
   authenticate(user: User):Observable<User | ApiError>{
@@ -42,10 +42,19 @@ export class SessionService {
   doAuthenticate(user: User):void{
     this.user = user;
     localStorage.setItem(SessionService.CURRENT_USER, JSON.stringify(user));
+    this.notifyUserChanges(); // si no notifico aqui, el user aqui no se actualizara al momento y mi header no lo sabra
   }
   
   isAuthenticated():any{
     return this.user ? true : false;
+  }
+  
+  onUserChanges(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+  
+  private notifyUserChanges(): void {
+    this.userSubject.next(this.user);
   }
   
   
@@ -65,15 +74,7 @@ export class SessionService {
     console.log('LOGGED OUT FRONT');
     localStorage.removeItem(SessionService.CURRENT_USER);
     this.user = null;
-    this.notifyChanges();
-  }
-  
-  notifyChanges():void{
-    this.userSubject.next(this.user); // 2. le paso los cambios que tiene que escuchar mi sujeto  
-  }
-  
-  onUserChanges():Observable<User>{
-    return this.userSubject.asObservable(); //3. retorno ese sujeto como observable
+    this.notifyUserChanges();
   }
   
   
