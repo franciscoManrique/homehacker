@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { House } from '../../../models/house.model';
 import { HomeService } from '../../../shared/services/home.service';
 import { ApiError } from '../../../models/api-error.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-house-wrapper',
@@ -10,21 +11,17 @@ import { ApiError } from '../../../models/api-error.model';
 })
 export class CreateHouseWrapperComponent implements OnInit {
   apiError: ApiError;
-  constructor(private houseService:HomeService) { }
+  constructor(private houseService:HomeService, private router: Router) { }
   
   ngOnInit() {
   }
   
   onSubmitCreateHouseForm(house: House):void{
-    console.log(house);
-    
-    // this.houseService.create(house)
-    // .subscribe(()=>{
-      
-    // },
-    // (error: ApiError)=>{
-    //   this.apiError = error;
-    // });
+    this.houseService.create(house).subscribe((house: House) =>{
+      this.router.navigate(['/houses']);
+    }),
+    (error: ApiError) => {
+      this.apiError = error;
+    }
   }
-  
 }

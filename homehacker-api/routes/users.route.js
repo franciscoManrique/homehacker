@@ -17,14 +17,13 @@ router.get('/:userId/houses', middlewares.isAuthenticated, userController.listHo
 
 //USER CREATE A HOUSE
 //TEMPORAL=>
-router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, uploader.array('photos'), userController.createHouse);
-// router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, uploader.array('photos'),  userController.createHouse);
+// router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, uploader.array('photos'), userController.createHouse);
+router.post('/:userId/houses', middlewares.isAuthenticated, middlewares.isMe, uploader.array('photos'), middlewares.datesCheck, userController.createHouse);
 
 
 //CREATE A BOOKING
 //TEMPORAL=>
-router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, userController.makeBooking);
-// router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, middlewares.reservationsCheck, userController.makeBooking);
+// router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, userController.makeBooking);
+router.post('/:userId/houses/:homeId/booking', middlewares.isAuthenticated, middlewares.isMe, middlewares.datesCheck, middlewares.reservationsCheck, userController.makeBooking);
 
 module.exports = router;
-

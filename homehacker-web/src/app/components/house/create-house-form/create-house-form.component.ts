@@ -22,9 +22,9 @@ export class CreateHouseFormComponent implements OnInit {
   }
   
   onSubmitCreateHouse(){        
-    if (this.houseCreateForm.valid) {
+    // if (this.houseCreateForm.valid) {
       this.houseSubmit.emit(this.house);
-    }
+    // }
   }
   
   onChangeImageFile(images: HTMLInputElement){

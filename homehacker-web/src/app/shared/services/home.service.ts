@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { ApiError } from '../../models/api-error.model';
 import { House } from '../../models/house.model';
 import { BaseApiService } from './base.api.service';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,22 @@ export class HomeService extends BaseApiService {
   
   houses: Array<House> = [];
   
-  private static readonly HOUSE_API = `${environment.homehackerApi}/houses`;
+  //
+  private static readonly HOUSE_API = `${environment.homehackerApi}`;
+  private static readonly HOUSE_PART = 'houses';
+  private static readonly USER_PART = 'users';
   private static readonly defaultOptions = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
     withCredentials: true
   };
   
-  constructor(private http: HttpClient) { 
+  //si quiero acceder a la sesison cojo de ahi directamente el user
+  constructor(private http: HttpClient, private session: SessionService) { 
     super();
   }
   
   list():Observable<Array<House> | ApiError>{
-    return this.http.get<Array<House>>(HomeService.HOUSE_API, HomeService.defaultOptions)
+    return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/${HomeService.HOUSE_PART}`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
         this.houses = houses;
@@ -35,11 +40,16 @@ export class HomeService extends BaseApiService {
     )
   }
   
-  create(house: House):any{   
-    console.log(house);
-     
-    // console.log(`${HomeService.HOUSE_API}/${BaseApiService.USER_LOGGED.id}/`);
-    // this.http.post<House>(`HomeService.HOUSE_API/${BaseApiService.USER_LOGGED}/`);
+  create(house: House):Observable<House | ApiError>{  
+    
+    return this.http.post<House>(`${HomeService.HOUSE_API}/${HomeService.USER_PART}/${this.session.user.id}/houses`, house, HomeService.defaultOptions)
+    .pipe(
+      map((house: House) => {
+        console.log(house);
+        return house;
+      }),
+      catchError(this.handleError)
+    )  
   }
   
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
