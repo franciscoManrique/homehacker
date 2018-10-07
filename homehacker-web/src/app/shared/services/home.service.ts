@@ -7,6 +7,7 @@ import { ApiError } from '../../models/api-error.model';
 import { House } from '../../models/house.model';
 import { BaseApiService } from './base.api.service';
 import { SessionService } from './session.service';
+import { HouseToFind } from '../../models/house-to-find.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,6 @@ export class HomeService extends BaseApiService {
   
   //
   private static readonly HOUSE_API = `${environment.homehackerApi}`;
-  private static readonly HOUSE_PART = 'houses';
-  private static readonly USER_PART = 'users';
   private static readonly defaultOptions = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
     withCredentials: true
@@ -29,8 +28,9 @@ export class HomeService extends BaseApiService {
     super();
   }
   
+  //LIST ALL ONLY PROVIDE 50 RESULTS AT FIRST THEN WEHEN REFINE SEARCH GIVE DIFERENT VALUES
   list():Observable<Array<House> | ApiError>{
-    return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/${HomeService.HOUSE_PART}`, HomeService.defaultOptions)
+    return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
         this.houses = houses;
@@ -40,12 +40,50 @@ export class HomeService extends BaseApiService {
     )
   }
   
-  create(house: House):Observable<House | ApiError>{  
+  //GET HOUSE BY ID
+  get(id: string):Observable<House | ApiError>{
+    return this.http.get<House>(`${HomeService.HOUSE_API}/houses/${id}`, HomeService.defaultOptions)
+    .pipe(
+      map((house: House)=>{
+        return house;
+      }),
+      catchError(this.handleError)
+    )
+  }
+  
+  //LIST BY WHAT THE USER CHOSE
+  findHousesByFilter(houseToFind: HouseToFind){
     
-    return this.http.post<House>(`${HomeService.HOUSE_API}/${HomeService.USER_PART}/${this.session.user.id}/houses`, house, HomeService.defaultOptions)
+    const modified = {
+      start: Object.values(houseToFind.start).join('-'),
+      end: Object.values(houseToFind.end).join('-'),
+      people: houseToFind.people,
+      kids:houseToFind.kids,
+      longitude: houseToFind.longitude,
+      latitude: houseToFind.latitude,
+    }
+    
+    // http://localhost:3000/houses/range?start=2018-10-20&end=2018-10-22&people=2&kids=0&latitude=0&longitude=0
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&kids=${modified.kids}&longitude=${modified.longitude}&latitude=${modified.latitude}`;
+    console.log(`${HomeService.HOUSE_API}/houses/${query}`);
+    
+    // const query = `range?start=${house.start}&end=${house.end}`;
+    return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
+    .pipe(
+      map((houses: Array<House>)=>{
+        this.houses = houses;
+        return houses;
+      }),
+      catchError(this.handleError)
+    )
+  }
+  
+  
+  create(house: House):Observable<House | ApiError>{      
+    return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house, HomeService.defaultOptions)
     .pipe(
       map((house: House) => {
-        console.log(house);
+        this.houses.push(house);
         return house;
       }),
       catchError(this.handleError)

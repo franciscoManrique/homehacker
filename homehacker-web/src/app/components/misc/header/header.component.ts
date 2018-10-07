@@ -3,6 +3,7 @@ import { SessionService } from '../../../shared/services/session.service';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user.model';
 import { Subscription } from 'rxjs';
+import { HomeService } from '../../../shared/services/home.service';
 
 @Component({
   selector: 'app-header',
@@ -14,13 +15,13 @@ export class HeaderComponent implements OnInit {
   user: User;
   onUserChanges: Subscription;
   
-  constructor(private sessionService: SessionService, private router: Router) { }
-
-
+  constructor(private sessionService: SessionService, private router: Router, private homeService: HomeService) { }
+  
+  
   ngOnInit() {
     this.user = this.sessionService.user;
     this.onUserChanges = this.sessionService.onUserChanges()
-      .subscribe((user: User) => this.user = user);
+    .subscribe((user: User) => this.user = user);
   }
   
   showMenu(){
@@ -33,5 +34,14 @@ export class HeaderComponent implements OnInit {
       console.log('Logged out from header');
       this.router.navigate(['/login']);
     });
+  }
+  
+  onKeyUpSearch(pattern: string):void{
+    if (pattern.length > 3) {
+      // this.homeService.get().subscribe(() => {
+        
+      // })
+    }
+    
   }
 }

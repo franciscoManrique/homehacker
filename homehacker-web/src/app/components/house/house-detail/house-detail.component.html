@@ -1,3 +1,35 @@
-<p>
-  house-detail works!
-</p>
+errors: {{apiError}}
+
+<div class="container">
+    <div class="row">
+        <div class="card">        
+            <div class="card-body">
+                <!-- <div *ngFor="let photo of house.photos">
+                    <img class="card-img-top img-thumbnail" [src]="photo">
+                </div> -->
+                <h5 class="card-title">{{house.name | uppercase}}</h5>
+                <p class="card-text">{{house.description}}</p>
+                <p>{{house.start | date}} - {{house.end | date}}</p>
+                
+                <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="booking.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="booking.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
+                    </div>                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block" [disabled]="!formBooking.valid">Book it!</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>

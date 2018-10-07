@@ -18,7 +18,7 @@ export class NotGoIfLoggedInGuardGuard implements CanActivate {
       return true;
     } else{
       console.log('cannot go to login cause you are logged');
-      this.router.navigate(['/houses']);
+      this.router.navigate(['/home']);
     }
     
   }

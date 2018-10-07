@@ -1,20 +1,12 @@
-<div class="container-fluid">
-  <!-- <div layout="row" style="height: 100%;" layout-padding> -->
+<div class="container">
+  <div class="row border mb-5">
+    <div class="col-12">
+      <app-find-home-wrapper></app-find-home-wrapper>
+    </div>
+  </div>
   <div class="row">
-    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let house of houses">
-        <app-house-item  [house]=house></app-house-item>
+    <div class="col-lg-3 col-md-6 col-sm-12" *ngFor="let house of houses">
+      <app-house-item [house]=house></app-house-item>
     </div>
   </div>
 </div>
-  
-
-<!-- 
-  <div layout="row" style="height: 100%;" layout-padding>
-    <div id="r2" flex="20">This is content one</div>
-    
-    <div layout="column" flex>
-      <div id="r3" flex="15">This is content two</div>
-      <div id="r7" flex>This is content three</div>
-    </div>
-  </div>
-   -->

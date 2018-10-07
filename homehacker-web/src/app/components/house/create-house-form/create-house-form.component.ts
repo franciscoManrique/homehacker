@@ -1,29 +1,48 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
 import { House } from '../../../models/house.model';
 import { FormGroup } from '@angular/forms';
 import { HomeService } from '../../../shared/services/home.service';
+// import { MapsAPILoader } from '@agm/core';
+// import {} from 'googlemaps';
+// import { google } from '@agm/core/services/google-maps-types';
+
 
 @Component({
   selector: 'app-create-house-form',
   templateUrl: './create-house-form.component.html',
   styleUrls: ['./create-house-form.component.css']
 })
-export class CreateHouseFormComponent implements OnInit {
+export class CreateHouseFormComponent{
   @ViewChild('formHouseCreate') houseCreateForm: FormGroup;
-  @Output() houseSubmit: EventEmitter<House> = new EventEmitter();
+  @ViewChild('search') searchElement: ElementRef;
+  @Output() houseCreateSubmit: EventEmitter<House> = new EventEmitter();
   @Input() house: House = new House();
   
   previewImages: Array<String | ArrayBuffer> = [];
   
-  constructor(private homeService: HomeService, private changesDetector: ChangeDetectorRef) { }
+  constructor( private homeService: HomeService,  private changesDetector: ChangeDetectorRef,  private ngZone: NgZone) { }
   
-  ngOnInit() {
-    
-  }
+  // ngOnInit() {
+  //   this.mapsAPILoader.load()
+  //   .then(() => {
+  //     let autocomplete = new google.maps.places.Autocomplete(this.searchElement.nativeElement, {types: ['address']}); // busca lo que haya escrito en ese input
+  //     autocomplete.addListener('place_changed', () =>{
+  //       this.ngZone.run(() => {
+  //         let place = google.maps.places.PlaceResult = autocomplete.getPlace();
+  //         if(place.geometry === undefined || place.geometry === null ){
+  //           return;
+  //          }
+  //       }) 
+  //     });
+  //   })
+  //   .catch();
+  // }
   
-  onSubmitCreateHouse(){        
+  onSubmitCreateHouse(){   
+    console.log(this.house);
+         
     // if (this.houseCreateForm.valid) {
-      this.houseSubmit.emit(this.house);
+    this.houseCreateSubmit.emit(this.house);
     // }
   }
   
@@ -36,7 +55,7 @@ export class CreateHouseFormComponent implements OnInit {
       }      
     }
   }
-
+  
   renderPreviewImg(photoFile: File){
     const reader = new FileReader();
     reader.readAsDataURL(photoFile);

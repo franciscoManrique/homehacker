@@ -3,7 +3,7 @@
   <div class="card-body">
     <h5 class="card-title">{{house.name | uppercase}}</h5>
     <p class="card-text">{{house.description}}</p>
-    <a href="#" class="btn btn-primary btn-block">Detail</a>
+    <a class="btn btn-primary btn-block" [routerLink]="['/houses', house.id]">Detail</a>
     <p>{{house.start | date}} - {{house.end | date}}</p>
   </div>
 </div>

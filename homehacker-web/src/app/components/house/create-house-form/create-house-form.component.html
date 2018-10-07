@@ -1,49 +1,4 @@
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-6 col-sm-12">
-      <div>
-        <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
-          <h1>Crete your house</h1>
-          <input type="email" class="buttonStyled" name="name" placeholder="Your house name" [(ngModel)]="house.name"/>
-          <input type="email" class="buttonStyled" name="price" placeholder="Price of the rent" [(ngModel)]="house.price"/>
-          <input class="buttonStyled" placeholder="start date" name="dp" [(ngModel)]="house.from" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()">
-          <input class="buttonStyled" placeholder="end date" name="dp" [(ngModel)]="house.end" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fa fa-file-o"></i></span>
-            </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" #postFiles required (change)="onChangeImageFile(postFiles)" multiple>
-              <label class="custom-file-label">{{ post.imageFiles[0]?.name || 'Choose files' }}</label>
-            </div>
-            <div class="invalid-feedback" *ngIf="postFiles.errors && postFiles.errors.required">
-              Please chose file.
-            </div>
-          </div>
-          <input type="email" class="buttonStyled" name="description" placeholder="description" [(ngModel)]="house.description"/>
-          <input type="email" class="buttonStyled" name="location" placeholder="loocation" [(ngModel)]="house.location"/>
-          <input type="email" class="buttonStyled" name="people" placeholder="how menay people" [(ngModel)]="house.people"/>
-          <input type="email" class="buttonStyled" name="amenities" placeholder="amenities" [(ngModel)]="house.amenities"/>
-          <button type="submit" class="btn btn-primary btn-block">create house</button>
-        </form>
-      </div>
-      <div *ngIf="apiError">
-        {{apiError.message}}
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <img [src]="house.profilePhoto">
-    </div>
-  </div>
-</div>
--->
-
-
-
-
-
-<div class="container">
-  
+<div class="container-fluid">
   <div class="row mb-5">
     <div class="col-lg-6 col-md-8 col-sm-10">
       <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
@@ -59,17 +14,31 @@
           </div>
           <input type="text" class="form-control" placeholder="Description" name="description" [(ngModel)]="house.description" #name="ngModel" required>
         </div>
+        
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="Location" name="description" [(ngModel)]="house.location" #location="ngModel" required>
+          <!-- TO DO===>> -->
+          <input type="text" class="form-control" placeholder="Location" name="location" [(ngModel)]="house.location" #name="ngModel">
+          <!-- <input type="text" placeholder="Search for Location" autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search> -->
+          
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-group"></i></span>
           </div>
-          <input type="text" class="form-control" placeholder="For how many people" name="people" [(ngModel)]="house.people" #people="ngModel" required>
+          <select [(ngModel)]="house.people" name="people" class="form-control" required #people="ngModel">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5" selected>5</option>
+            <option value="6" selected>6</option>
+            <option value="7" selected>7</option>
+            <option value="8" selected>8</option>
+            <option value="9" selected>9</option>
+          </select>        
         </div>
         <div class="input-group mb-3">
           <div class="input-group-prepend">
@@ -100,13 +69,13 @@
             <span class="input-group-text"><i class="fa fa-file-o"></i></span>
           </div>
           <div class="custom-file">
-            <input type="file" class="custom-file-input" required #houseFiles name="photos" (change)="onChangeImageFile(houseFiles)" multiple>
+            <input type="file" class="custom-file-input" required #houseFiles name="photos" (change)="onChangeImageFile(houseFiles)" multiple required>
             <label class="custom-file-label">Choose a file</label>
           </div>
         </div>
         
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary btn-block">Create house</button>
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseCreate.valid">Create house</button>
         </div>
       </form>
     </div>

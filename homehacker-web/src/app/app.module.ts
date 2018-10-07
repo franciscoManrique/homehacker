@@ -16,6 +16,10 @@ import { CreateHouseFormComponent } from './components/house/create-house-form/c
 import { CreateHouseWrapperComponent } from './components/house/create-house-wrapper/create-house-wrapper.component';
 import { HouseDetailComponent } from './components/house/house-detail/house-detail.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+// import { GoogleAutocompleteDirective } from './shared/directives/google-autocomplete.directive';
+import {AgmCoreModule} from '@agm/core';
+import { FindHomeFormComponent } from './components/home/find-home-form/find-home-form.component';
+import { FindHomeWrapperComponent } from './components/home/find-home-wrapper/find-home-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +33,20 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     CreateHouseFormComponent,
     CreateHouseWrapperComponent,
     HouseDetailComponent,
+    FindHomeFormComponent,
+    FindHomeWrapperComponent,
+    // GoogleAutocompleteDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDeZy_fS4ry7LS6HwGT31iT0WaaJkH-Fgk',
+      libraries: ['places']
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -146,7 +146,7 @@ module.exports.makeBooking = (req, res, next) =>{
                 
                 const accept = moment(startRequest).isSameOrAfter(startHouse);
                 const accept2 = moment(endRequest).isSameOrBefore(endHouse);
-                
+
                 if (accept && accept2) {
                     
                     booking = new Booking({user:req.params.userId, house: req.params.homeId, start: req.body.start, end: req.body.end});

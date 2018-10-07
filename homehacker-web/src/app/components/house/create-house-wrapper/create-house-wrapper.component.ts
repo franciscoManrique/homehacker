@@ -11,17 +11,25 @@ import { Router } from '@angular/router';
 })
 export class CreateHouseWrapperComponent implements OnInit {
   apiError: ApiError;
+  
   constructor(private houseService:HomeService, private router: Router) { }
   
   ngOnInit() {
   }
   
   onSubmitCreateHouseForm(house: House):void{
+    
+    if (house.start && house.end) {
+      house.start = new Date(Object.values(house.start).join('-'));
+      house.end = new Date(Object.values(house.end).join('-'));
+    }
+    
     this.houseService.create(house).subscribe((house: House) =>{
       this.router.navigate(['/houses']);
-    }),
+    },
     (error: ApiError) => {
+      console.log(error);
       this.apiError = error;
-    }
+    })
   }
 }

@@ -42,8 +42,12 @@ const houseSchema = new mongoose.Schema({
         }
     },
     people: {
-        type: [String],
-        default: '2 people'
+        type: Number,
+        default: 2
+    },
+    kids: {
+        type: Number,
+        default: 0
     },
     amenities: {
         type: [String],

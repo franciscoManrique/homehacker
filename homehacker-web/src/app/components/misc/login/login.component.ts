@@ -20,7 +20,7 @@ export class LoginComponent {
   onSubmitLogin(){    
     if (this.loginForm.valid) {    
       this.sessionService.authenticate(this.user).subscribe((user: User)=>{
-        this.router.navigate(['/houses']);
+        this.router.navigate(['/home']);
       },
       (error: ApiError)=>{
         console.log('LOGIN ERROR FRONT', error);
