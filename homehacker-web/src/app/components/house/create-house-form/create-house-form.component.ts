@@ -14,12 +14,11 @@ import { HomeService } from '../../../shared/services/home.service';
 })
 export class CreateHouseFormComponent{
   @ViewChild('formHouseCreate') houseCreateForm: FormGroup;
-  @ViewChild('search') searchElement: ElementRef;
+  // @ViewChild('search') searchElement: ElementRef;
   @Output() houseCreateSubmit: EventEmitter<House> = new EventEmitter();
   @Input() house: House = new House();
   
   previewImages: Array<String | ArrayBuffer> = [];
-  
   constructor( private homeService: HomeService,  private changesDetector: ChangeDetectorRef,  private ngZone: NgZone) { }
   
   // ngOnInit() {
@@ -38,12 +37,28 @@ export class CreateHouseFormComponent{
   //   .catch();
   // }
   
-  onSubmitCreateHouse(){   
-    console.log(this.house);
-         
-    // if (this.houseCreateForm.valid) {
-    this.houseCreateSubmit.emit(this.house);
-    // }
+  onClickAddAmenity(amenity: HTMLInputElement){
+    let amenityValue = amenity.value;
+    if (!this.house.amenities.includes(amenity.value) && amenityValue) {
+      
+      this.house.amenities.push(amenityValue);
+    }
+    amenity.value = '';  
+    
+  }
+  
+  
+  onClickRemoveAmenity(amenity: string){
+    this.house.amenities = this.house.amenities.filter(a => {
+      return a !== amenity;
+    });
+    
+  }
+  
+  onSubmitCreateHouse(){                 
+    if (this.houseCreateForm.valid) {
+      this.houseCreateSubmit.emit(this.house);
+    }
   }
   
   onChangeImageFile(images: HTMLInputElement){

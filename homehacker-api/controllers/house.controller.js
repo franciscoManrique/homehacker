@@ -5,8 +5,8 @@ const User = require('./../models/user.model');
 
 //CARGA TODAS LAS CASAS SOLO OFRECIENDO 50 HASTA QUE SE LLEVE A CABO LA BUSQUEDA FILTRADA
 module.exports.list = (req, res, next)=>{
-    console.log(req.user);
-    House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id} }]})
+    // owner: {$ne: req.user._id} // PONERLE QUE NO SALGA YO
+    House.find({$and:[{start:{ $gte: Date.now()}},{ }]})
     .populate('owner') 
     .limit(50) 
     .then(houses => {  
@@ -23,7 +23,7 @@ module.exports.listByDateRange = (req, res, next)=>{
     .populate('owner')
     .then(houses => {    
         console.log(houses);
-            
+        
         res.status(200).json(houses);
     })
     .catch(error => {  
@@ -41,7 +41,6 @@ module.exports.get = (req, res, next)=>{
 
 module.exports.filteredSearch = (req, res, next)=>{
     // console.log('HEEEYE');
-    console.log(req.query);
     
     res.json({ok: 'okay'})
     

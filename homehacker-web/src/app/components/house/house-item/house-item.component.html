@@ -5,5 +5,6 @@
     <p class="card-text">{{house.description}}</p>
     <a class="btn btn-primary btn-block" [routerLink]="['/houses', house.id]">Detail</a>
     <p>{{house.start | date}} - {{house.end | date}}</p>
+    <small>{{house.id}}</small>
   </div>
 </div>

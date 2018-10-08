@@ -25,7 +25,7 @@ export class CreateHouseWrapperComponent implements OnInit {
     }
     
     this.houseService.create(house).subscribe((house: House) =>{
-      this.router.navigate(['/houses']);
+      this.router.navigate(['/home']);
     },
     (error: ApiError) => {
       console.log(error);
@@ -33,3 +33,4 @@ export class CreateHouseWrapperComponent implements OnInit {
     })
   }
 }
+

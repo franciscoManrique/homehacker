@@ -22,38 +22,16 @@ export class FindHomeWrapperComponent implements OnInit {
   
   
   onSubmitFindHouse(houseToFind: HouseToFind){
-    
+
     this.homeService.findHousesByFilter(houseToFind).subscribe((houses: Array<House>) => {
-      console.log(houses);
       
-    });
-    
-  }
-  
+      
+    },
+    (error: ApiError) => {
+      this.apiError = error;
+    }
+  );
   
 }
 
-//     start: string;
-//     end: string;
-//     people: number;
-//     kids: number;
-//     //TO DO
-//     // location:
-//     latitude: string;
-//     longitude: string;
-// }
-
-
-//   const start =  Object.values(house.start).join('-');
-//   const end = Object.values(house.end).join('-');
-
-//   const people = Number(house.people);
-
-//   const housePrototype = {
-//     start: start,
-//     end: end,
-//     longitude: house.longitude,
-//     latitude: house.latitude,
-//     people: people
-//   }
-
+}

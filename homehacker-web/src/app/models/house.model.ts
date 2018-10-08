@@ -1,30 +1,48 @@
 export class House{
-    id?:string; //?no estara cuando yo lo haga aqui pero si cuando lo reciba
+    id?:string; //?no estara cuando yo lo cree pero si cuando lo reciba
     name: string;
-    owner: string;
+    owner?: string;
     price: number;
     start: Date; 
     end: Date;
-    photos?: Array<File> = [];
+    photos: Array<File> = []; 
     description:string;
     people: number;
-    kids: number;
-    amenities?: Array<string>;
+    amenities?: Array<string> = [];
+    
+    longitude?: string;
+    latitude?: string;
+    
     // location: {
     //     latitude: string,
     //     longitude: string
     // };
-
-    // public asFormData(): FormData {
-    //     const data = new FormData();
     
-    //     data.append('brand', this.brand);
-    //     data.append('name', this.name);
-    //     for (const spec of this.specs) {
-    //         data.append('specs', spec);
-    //     }
-    //     data.append('image', this.imageFile ? this.imageFile : this.image);
     
-    //     return data;
-    // }
+    
+    public asFormData(): FormData{
+        const data = new FormData();
+        
+        data.append('name', this.name);
+        data.append('price', (this.price).toString());
+        data.append('start', (this.start).toString());
+        data.append('end', (this.end).toString());
+        data.append('description', this.description);
+        data.append('people', (this.people).toString());
+        
+        
+        data.append('longitude', this.longitude);
+        data.append('latitude', this.latitude);
+        // data.append('location', this.location);
+        
+        for (const amenity of this.amenities) {
+            data.append('amenities', amenity);
+        }
+        
+        for (const photo of this.photos) {
+            data.append('photos', photo);
+        }
+        return data;
+    }
+    
 }

@@ -27,9 +27,7 @@ export class HouseDetailComponent implements OnInit {
     const houseId = this.route.snapshot.paramMap.get('id');
     
     this.homeService.get(houseId).subscribe((house: House) =>{
-      this.house = house;
-      console.log(this.house);
-      
+      this.house = house;      
     },
     (error: ApiError)  => {
       this.apiError = error;
