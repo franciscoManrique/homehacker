@@ -29,7 +29,7 @@ export class BookingService {
     return this.http.post<Booking>(`${BookingService.BOOKING_API}/users/${userId}/houses/${houseId}/booking`, booking, BookingService.defaultOptions)
     .pipe(
       map((booking: Booking) => {
-        console.log(booking);
+
         this.booking = booking;
         return booking;
       }),

@@ -13,18 +13,24 @@ import { HouseToFind } from '../../../models/house-to-find.model';
 })
 export class FindHomeWrapperComponent implements OnInit {
   apiError: ApiError;
+  toggleForm: boolean = false;
   @ViewChild(FindHomeFormComponent) findHomeFormComponent: FindHomeFormComponent;
   
   constructor(private homeService: HomeService, private router: Router) { }
   
   ngOnInit() {
   }
+
+  findHouseToggle(){
+    this.toggleForm = !this.toggleForm;
+  }
   
   
   onSubmitFindHouse(houseToFind: HouseToFind){
 
     this.homeService.findHousesByFilter(houseToFind).subscribe((houses: Array<House>) => {
-      
+      console.log(houses);
+     
       
     },
     (error: ApiError) => {

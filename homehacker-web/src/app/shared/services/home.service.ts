@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { ApiError } from '../../models/api-error.model';
@@ -15,8 +15,8 @@ import { HouseToFind } from '../../models/house-to-find.model';
 export class HomeService extends BaseApiService {
   
   houses: Array<House> = [];
-  
-  //
+  housesSubject: Subject<Array<House>> = new Subject();
+
   private static readonly HOUSE_API = `${environment.homehackerApi}`;
   private static readonly defaultOptions = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -35,13 +35,11 @@ export class HomeService extends BaseApiService {
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), {withCredentials: true})
     .pipe(
       map((house: House) => {
-        this.houses.push(house);
-        console.log(this.houses);
-        
+        this.houses.push(house);        
         return house;
       }),
       catchError(this.handleError)
-    )  
+    )
   }
   
   
@@ -77,18 +75,26 @@ export class HomeService extends BaseApiService {
       people: houseToFind.people,
       longitude: houseToFind.longitude,
       latitude: houseToFind.latitude,
-    }
-    
+    }    
     const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
         this.houses = houses;
+        this.notifyChanges();
         return houses;
       }),
       catchError(this.handleError)
     )
+  }
+
+  notifyChanges(){
+    this.housesSubject.next(this.houses);
+  }
+
+  onHomeChanges(): Observable<Array<House>>{
+    return this.housesSubject.asObservable();
   }
   
   

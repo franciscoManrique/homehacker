@@ -29,15 +29,13 @@ export class HouseDetailComponent implements OnInit {
     this.homeService.get(houseId).subscribe((house: House) =>{
       this.house = house;      
     },
-    (error: ApiError)  => {
+    (error: ApiError) => {
       this.apiError = error;
     }
   );
 }  
 
-onSubmitBooking(){
-  console.log(this.house.id);
-  
+onSubmitBooking(){  
   if(this.formBooking.valid){
     
     let booking = undefined;
@@ -48,9 +46,14 @@ onSubmitBooking(){
       house: this.house.id,
       user: this.house.owner
     }
-    this.bookingService.makeBooking(booking).subscribe(() => {
+    this.bookingService.makeBooking(booking).subscribe((booking: Booking) => {
+      console.log(booking);
       
-    })
+      this.booking = booking;
+    },
+    (error => {      
+      this.apiError = error;
+    }))
   }
 }
 

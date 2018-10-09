@@ -5,7 +5,7 @@ const middlewares = require('./../middlewares/secure.middleware');
 
 //GET HOUSES
 // router.get('/filterSearchHomePage', houseController.listByFilteredInHomePage);
-router.get('/filter', middlewares.isAuthenticated, middlewares.datesCheck, middlewares.checkBookigsOfAllHousesToDisplayAvailableHouses, houseController.filteredSearch);
+router.get('/filter', middlewares.isAuthenticated, middlewares.datesCheck, houseController.filteredSearch);
 
 router.get('/', middlewares.isAuthenticated, houseController.list);
 router.get('/:houseId', middlewares.isAuthenticated, houseController.get);

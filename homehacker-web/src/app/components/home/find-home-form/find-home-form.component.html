@@ -13,6 +13,8 @@
     </div>
   </div>
   
+
+  
   <div class="row">
     <div class="form-group col-xs-6">
       
@@ -43,6 +45,11 @@
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
         </select>
       </div>
     </div>
@@ -65,7 +72,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text"><i class="fa fa-calendar"></i></span>
         </div>
-        <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
+        <input type="text" (change)="onSubmitFindHouse(formHouseFind)" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
       </div>
     </div>
   </div>
