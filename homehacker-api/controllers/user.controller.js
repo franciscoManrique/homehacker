@@ -78,6 +78,9 @@ module.exports.edit = (req, res, next) =>{
 
 //CREATE HOUSE
 module.exports.createHouse = (req, res, next) =>{  
+    console.log(req.body);
+    console.log(req.files);
+    
     console.log(5);
     console.log('AQUIIIIIII');
     
@@ -105,26 +108,27 @@ module.exports.createHouse = (req, res, next) =>{
             console.log('555');
             
             house.photos = [];
-            for (const file of req.files) {            
-                house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`);
+            for (const file of req.files) {
+                console.log(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+                house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
             }
             
         }
         
         house.save()
-        .then(house => {
-            console.log('666');
-            console.log(house);
-            
-            res.status(201).json(house);
-        })
-        .catch(error => {
-            console.log('777');
-            
-            console.log(error);
-            
-            next(error);
-        });
+            .then(house => {
+                console.log('666');
+                console.log(house);
+                
+                res.status(201).json(house);
+            })
+            .catch(error => {
+                console.log('777');
+                
+                console.log(error);
+                
+                next(error);
+            });
     }
 };
 

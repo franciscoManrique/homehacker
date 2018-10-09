@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, Output, Input } from '@angular/core';
-import { House } from '../../../models/house.model';
+import { House } from './../../../../models/house.model';
 import { FormGroup } from '@angular/forms';
-import { HomeService } from '../../../shared/services/home.service';
+import { HomeService } from './../../../../shared/services/home.service';
 import { EventEmitter } from '@angular/core';
-import { ApiError } from '../../../models/api-error.model';
-import { HouseToFind } from '../../../models/house-to-find.model';
+import { ApiError } from './../../../../models/api-error.model';
+import { HouseToFind } from './../../../../models/house-to-find.model';
 
 @Component({
   selector: 'app-find-home-form',
@@ -23,7 +23,9 @@ export class FindHomeFormComponent implements OnInit {
   }
   
   onSubmitFindHouse(){
+    
     if (this.formHouseFind.valid) {
+      console.log(this.house);
       this.houseFindSubmit.emit(this.house);
     }
   }

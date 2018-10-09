@@ -9,7 +9,6 @@ export class House{
     description:string;
     people: number;
     amenities?: Array<string> = [];
-    
     longitude?: string;
     latitude?: string;
     

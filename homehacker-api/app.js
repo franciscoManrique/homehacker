@@ -45,6 +45,8 @@ app.use(function(req, res, next) {
 });
 
 app.use(function (error, req, res, next) {
+  console.error('ERROR:', error);
+
   res.status(error.status || 500);
   
   const data = {};

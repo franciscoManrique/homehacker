@@ -28,11 +28,10 @@ export class HomeService extends BaseApiService {
     super();
   }
   
-  
-  
   //al crear una casa con foto no tiene que ser json por lo que solo pongo withcredentials y lo paso como data del modelo
-  create(house: House):any{      
-    return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), {withCredentials: true})
+  create(house: House):any {
+    console.log('House: ', house);
+    return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
         this.houses.push(house);        
@@ -75,8 +74,9 @@ export class HomeService extends BaseApiService {
       people: houseToFind.people,
       longitude: houseToFind.longitude,
       latitude: houseToFind.latitude,
-    }    
-    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}`;
+      price: houseToFind.price || 0
+    }
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}}&price=${modified.price}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(

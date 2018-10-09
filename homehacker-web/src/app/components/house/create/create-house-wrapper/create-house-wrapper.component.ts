@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { House } from '../../../models/house.model';
-import { HomeService } from '../../../shared/services/home.service';
-import { ApiError } from '../../../models/api-error.model';
+import { House } from './../../../../models/house.model';
+import { HomeService } from './../../../../shared/services/home.service';
+import { ApiError } from './../../../../models/api-error.model';
 import { Router } from '@angular/router';
 
 @Component({

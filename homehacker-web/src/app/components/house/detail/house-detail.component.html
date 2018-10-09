@@ -1,9 +1,12 @@
 errors: {{apiError | json}}
 booking: {{booking | json}}
+house: {{house | json}}
 <div class="container-fluid">
     <div class="row">
         <div class="hero" style="border: 1px solid">
-            <img src="https://a0.muscache.com/im/pictures/7c2cfc30-cc36-4634-ab9f-9808472552b8.jpg?aki_policy=xx_large" style="height: 30vh">
+            <div *ngFor="let photo of house.photos">
+                <img [src]="photo" alt="photo">
+            </div>
         </div>
     </div>
     <div class="row">

@@ -28,6 +28,7 @@ const houseSchema = new mongoose.Schema({
     },
     photos:{
         type: [String],
+        default: []
         // required: 'image is required'
     },
     location: {

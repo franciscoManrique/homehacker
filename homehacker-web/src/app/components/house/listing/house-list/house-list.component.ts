@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HomeService } from '../../../shared/services/home.service';
-import { House } from '../../../models/house.model';
-import { ApiError } from '../../../models/api-error.model';
+import { HomeService } from './../../../../shared/services/home.service';
+import { House } from './../../../../models/house.model';
+import { ApiError } from './../../../../models/api-error.model';
 import { Subscription } from 'rxjs';
+import { BookingService } from './../../../../shared/services/booking.service';
+import { Booking } from './../../../../models/booking.model';
 
 @Component({
   selector: 'app-house-list',
@@ -13,7 +15,8 @@ export class HouseListComponent implements OnInit {
   apiError: ApiError = new ApiError();
   houses: Array<House> = [];
   onHousesChangesSuscription: Subscription;
-  constructor(private homeService: HomeService) { }
+  
+  constructor(private homeService: HomeService, private bookingService: BookingService) { }
   
   ngOnInit() {
     this.homeService.list().subscribe((houses: Array<House>)=> {
