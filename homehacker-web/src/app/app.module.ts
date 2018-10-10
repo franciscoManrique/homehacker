@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,15 +15,17 @@ import { HouseItemComponent } from './components/house/listing/house-item/house-
 import { CreateHouseFormComponent } from './components/house/create/create-house-form/create-house-form.component';
 import { CreateHouseWrapperComponent } from './components/house/create/create-house-wrapper/create-house-wrapper.component';
 import { HouseDetailComponent } from './components/house/detail/house-detail.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-// import { GoogleAutocompleteDirective } from './shared/directives/google-autocomplete.directive';
-import {AgmCoreModule} from '@agm/core';
 import { FindHomeFormComponent } from './components/house/find/find-home-form/find-home-form.component';
 import { FindHomeWrapperComponent } from './components/house/find/find-home-wrapper/find-home-wrapper.component';
 import { MyHousesItemComponent } from './components/house/my-houses-tab/my-houses-item/my-houses-item.component';
 import { MyHousesListComponent } from './components/house/my-houses-tab/my-houses-list/my-houses-list.component';
 import { MyBookingsListComponent } from './components/booking/my-bookings-tab/my-bookings-list/my-bookings-list.component';
 import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my-bookings-item/my-bookings-item.component';
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // bootstrap nav responsive
+import {AgmCoreModule} from '@agm/core'; // google maps
+import {CarouselModule} from 'ngx-bootstrap/carousel'; // carousel for detail images
+
 
 @NgModule({
   declarations: [
@@ -43,18 +45,19 @@ import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my
     MyHousesListComponent,
     MyBookingsListComponent,
     MyBookingsItemComponent,
-    // GoogleAutocompleteDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDeZy_fS4ry7LS6HwGT31iT0WaaJkH-Fgk',
       libraries: ['places']
-    })
+    }),
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,39 +7,31 @@ const moment = require('moment');
 
 //CREATE USER
 module.exports.createUser = (req, res, next)=>{
-    console.log(1);
     User.findOne({email:req.body.email})
     .then(user=>{
         if (user) {
-            console.log('1 ERROR EXISTS EMAIL');
             throw createError(409, `User with email ${req.body.email} already exists`);
         } else{
             user = new User(req.body);
             user.save()
             .then(user => {
-                console.log('USER CREATED', user);
                 res.status(201).json(user);
             })
             .catch(error => {
-                console.log('2 ERROR',  error);
                 next(error);
             });
         }
     })
     .catch(error => {
-        console.log('3 ERROR ', error);
         next(error);
     });
 };
 
 //LIST ALL USERS
 module.exports.listUsers = (req, res, next) =>{
-    console.log(2);
-    console.log('USERS LIST');
     
     User.find()
     .then(users => {
-        console.log('GET USERS: ', users);
         res.status(200).json(users);
     })
     .catch(error => {
@@ -49,19 +41,16 @@ module.exports.listUsers = (req, res, next) =>{
 
 //GET ONE USER
 module.exports.getUser = (req, res, next) =>{
-    console.log(3);
     User.findById(req.params.id)
     .then(user => {
         res.status(200).json(user);
     })
     .catch(error =>{
-        console.log('Error to get 1 user', error);
         next(error);
     });
 };
 
 module.exports.edit = (req, res, next) =>{
-    console.log(4);
     criteria = {
         $set: req.body
     };
@@ -70,72 +59,42 @@ module.exports.edit = (req, res, next) =>{
         res.status(200).json(user);
     })
     .catch(error =>{
-        console.log('Error to get 1 user', error);
         next(error);
     });
 };
 
 
-//CREATE HOUSE
+//CREATE HOUSE CHEQUEAR ESTO CON CARLOS ===>>> 
 module.exports.createHouse = (req, res, next) =>{  
+    let stringToArrayCoords = req.body.location.split(',');
     console.log(req.body);
-    console.log(req.files);
     
-    console.log(5);
-    console.log('AQUIIIIIII');
+    const house = new House(req.body);
+    house.location.coordinates = stringToArrayCoords;
+    house.owner = req.params.userId;
+    console.log(house);
     
-    console.log('1111');
-    
-    
-    //TERMPORAL=>
-    if(new Date(req.body.start) < new Date()){
-        console.log('2222');
-        
-        throw createError(401, `You cannot create a house with a date before today ${req.user.email}`);
-    } else if(new Date(req.body.start) > new Date(req.body.end)){
-        console.log('3333');
-        
-        throw createError(401, `You cannot create a house with a date of start after the end date ${req.user.email}`);
-    } else{
-        console.log('4444');
-        
-        
-        //ONLY THIS=>
-        const house = new House(req.body);
-        house.owner = req.params.userId;
-        
-        if (req.files) {
-            console.log('555');
-            
-            house.photos = [];
-            for (const file of req.files) {
-                console.log(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
-                house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
-            }
-            
+    if (req.files) {            
+        house.photos = [];
+        for (const file of req.files) {
+            house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
         }
-        
-        house.save()
-            .then(house => {
-                console.log('666');
-                console.log(house);
-                
-                res.status(201).json(house);
-            })
-            .catch(error => {
-                console.log('777');
-                
-                console.log(error);
-                
-                next(error);
-            });
     }
+    
+    
+    house.save()
+    .then(house => {
+        console.log(house);
+        
+        res.status(201).json(house);
+    })
+    .catch(error => {
+        next(error);
+    });
 };
 
 //LIST ALL HOUSES
-module.exports.listHouses = (req, res, next) =>{
-    console.log(6);
-    
+module.exports.listHouses = (req, res, next) =>{    
     House.find({owner: req.params.userId})
     .then(houses =>{
         res.status(200).json(houses);
@@ -147,7 +106,6 @@ module.exports.listHouses = (req, res, next) =>{
 
 //GET HOUSE OF A USER
 module.exports.getHouse = (req, res, next) =>{  
-    console.log(7);   
     House.findOne({ $and: [ { owner: req.params.userId}, { _id: req.params.homeId} ] })
     .then(house =>{
         if (house) {            
@@ -162,11 +120,11 @@ module.exports.getHouse = (req, res, next) =>{
 };
 
 module.exports.makeBooking = (req, res, next) =>{        
-
+    
     House.findById(req.params.homeId)
     .populate('owner')
     .then(house => {
-
+        
         if (house) {
             if(req.params.userId == house.owner._id){
                 throw createError(403, `You cannot make a booking in your own house ${req.user.email}`);

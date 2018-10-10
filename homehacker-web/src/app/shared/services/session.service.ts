@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../../models/user.model';
 import { ApiError } from '../../models/api-error.model';
+import { MapService } from './map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class SessionService {
   user: User;
   userSubject: Subject<User> = new Subject(); // 1. mi sujeto que va a cambiar
   
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private mapService: MapService) { 
     // this.user = Object.assign(new User(), userData); // PORQUE HACER OBJECT ASSIGN Y PORQUE MUESTRA EL USER RARO?
     const userData = localStorage.getItem(SessionService.CURRENT_USER);
     this.user = JSON.parse(userData);
@@ -71,7 +72,7 @@ export class SessionService {
   //CUANDO HAGO LOGOUT EN LA API LA COOKIE
   // DESAPARECE PERO EL LOCALSTORAGE SIGUE ESTANDO Y TAMBIEN EL USER GUARDADO DEL LOCALSTORAGE
   doLogout(){
-    console.log('LOGGED OUT FRONT');
+    console.log('LOGGED OUT FRONT', localStorage);
     localStorage.removeItem(SessionService.CURRENT_USER);
     this.user = null;
     this.notifyUserChanges();

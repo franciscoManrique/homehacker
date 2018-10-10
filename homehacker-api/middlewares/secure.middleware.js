@@ -26,7 +26,7 @@ module.exports.isMe = (req, res, next) =>{
 };
 
 module.exports.datesCheck = (req, res, next) =>{   
-  
+
   if (req.query.start && req.query.end) {
     if (new Date(req.query.start) < new Date()) {      
       throw createError(401, `The starting date is before today ${req.user.email}`);
@@ -42,7 +42,7 @@ module.exports.datesCheck = (req, res, next) =>{
     } else if(new Date(req.body.start) > new Date(req.body.end)){
       throw createError(401, `The start date is after the end date ${req.user.email}`);
     }  else{
-      console.log('passed dates validation(no wrong dates) having query');
+      console.log('passed dates validation(no wrong dates) having body');
       next();
     }
   }

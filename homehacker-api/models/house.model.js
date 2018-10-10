@@ -31,16 +31,24 @@ const houseSchema = new mongoose.Schema({
         default: []
         // required: 'image is required'
     },
+    // location: {
+    //     type: 'Point',
+    //     enum: ['Point']
+    // },
     location: {
         type: {
             type: String, // Don't do `{ location: { type: String } }`
             enum: ['Point'], // 'location.type' must be 'Point'
-            // required: true
+            default: 'Point',
         },
         coordinates: {
             type: [Number],
-            // required: true
-        }
+            required: true
+        },
+    },
+    address: {
+        type: String,
+        required: true,
     },
     people: {
         type: Number,

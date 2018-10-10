@@ -3,8 +3,8 @@ import { House } from './../../../../models/house.model';
 import { FormGroup } from '@angular/forms';
 import { HomeService } from './../../../../shared/services/home.service';
 import { MapsAPILoader } from '@agm/core';
-import {} from 'googlemaps';
-/// <reference types="@types/googlemaps" />
+import { MapService } from '../../../../shared/services/map.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,42 +19,25 @@ export class CreateHouseFormComponent implements OnInit{
   @Input() house: House = new House();
   previewImages: Array<String> = [];
   
-  place: google.maps.places.PlaceResult;
-  latitude: Array<number> = [];
-  longitude: Array<number> = [];
+  onCoordsChanges: Subscription;
+  onAdressChanges: Subscription;
   
-  constructor(private homeService: HomeService, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private changesDetector: ChangeDetectorRef) { }
+  constructor(private mapService: MapService, private changesDetector: ChangeDetectorRef) { }
   
   ngOnInit(){
-    this.autoCompleteCities(this.searchElement);
-    console.log(this.latitude);
-    console.log(this.longitude);
     
+    this.mapService.autoCompleteCities(this.searchElement);    
+    
+    this.onCoordsChanges = this.mapService.onCoordsChanges()
+    .subscribe((location: Array<number>) => {
+      this.house.location = location;                        
+    })
+
+    this.onAdressChanges = this.mapService.onAdressChanges()
+    .subscribe((adress: string) => {
+      this.house.address = adress;                        
+    })
   }
-  
-  autoCompleteCities(searchElement: ElementRef) {
-    this.mapsAPILoader.load()
-    .then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(searchElement.nativeElement, { types: [] });
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          
-          this.place = autocomplete.getPlace();
-          console.log(this.place.geometry.location.lat());
-          console.log(this.place.geometry.location.lng());
-          
-          this.latitude.push(this.place.geometry.location.lat());
-          this.longitude.push(this.place.geometry.location.lng());
-          if (this.place.geometry === undefined || this.place.geometry === null) {
-            return;
-          }
-        });
-      });
-    });
-  }
-  
-  
-  
   
   onClickAddAmenity(amenity: HTMLInputElement){
     let amenityValue = amenity.value;
@@ -74,11 +57,10 @@ export class CreateHouseFormComponent implements OnInit{
     
   }
   
-  onSubmitCreateHouse(){                 
+  onSubmitCreateHouse(){      
     if (this.houseCreateForm.valid) {
       this.houseCreateSubmit.emit(this.house);
     }
-    console.log(this.house.photos)
   }
   
   onChangeImageFile(images: HTMLInputElement){

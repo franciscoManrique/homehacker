@@ -1,38 +1,46 @@
-errors: {{apiError | json}}
-booking: {{booking | json}}
-house: {{house | json}}
-<div class="container-fluid">
-    <div class="row">
-        <div class="hero" style="border: 1px solid">
-            <div *ngFor="let photo of house.photos">
-                <img [src]="photo" alt="photo">
+ <carousel>
+    <slide *ngFor="let photo of house.photos">
+        <div class="text-center py-5 bg-dark text-white">
+            <div class="lead">
+                <img [src]="photo" class="image">
             </div>
         </div>
+    </slide>
+</carousel>
+
+
+<div class="row">
+    <div class="col-lg-8 col-md-6 col-sm-12">
+        <h1 class="card-title houseTitle">{{house.name | uppercase}}</h1>
+        <p class="card-text">{{house.description}}</p>
+        <p>{{house.start | date}} - {{house.end | date}}</p>
     </div>
-    <div class="row">
-        <div class="col-lg-8 col-md-6 col-sm-12">
-            <h5 class="card-title">{{house.name | uppercase}}</h5>
-            <p class="card-text">{{house.description}}</p>
-            <p>{{house.start | date}} - {{house.end | date}}</p>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-12">
-            <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="booking.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="booking.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
-                </div>                    
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!formBooking.valid">Book it!</button>
+                <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="booking.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-            </form>
-        </div>
-    </div> 
-</div>
+                <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="booking.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
+            </div>                    
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="!formBooking.valid">Book it!</button>
+            </div>
+        </form>
+    </div>
+</div> 
+
+ <div *ngIf="house.location">
+    <agm-map [zoom]="15" [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]">
+        <agm-marker [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
+    </agm-map>
+</div> 
+
+errors: {{apiError | json}}
+booking: {{booking | json}}

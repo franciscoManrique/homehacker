@@ -29,8 +29,7 @@ export class HomeService extends BaseApiService {
   }
   
   //al crear una casa con foto no tiene que ser json por lo que solo pongo withcredentials y lo paso como data del modelo
-  create(house: House):any {
-    console.log('House: ', house);
+  create(house: House):Observable<House | ApiError> {    
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
@@ -43,10 +42,12 @@ export class HomeService extends BaseApiService {
   
   
   //LIST ALL ONLY PROVIDE 50 RESULTS AT FIRST THEN WEHEN REFINE SEARCH GIVE DIFERENT VALUES
-  list():Observable<Array<House> | ApiError>{
+  list():Observable<Array<House> | ApiError>{    
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
+        console.log(houses);
+        
         this.houses = houses;
         return houses;
       }),

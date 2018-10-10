@@ -19,15 +19,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
           </div>
-          <!-- TO DO===>> -->
-          <!-- <input type="text" class="form-control" placeholder="Location" name="location" [(ngModel)]="house.location" #location="ngModel"> -->
+          
           <input type="text" placeholder="Search for Location" autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search>
-
-
-          
-          <input type="text" class="form-control" placeholder="longitude" name="longitude" [(ngModel)]="house.longitude" #longitude="ngModel">
-          <input type="text" class="form-control" placeholder="latitude" name="latitude" [(ngModel)]="house.latitude" #latitude="ngModel">
-          
           
         </div>
         <div class="input-group mb-3">
@@ -78,7 +71,6 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
           </div>
-          <!-- <input type="date" class="form-control" placeholder="To" name="end" [(ngModel)]="house.start" #start="ngModel"> -->
           <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="house.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
         </div>
         
@@ -86,7 +78,6 @@
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
           </div>
-          <!-- <input type="date" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #end="ngModel"> -->
           <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
         </div>
         
@@ -113,5 +104,10 @@
         </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="house.location">
+    <agm-map [zoom]="15" [latitude]="house.location[0]" [longitude]="house.location[1]">
+      <agm-marker [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
+    </agm-map>
   </div>
 </div>

@@ -1,4 +1,4 @@
-export class House{
+export class House {
     id?:string; //?no estara cuando yo lo cree pero si cuando lo reciba
     name: string;
     owner?: string;
@@ -9,16 +9,10 @@ export class House{
     description:string;
     people: number;
     amenities?: Array<string> = [];
-    longitude?: string;
-    latitude?: string;
+    location: Array<number>;
+    address: string;
     
-    // location: {
-    //     latitude: string,
-    //     longitude: string
-    // };
-    
-    
-    
+  
     public asFormData(): FormData{
         const data = new FormData();
         
@@ -28,11 +22,9 @@ export class House{
         data.append('end', (this.end).toString());
         data.append('description', this.description);
         data.append('people', (this.people).toString());
+        data.append('location', (this.location).toString());
+        data.append('address', this.address);
         
-        
-        data.append('longitude', this.longitude);
-        data.append('latitude', this.latitude);
-        // data.append('location', this.location);
         
         for (const amenity of this.amenities) {
             data.append('amenities', amenity);
@@ -41,6 +33,7 @@ export class House{
         for (const photo of this.photos) {
             data.append('photos', photo);
         }
+        
         return data;
     }
     
