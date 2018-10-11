@@ -7,6 +7,7 @@ import { ApiError } from '../../../models/api-error.model';
 import { FormGroup } from '@angular/forms';
 import { Booking } from '../../../models/booking.model';
 import { BookingService } from '../../../shared/services/booking.service';
+import { SessionService } from '../../../shared/services/session.service';
 
 @Component({
   selector: 'app-house-detail',
@@ -20,10 +21,10 @@ export class HouseDetailComponent implements OnInit {
   @ViewChild('formBooking') formBooking: FormGroup;
   apiError: ApiError;
   
-  constructor(private homeService: HomeService, private route: ActivatedRoute, private bookingService: BookingService, private router: Router) { }
+  constructor(private homeService: HomeService, private route: ActivatedRoute, private bookingService: BookingService, private router: Router, private session: SessionService) { }
   
   
-  ngOnInit() {    
+  ngOnInit() {
     const houseId = this.route.snapshot.paramMap.get('id');
     
     this.homeService.get(houseId).subscribe((house: House) =>{
@@ -37,7 +38,6 @@ export class HouseDetailComponent implements OnInit {
 
 onSubmitBooking(){  
   if(this.formBooking.valid){
-    
     let booking = undefined;
     
     booking = {

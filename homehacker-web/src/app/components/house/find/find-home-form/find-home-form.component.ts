@@ -21,8 +21,10 @@ export class FindHomeFormComponent implements OnInit {
   @ViewChild('search') searchElement: ElementRef;
   onCoordsFindHomeChanges: Subscription;
   onAdressFindHomeChanges: Subscription;
+  onNumberOfHomesChanges: Subscription;
+  numberOfHouses: number;
   
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService, private homeService: HomeService) { }
   
   ngOnInit() {
     this.mapService.autoCompleteCities(this.searchElement);
@@ -35,6 +37,11 @@ export class FindHomeFormComponent implements OnInit {
     this.onAdressFindHomeChanges = this.mapService.onAdressFindHouseChanges()
     .subscribe((address: string) => {
       this.house.address = address;
+    })
+    
+    this.onNumberOfHomesChanges = this.homeService.onNumberOfHomesChanges()
+    .subscribe((number: number) => {
+      this.numberOfHouses = number;      
     })
   }
   

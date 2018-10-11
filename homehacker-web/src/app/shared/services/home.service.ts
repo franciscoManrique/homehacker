@@ -14,6 +14,9 @@ import { HouseToFind } from '../../models/house-to-find.model';
 })
 export class HomeService extends BaseApiService {
   
+  numberOfHouses: number;
+  numberOfHousesSubject: Subject<number> = new Subject();
+  
   houses: Array<House> = [];
   housesSubject: Subject<Array<House>> = new Subject();
   
@@ -26,7 +29,7 @@ export class HomeService extends BaseApiService {
   };
   
   //si quiero acceder a la sesison cojo de ahi directamente el user
-  constructor(private http: HttpClient, private session: SessionService) { 
+  constructor(private http: HttpClient, private session: SessionService) {
     super();
   }
   
@@ -47,8 +50,11 @@ export class HomeService extends BaseApiService {
   list():Observable<Array<House> | ApiError>{ 
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses`, HomeService.defaultOptions)
     .pipe(
-      map((houses: Array<House>)=>{        
+      map((houses: Array<House>)=>{  
+        this.numberOfHouses = this.houses.length;     
         this.houses = houses;
+        this.notifyHousesChanges();
+        this.notifyNumberOfHousesChanges();
         return houses;
       }),
       catchError(this.handleError)
@@ -97,20 +103,31 @@ export class HomeService extends BaseApiService {
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
+        this.numberOfHouses = this.houses.length;
         this.houses = houses;
-        this.notifyChanges();
+        this.notifyHousesChanges();
+        this.notifyNumberOfHousesChanges();
         return houses;
       }),
       catchError(this.handleError)
     )
   }
   
-  notifyChanges():void{
+  notifyHousesChanges():void{
     this.housesSubject.next(this.houses);
   }
-  
+
+  notifyNumberOfHousesChanges():void{
+    this.numberOfHousesSubject.next(this.numberOfHouses);
+  }
+
+
   onHomeChanges(): Observable<Array<House>>{
     return this.housesSubject.asObservable();
+  }
+
+  onNumberOfHomesChanges(): Observable<number>{
+    return this.numberOfHousesSubject.asObservable();
   }
   
   private handleError(error: HttpErrorResponse): Observable<ApiError> {

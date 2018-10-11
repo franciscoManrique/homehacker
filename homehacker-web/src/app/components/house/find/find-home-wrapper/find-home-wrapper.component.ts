@@ -28,10 +28,7 @@ export class FindHomeWrapperComponent implements OnInit {
   onSubmitFindHouse(houseToFind: HouseToFind){
     
     this.homeService.findHousesByFilter(houseToFind)
-    
-    .subscribe((houses: Array<House>) => {
-      console.log(houses);
-    },
+    .subscribe((houses: Array<House>) => {}, // VACIO ?????
     (error: ApiError) => {
       this.apiError = error;
     }

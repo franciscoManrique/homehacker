@@ -40,6 +40,7 @@ module.exports.listByDateRange = (req, res, next)=>{
 module.exports.get = (req, res, next)=>{
     House.findById(req.params.houseId)
     .populate('owner')
+    .populate('bookings')
     .then(house => {
         console.log(house.owner.email);
         
@@ -72,6 +73,7 @@ module.exports.filteredSearch = (req, res, next)=>{
                 }
                 
                 return House.find( {$and:[ {'_id': { $nin: houseIdsOfHousesNotToShow} }, {price: { $gte: req.query.price } }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                .populate('owner')
                 .then(housesToShow => {
                     console.log(housesToShow);
                     
@@ -81,6 +83,7 @@ module.exports.filteredSearch = (req, res, next)=>{
             } else{ 
                 console.log('no bookings in this dates - search all houses');
                 return House.find({$and:[{people: { $gte: people } }, {price: { $lte: req.query.price }},  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                .populate('owner')
                 .then(houses => {
                     console.log(houses);
                     res.json(houses);

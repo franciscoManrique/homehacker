@@ -101,6 +101,7 @@ module.exports.listHousesOfUser = (req, res, next) =>{
     
     House.find({owner: req.params.userId})
     .populate('owner')
+    .populate({ path: 'bookings', populate: { path: 'user' } })
     .then(houses =>{
         
         // const housesOFUser = [];

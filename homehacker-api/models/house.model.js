@@ -55,15 +55,32 @@ const houseSchema = new mongoose.Schema({
         default: 'No amenities included'
     }
 }, {timestamps: true,
+    toObject: {
+        virtuals: true, 
+    },
     toJSON: {
+        virtuals: true, 
         transform: (doc, ret) => {
             ret.id = doc._id;
+            //const coordinates = ret.location.coordinates;
+            //delete ret.location;
+            //ret.location = coordinates;
+            if (!ret.bookings) {
+                ret.bookings = [];
+            }
             delete ret._id;
             delete ret.__v;
             return ret;
         }
     }
 });
+
+houseSchema.virtual('bookings', {
+    ref: 'Booking',
+    localField: '_id',
+    foreignField: 'house',
+    options: { sort: { createdAt: -1 } }
+  });
 
 const House = mongoose.model('House', houseSchema);
 

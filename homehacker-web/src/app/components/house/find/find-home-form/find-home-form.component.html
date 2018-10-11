@@ -5,6 +5,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-4 col-sm-12">
+      
       <form (ngSubmit)="onSubmitFindHouse(formHouseFind)" #formHouseFind="ngForm">
         
         <!-- TO FINISH!!! -->
@@ -60,10 +61,11 @@
             </div>
           </div>
         </div>
-        <h6>Price</h6>
-        <input type="range" min="0" max="200" name="price" #price [(ngModel)]="house.price" (input)="onSubmitFindHouse(formHouseFind)">
+        <small class="bold">Price: <span *ngIf="house.price">{{house.price}}€ per night</span></small>
         <br>
-        <small class="bold">{{house.price}}</small>
+        <small class="bold">Results:  <span *ngIf="numberOfHouses">  {{numberOfHouses}}</span></small>
+        <input class="range" type="range" min="0" max="1000" name="price" #price [(ngModel)]="house.price" (input)="onSubmitFindHouse(formHouseFind)">
+        <br>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseFind.valid">Find</button>
         </div>
