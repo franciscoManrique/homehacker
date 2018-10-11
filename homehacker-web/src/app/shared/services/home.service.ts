@@ -16,7 +16,9 @@ export class HomeService extends BaseApiService {
   
   houses: Array<House> = [];
   housesSubject: Subject<Array<House>> = new Subject();
-
+  
+  housesPerUser: Array<House> = [];
+  
   private static readonly HOUSE_API = `${environment.homehackerApi}`;
   private static readonly defaultOptions = {
     headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -42,12 +44,10 @@ export class HomeService extends BaseApiService {
   
   
   //LIST ALL ONLY PROVIDE 50 RESULTS AT FIRST THEN WEHEN REFINE SEARCH GIVE DIFERENT VALUES
-  list():Observable<Array<House> | ApiError>{    
+  list():Observable<Array<House> | ApiError>{ 
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses`, HomeService.defaultOptions)
     .pipe(
-      map((houses: Array<House>)=>{
-        console.log(houses);
-        
+      map((houses: Array<House>)=>{        
         this.houses = houses;
         return houses;
       }),
@@ -66,18 +66,33 @@ export class HomeService extends BaseApiService {
     )
   }
   
+  //GET HOUSES BY USERID
+  getHousesByUserId(userId: string):Observable<Array<House> | ApiError>{            
+    return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/users/${userId}/houses`, HomeService.defaultOptions)
+    .pipe(
+      map((housesPerUser: Array<House>) => {        
+        this.housesPerUser = housesPerUser;
+        return housesPerUser;
+      }),
+      catchError(this.handleError)
+    )
+  }
+  
+  
   //LIST BY WHAT THE USER CHOSE
-  findHousesByFilter(houseToFind: HouseToFind){
+  findHousesByFilter(houseToFind: HouseToFind){ 
+    let [start, end] = houseToFind.location;
     
     const modified = {
       start: Object.values(houseToFind.start).join('-'),
       end: Object.values(houseToFind.end).join('-'),
       people: houseToFind.people,
-      longitude: houseToFind.longitude,
-      latitude: houseToFind.latitude,
+      longitude: start,
+      latitude: end,
       price: houseToFind.price || 0
     }
-    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}}&price=${modified.price}`;
+    
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&longitude=${modified.latitude}&price=${modified.price}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(
@@ -89,15 +104,14 @@ export class HomeService extends BaseApiService {
       catchError(this.handleError)
     )
   }
-
-  notifyChanges(){
+  
+  notifyChanges():void{
     this.housesSubject.next(this.houses);
   }
-
+  
   onHomeChanges(): Observable<Array<House>>{
     return this.housesSubject.asObservable();
   }
-  
   
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
     console.error('An error occurred:', error);

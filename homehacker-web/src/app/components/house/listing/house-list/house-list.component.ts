@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HomeService } from './../../../../shared/services/home.service';
 import { House } from './../../../../models/house.model';
 import { ApiError } from './../../../../models/api-error.model';
@@ -11,8 +11,8 @@ import { Booking } from './../../../../models/booking.model';
   templateUrl: './house-list.component.html',
   styleUrls: ['./house-list.component.css']
 })
-export class HouseListComponent implements OnInit {
-  apiError: ApiError = new ApiError();
+export class HouseListComponent implements OnInit, OnDestroy {
+  apiError: ApiError;
   houses: Array<House> = [];
   onHousesChangesSuscription: Subscription;
   
@@ -35,4 +35,11 @@ export class HouseListComponent implements OnInit {
   })
   
 }
+
+ngOnDestroy(){
+  console.log('destroyed house list suscription');
+  this.onHousesChangesSuscription.unsubscribe();
+}
+
+
 }

@@ -1,0 +1,26 @@
+
+.container{
+    padding: 20px;
+}
+.bold{
+    font-weight: 900;
+}
+
+agm-map {
+    height: 150px;
+}
+
+.button{
+    margin: 7px;
+    width: 200px;
+}
+
+.detailsButton{
+    margin: 5px auto;
+    display: block;
+}
+
+.content:hover{
+    transform: scale(1.02);
+    transition: transform .7s;
+}

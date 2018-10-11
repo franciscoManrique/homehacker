@@ -20,18 +20,17 @@ export class FindHomeWrapperComponent implements OnInit {
   
   ngOnInit() {
   }
-
+  
   findHouseToggle(){
     this.toggleForm = !this.toggleForm;
   }
   
-  
   onSubmitFindHouse(houseToFind: HouseToFind){
-
-    this.homeService.findHousesByFilter(houseToFind).subscribe((houses: Array<House>) => {
+    
+    this.homeService.findHousesByFilter(houseToFind)
+    
+    .subscribe((houses: Array<House>) => {
       console.log(houses);
-     
-      
     },
     (error: ApiError) => {
       this.apiError = error;

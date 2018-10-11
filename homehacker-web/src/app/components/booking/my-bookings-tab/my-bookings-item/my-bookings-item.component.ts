@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Booking } from '../../../../models/booking.model';
+import { House } from '../../../../models/house.model';
+import { BookingService } from '../../../../shared/services/booking.service';
+import { ApiError } from '../../../../models/api-error.model';
 
 @Component({
   selector: 'app-my-bookings-item',
@@ -6,10 +10,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-bookings-item.component.css']
 })
 export class MyBookingsItemComponent implements OnInit {
-
-  constructor() { }
-
+  
+  @Input() booking: Booking;
+  apiError: ApiError;
+  
+  constructor(private bookingService: BookingService) { }
+  
   ngOnInit() {
+    
   }
-
+  
+  onClickRemoveBooking(id: string){
+    this.bookingService.deleteBooking(id).subscribe(() => {
+      // ESTO VA VACIO NO??
+    },
+    (error: ApiError) => {
+      this.apiError = error;
+    })
+    
+  }
+  
+  
 }
+

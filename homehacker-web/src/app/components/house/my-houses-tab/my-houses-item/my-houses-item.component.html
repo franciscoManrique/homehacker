@@ -1,3 +1,27 @@
-<p>
-  my-houses-item works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-3">
+      <img class="card-img-top" [src]="housePerUser.photos[0]" alt="Card image cap">
+      
+    </div>
+    <div class="col-lg-3">
+      <h5 class="card-title">{{housePerUser.address}}</h5>
+      <p class="card-text bold">{{housePerUser.price}}€ per night</p>
+      <p class="card-text">{{housePerUser.start | date}} - {{housePerUser.end | date}}</p>
+      <div class="buttonWrapper">
+        <!-- IF TENANT PUT THIS BUTTON -->
+        <!-- <button type="button" class=" button btn btn-dark">Contact the tenant</button> -->
+        <button type="button" class="button btn btn-danger">Remove ad</button>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      
+      <agm-map [zoom]="15" [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]">
+        <agm-marker [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]"></agm-marker>
+      </agm-map>
+      
+    </div>
+  </div>
+</div>
+
+

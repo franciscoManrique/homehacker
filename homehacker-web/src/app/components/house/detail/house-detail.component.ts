@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeService } from '../../../shared/services/home.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { House } from '../../../models/house.model';
 import { ApiError } from '../../../models/api-error.model';
@@ -20,7 +20,7 @@ export class HouseDetailComponent implements OnInit {
   @ViewChild('formBooking') formBooking: FormGroup;
   apiError: ApiError;
   
-  constructor(private homeService: HomeService, private route: ActivatedRoute, private bookingService: BookingService) { }
+  constructor(private homeService: HomeService, private route: ActivatedRoute, private bookingService: BookingService, private router: Router) { }
   
   
   ngOnInit() {    
@@ -33,7 +33,7 @@ export class HouseDetailComponent implements OnInit {
       this.apiError = error;
     }
   );
-}  
+}
 
 onSubmitBooking(){  
   if(this.formBooking.valid){
@@ -47,9 +47,7 @@ onSubmitBooking(){
       user: this.house.owner
     }
     this.bookingService.makeBooking(booking).subscribe((booking: Booking) => {
-      console.log(booking);
-      
-      this.booking = booking;
+      this.router.navigate(['/myBookings']);
     },
     (error => {      
       this.apiError = error;

@@ -1,2 +1,2 @@
-<button class="btn btn-block btn-primary" (click)="findHouseToggle()">Filter</button>
+<i class="fa fa-sliders" (click)="findHouseToggle()"></i>
 <app-find-home-form (houseFindSubmit)=onSubmitFindHouse($event) [apiError]="apiError" *ngIf="toggleForm"></app-find-home-form>

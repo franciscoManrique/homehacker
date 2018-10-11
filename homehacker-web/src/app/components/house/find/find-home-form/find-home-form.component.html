@@ -1,88 +1,82 @@
-<form (ngSubmit)="onSubmitFindHouse(formHouseFind)" #formHouseFind="ngForm">
-  
-  
-  <!-- TO FINISH!!! -->
-  <div class="row">
-    <div class="form-group">
-      <div class="input-group mb-1">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-        </div>
-        <input type="text" placeholder="location" name="location" class="form-control">
-      </div>
-    </div>
-  </div>
-  
-  
-  <div class="row">
-    <div class="form-group col-xs-6">
-      
-      <div class="input-group mb-1">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-        </div>
-        <input type="text" placeholder="latitude" name="latitude" class="form-control" #latitude="ngModel" [(ngModel)]="house.latitude">
-      </div>
-    </div>
-    
-    <div class="form-group col-xs-6">
-      <div class="input-group mb-1">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-        </div>
-        <input type="text" placeholder="longitude" name="longitude" class="form-control" #longitude="ngModel" [(ngModel)]="house.longitude">
-      </div>
-    </div>
-    
-    <div class="form-group col-xs-6">
-      <div class="input-group mb-1">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-group"></i></span>
-        </div>
-        <select [(ngModel)]="house.people" name="people" class="form-control" required #people="ngModel">
-          <option value="" disabled selected>Select your option</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-        </select>
-      </div>
-    </div>
-    
-  </div>
-  
-  
-  <div class="row">
-    <div class="form-group col-xs-6">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-        </div>
-        <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="house.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
-      </div>
-    </div>
-    
-    <div class="form-group col-xs-6">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-        </div>
-        <input type="text" (change)="onSubmitFindHouse(formHouseFind)" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
-      </div>
-    </div>
-  </div>
-  
-  <input type="range" min="0" max="200" name="price" #price [(ngModel)]="house.price" (input)="onSubmitFindHouse(formHouseFind)">
-  
-  
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseFind.valid">Find</button>
-  </div>
-</form>
-error: {{apiError | json}}
+<div *ngIf="apiError">
+  {{apiError | json}}
+</div>
 
-home: {{house | json}}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4 col-sm-12">
+      <form (ngSubmit)="onSubmitFindHouse(formHouseFind)" #formHouseFind="ngForm">
+        
+        <!-- TO FINISH!!! -->
+        <div class="row">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="Search for Location" name="location" #search>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="form-group col-xs-12">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-group"></i></span>
+              </div>
+              <select [(ngModel)]="house.people" name="people" class="form-control" required #people="ngModel">
+                <option value="" disabled selected>Select your option</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="row">
+          <div class="form-group col-xs-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+              </div>
+              <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="house.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
+            </div>
+          </div>
+          
+          <div class="form-group col-xs-6">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+              </div>
+              <input type="text" (blur)="onSubmitFindHouse(formHouseFind)" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
+            </div>
+          </div>
+        </div>
+        <h6>Price</h6>
+        <input type="range" min="0" max="200" name="price" #price [(ngModel)]="house.price" (input)="onSubmitFindHouse(formHouseFind)">
+        <br>
+        <small class="bold">{{house.price}}</small>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseFind.valid">Find</button>
+        </div>
+      </form>
+      
+    </div>
+    
+    <div class="col-lg-8">
+      <div *ngIf="house.location">
+        <agm-map [zoom]="15" [latitude]="house.location[0]" [longitude]="house.location[1]">
+          <agm-marker [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

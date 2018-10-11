@@ -1,14 +1,16 @@
 
 <div class="container-fluid" [routerLink]="['/houses', house.id]" style="cursor: pointer;">
     <div class="row">
-      <div class="col-lg-6 extraMargin">
-          <img class="card-img-top" [src]="house.photos[0]" alt="Card image cap">
-      </div>
-      <div class="col-lg-4">
-          <h5 class="card-title">{{house.address}}</h5>
-          <p class="card-text bold">{{house.price}}€ per night</p>
-          <p class="card-text">{{house.description}}</p>
-      </div>
+        <div class="col-lg-6 extraMargin">
+            <img class="card-img-top" [src]="house.photos[0]" alt="Card image cap">
+        </div>
+        <div class="col-lg-4">
+            <h5 class="card-title">{{house.address}} - {{house.owner.email}}</h5>
+            <p class="bold">{{house.price}}€ per night</p>
+            <small>{{house.start | date}} - {{house.end | date}}</small>
+            
+            <p class="card-text">{{house.description}}</p>
+        </div>
     </div>
-  </div>
-  
+</div>
+

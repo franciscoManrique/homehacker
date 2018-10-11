@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { House } from './../../../../models/house.model';
 import { HomeService } from './../../../../shared/services/home.service';
 import { ApiError } from './../../../../models/api-error.model';
 import { Router } from '@angular/router';
+import { CreateHouseFormComponent } from '../create-house-form/create-house-form.component';
 
 @Component({
   selector: 'app-create-house-wrapper',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CreateHouseWrapperComponent implements OnInit {
   apiError: ApiError;
+  @ViewChild(CreateHouseFormComponent) createHouseFormComponent: CreateHouseFormComponent;
   
   constructor(private homeService:HomeService, private router: Router) { }
   
@@ -25,7 +27,8 @@ export class CreateHouseWrapperComponent implements OnInit {
     }
     
     this.homeService.create(house).subscribe((house: House) =>{
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home']);      
+      this.createHouseFormComponent.reset();
     },
     (error: ApiError) => {
       console.log(error);

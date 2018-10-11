@@ -5,6 +5,6 @@ export class HouseToFind {
     price?: number;
     //TO DO
     // location:
-    latitude: string;
-    longitude: string;
+    location: Array<number>;
+    address: string;
 }

@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class HouseItemComponent implements OnInit {
   
-  @Input() house = new House();
+  @Input() house: House;
   booking: Booking = new Booking();
   apiError: ApiError;
   

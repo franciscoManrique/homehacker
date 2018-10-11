@@ -1,7 +1,7 @@
 /// <reference types="googlemaps" />
 import { Injectable, ElementRef, NgZone } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 declare var google;
 
@@ -12,11 +12,16 @@ export class MapService {
   public static readonly LOCATION_KEY = 'location';
   
   place: google.maps.places.PlaceResult;
-  location: Array<number> = [];
-  address: string;
+  locationCreateHouse: Array<number> = [];
+  addressCreateHouse: string;
+  coordsCreateHouseSubject =  new Subject();
+  addressCreateHouseSubject =  new Subject();
   
-  coordsSubject =  new Subject();
-  addressSubject =  new Subject();
+  
+  locationFindHouse: Array<number> = [];
+  addressFindHouse: string;
+  coordsFinHouseSubject =  new Subject();
+  addressFinHouseSubject =  new Subject();
   
   constructor(private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) { }
   autoCompleteCities(searchElement: ElementRef) {
@@ -24,18 +29,25 @@ export class MapService {
     .then(() => {
       const autocomplete = new google.maps.places.Autocomplete(searchElement.nativeElement, { types: [] });
       
-      return autocomplete.addListener('place_changed', () => {
+      autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           this.place = autocomplete.getPlace();
           
-          this.location.splice(0, 2);
-          this.location.push(this.place.geometry.location.lat())
-          this.location.push(this.place.geometry.location.lng())
-          this.notifyCoordinatesChanges();
-
-          this.address = this.place.formatted_address;
-          this.notifyAdressChanges();
-
+          this.locationCreateHouse.splice(0, 2);
+          this.locationFindHouse.splice(0, 2);
+          
+          this.locationCreateHouse.push(this.place.geometry.location.lat())
+          this.locationCreateHouse.push(this.place.geometry.location.lng())
+          this.addressCreateHouse = this.place.formatted_address;
+          this.notifyCoordinatesCreateHouseChanges();
+          this.notifyAdressCreateHouseChanges();
+          
+          this.locationFindHouse.push(this.place.geometry.location.lat())
+          this.locationFindHouse.push(this.place.geometry.location.lng())
+          this.addressFindHouse = this.place.formatted_address;
+          this.notifyCoordinatesFindHouseChanges();
+          this.notifyAddressFindHouseChanges();
+          
           if (this.place.geometry === undefined || this.place.geometry === null) {
             return;
           } 
@@ -44,19 +56,39 @@ export class MapService {
     });
   }
   
-  notifyCoordinatesChanges(){
-    this.coordsSubject.next(this.location);    
+  notifyCoordinatesCreateHouseChanges(): void{
+    this.coordsCreateHouseSubject.next(this.locationCreateHouse);    
   }
   
-  notifyAdressChanges(){
-    this.addressSubject.next(this.address);    
+  notifyAdressCreateHouseChanges(): void{
+    this.addressCreateHouseSubject.next(this.addressCreateHouse);    
   }
   
-  onCoordsChanges(){
-    return this.coordsSubject.asObservable();
+  notifyCoordinatesFindHouseChanges(): void{
+    this.coordsCreateHouseSubject.next(this.locationFindHouse);    
   }
-  onAdressChanges(){
-    return this.addressSubject.asObservable();
+  
+  notifyAddressFindHouseChanges(): void{
+    this.addressCreateHouseSubject.next(this.addressFindHouse);    
+  }
+  
+
+  
+  // PONER QUE TIPO DE OBSERVABLE RETORNA en los dos?????
+  onCoordsCreateHouseChanges(){
+    return this.coordsCreateHouseSubject.asObservable();
+  }
+  onAdressCreateHouseChanges(){
+    return this.addressCreateHouseSubject.asObservable();
+  }
+  
+  // PONER QUE TIPO DE OBSERVABLE RETORNA en los dos?????
+  onCoordsFindHouseChanges(){
+    return this.coordsCreateHouseSubject.asObservable();
+  }
+  
+  onAdressFindHouseChanges(){
+    return this.addressCreateHouseSubject.asObservable();
   }
   
 }

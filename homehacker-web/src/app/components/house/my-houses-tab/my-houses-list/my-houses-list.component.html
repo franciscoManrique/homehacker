@@ -1,1 +1,6 @@
-<app-my-houses-item></app-my-houses-item>
+<div class="col-12" *ngFor="let housePerUser of housesPerUser">
+    <hr>
+    <app-my-houses-item [housePerUser]="housePerUser"></app-my-houses-item>
+</div>
+
+error: {{apiError | json}}

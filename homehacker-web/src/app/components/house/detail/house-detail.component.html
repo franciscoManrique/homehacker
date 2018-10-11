@@ -8,7 +8,6 @@
     </slide>
 </carousel>
 
-
 <div class="row">
     <div class="col-lg-8 col-md-6 col-sm-12">
         <h1 class="card-title houseTitle">{{house.name | uppercase}}</h1>
@@ -36,7 +35,7 @@
     </div>
 </div> 
 
- <div *ngIf="house.location">
+<div *ngIf="house.location">
     <agm-map [zoom]="15" [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]">
         <agm-marker [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
     </agm-map>

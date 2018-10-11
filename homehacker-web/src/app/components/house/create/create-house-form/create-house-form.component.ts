@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ChangeDetectorRef, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, Input, ChangeDetectorRef, ElementRef, NgZone, OnDestroy } from '@angular/core';
 import { House } from './../../../../models/house.model';
 import { FormGroup } from '@angular/forms';
 import { HomeService } from './../../../../shared/services/home.service';
@@ -12,15 +12,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './create-house-form.component.html',
   styleUrls: ['./create-house-form.component.css']
 })
-export class CreateHouseFormComponent implements OnInit{
+export class CreateHouseFormComponent implements OnInit, OnDestroy{
   @ViewChild('formHouseCreate') houseCreateForm: FormGroup;
   @ViewChild('search') searchElement: ElementRef;
   @Output() houseCreateSubmit: EventEmitter<House> = new EventEmitter();
   @Input() house: House = new House();
   previewImages: Array<String> = [];
   
-  onCoordsChanges: Subscription;
-  onAdressChanges: Subscription;
+  onCoordsCreateHouseChanges: Subscription;
+  onAdressCreateHouseChanges: Subscription;
   
   constructor(private mapService: MapService, private changesDetector: ChangeDetectorRef) { }
   
@@ -28,14 +28,14 @@ export class CreateHouseFormComponent implements OnInit{
     
     this.mapService.autoCompleteCities(this.searchElement);    
     
-    this.onCoordsChanges = this.mapService.onCoordsChanges()
+    this.onCoordsCreateHouseChanges = this.mapService.onCoordsCreateHouseChanges()
     .subscribe((location: Array<number>) => {
       this.house.location = location;                        
     })
-
-    this.onAdressChanges = this.mapService.onAdressChanges()
-    .subscribe((adress: string) => {
-      this.house.address = adress;                        
+    
+    this.onAdressCreateHouseChanges = this.mapService.onAdressCreateHouseChanges()
+    .subscribe((address: string) => {
+      this.house.address = address;                        
     })
   }
   
@@ -82,4 +82,18 @@ export class CreateHouseFormComponent implements OnInit{
       this.changesDetector.markForCheck(); // ???? PARA QUE, SIN ESTO TAMBIEN SIRVE
     }
   }
+  
+  reset(){
+    this.previewImages = [];
+    this.houseCreateForm.reset();
+    this.house = new House();
+  }
+  
+  
+  ngOnDestroy(){
+    console.log('destroyed create house suscriptions');
+    this.onCoordsCreateHouseChanges.unsubscribe();
+    this.onAdressCreateHouseChanges.unsubscribe();
+  }
+  
 }

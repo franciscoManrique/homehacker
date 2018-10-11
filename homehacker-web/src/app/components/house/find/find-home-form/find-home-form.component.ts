@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, Output, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, Input, ElementRef } from '@angular/core';
 import { House } from './../../../../models/house.model';
 import { FormGroup } from '@angular/forms';
 import { HomeService } from './../../../../shared/services/home.service';
 import { EventEmitter } from '@angular/core';
 import { ApiError } from './../../../../models/api-error.model';
 import { HouseToFind } from './../../../../models/house-to-find.model';
+import { MapService } from '../../../../shared/services/map.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-find-home-form',
@@ -14,18 +16,30 @@ import { HouseToFind } from './../../../../models/house-to-find.model';
 export class FindHomeFormComponent implements OnInit {
   house: HouseToFind = new HouseToFind();
   @ViewChild('formHouseFind') formHouseFind: FormGroup;
-  @Input() apiError: ApiError;
+  @Input() apiError: ApiError; // ??????
   @Output() houseFindSubmit: EventEmitter<HouseToFind> = new EventEmitter();
+  @ViewChild('search') searchElement: ElementRef;
+  onCoordsFindHomeChanges: Subscription;
+  onAdressFindHomeChanges: Subscription;
   
-  constructor() { }
+  constructor(private mapService: MapService) { }
   
   ngOnInit() {
+    this.mapService.autoCompleteCities(this.searchElement);
+    
+    this.onCoordsFindHomeChanges = this.mapService.onCoordsFindHouseChanges()
+    .subscribe((location: Array<number>) => {
+      this.house.location = location;
+    })
+    
+    this.onAdressFindHomeChanges = this.mapService.onAdressFindHouseChanges()
+    .subscribe((address: string) => {
+      this.house.address = address;
+    })
   }
   
   onSubmitFindHouse(){
-    
     if (this.formHouseFind.valid) {
-      console.log(this.house);
       this.houseFindSubmit.emit(this.house);
     }
   }
