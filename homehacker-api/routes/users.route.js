@@ -11,8 +11,8 @@ router.get('/', middlewares.isAuthenticated, userController.listUsers);//GET USE
 router.patch('/:userId/edit', middlewares.isAuthenticated, middlewares.isMe, userController.edit);//GET USERS
 
 // //GET HOME(S)
-router.get('/:userId/houses/:homeId', middlewares.isAuthenticated, userController.getHouse);//GET HOME OF A USER
-router.get('/:userId/houses', middlewares.isAuthenticated, userController.listHouses);//GET houses OF USER ID
+// router.get('/:userId/houses/:homeId', middlewares.isAuthenticated, userController.getHouse);//GET HOME OF A USER
+router.get('/:userId/houses', middlewares.isAuthenticated, userController.listHousesOfUser);//GET houses OF USER ID
 
 
 //USER CREATE A HOUSE

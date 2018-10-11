@@ -5,6 +5,8 @@ const middlewares = require('./../middlewares/secure.middleware');
 
 //my own bookings
 router.get('/', middlewares.isAuthenticated, bookingController.list);
+router.delete('/:id', middlewares.isAuthenticated, bookingController.delete);
+
 // router.get('/', middlewares.isAuthenticated, houseController.list);
 // router.get('/:houseId', middlewares.isAuthenticated, houseController.get);
 

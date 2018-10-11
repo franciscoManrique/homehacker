@@ -5,9 +5,11 @@ const Booking = require('./../models/booking.model');
 const User = require('./../models/user.model');
 
 //CARGA TODAS LAS CASAS SOLO OFRECIENDO 50 HASTA QUE SE LLEVE A CABO LA BUSQUEDA FILTRADA
-module.exports.list = (req, res, next)=>{    
+module.exports.list = (req, res, next)=>{  
+    console.log('LIST ALL HOUSES');
+      
     // owner: {$ne: req.user._id} // PONERLE QUE NO SALGA YO!!!
-    House.find({$and:[{start:{ $gte: Date.now()}},{ }]})
+    House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id}}]})
     .populate('owner') 
     .limit(50) 
     .then(houses => {  
@@ -18,6 +20,7 @@ module.exports.list = (req, res, next)=>{
     });
 };
 
+//BY DATES RANGE
 module.exports.listByDateRange = (req, res, next)=>{    
     House.find({$and: [{start:{ $lte: req.query.start}},{end:{ $gte: req.query.end}}]}) // BOOSCAR SOBRE BOOKINGS
     .populate('owner')
@@ -33,14 +36,21 @@ module.exports.listByDateRange = (req, res, next)=>{
     
 };
 
+//GET ONE
 module.exports.get = (req, res, next)=>{
     House.findById(req.params.houseId)
-    .then(house => res.status(200).json(house))
+    .populate('owner')
+    .then(house => {
+        console.log(house.owner.email);
+        
+        res.status(200).json(house);
+    })
     .catch(error => next(error));
 };
 
+//BY FILTER
 module.exports.filteredSearch = (req, res, next)=>{
-    console.log(req.query);
+    console.log(111, req.query);
     
     const people = Number(req.query.people);
     
@@ -70,7 +80,7 @@ module.exports.filteredSearch = (req, res, next)=>{
                 
             } else{ 
                 console.log('no bookings in this dates - search all houses');
-                return House.find({$and:[{people: { $gte: people } }, {price: { $gte: req.query.price }},  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                return House.find({$and:[{people: { $gte: people } }, {price: { $lte: req.query.price }},  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
                 .then(houses => {
                     console.log(houses);
                     res.json(houses);

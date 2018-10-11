@@ -50,6 +50,7 @@ module.exports.getUser = (req, res, next) =>{
     });
 };
 
+//edit user
 module.exports.edit = (req, res, next) =>{
     criteria = {
         $set: req.body
@@ -93,21 +94,48 @@ module.exports.createHouse = (req, res, next) =>{
     });
 };
 
-//LIST ALL HOUSES
-module.exports.listHouses = (req, res, next) =>{    
+//LIST ALL HOUSES OF ONE USER WITH BOOKINGS
+module.exports.listHousesOfUser = (req, res, next) =>{  
+    // Booking.find({house:})
+    console.log('LIST HOUSES OF A USER');
+    
     House.find({owner: req.params.userId})
+    .populate('owner')
     .then(houses =>{
+        
+        // const housesOFUser = [];
+        // for (let i = 0; i < houses.length; i++) {
+        //     housesOFUser.push(houses[i]._id);
+        // }
+        
+        // return Booking.find({house: {$in:housesOFUser}})
+        // .populate('user')
+        // .populate('house')
+        // .then(bookings => {
+        //     if (bookings) {
+        //         console.log('hay bookings sobre mis casas');                
+        //         res.json(houses, bookings);
+        //     } else{      
+        //         console.log('no bookings sobre mis casas');
+        //         res.json(houses);
+        //     }
+        // });
+        
         res.status(200).json(houses);
+        
     })
+    
     .catch(error => {
         next(error);
     });
+    
 };
+
 
 //GET HOUSE OF A USER
 module.exports.getHouse = (req, res, next) =>{  
     House.findOne({ $and: [ { owner: req.params.userId}, { _id: req.params.homeId} ] })
-    .then(house =>{
+    .then(house =>{        
         if (house) {            
             res.status(200).json(house);
         } else{                        
