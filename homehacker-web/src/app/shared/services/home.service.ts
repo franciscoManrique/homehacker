@@ -13,10 +13,7 @@ import { HouseToFind } from '../../models/house-to-find.model';
   providedIn: 'root'
 })
 export class HomeService extends BaseApiService {
-  
-  numberOfHouses: number;
-  numberOfHousesSubject: Subject<number> = new Subject();
-  
+    
   houses: Array<House> = [];
   housesSubject: Subject<Array<House>> = new Subject();
   
@@ -38,7 +35,8 @@ export class HomeService extends BaseApiService {
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
-        this.houses.push(house);        
+        this.houses.push(house);
+        this.notifyHousesChanges();       
         return house;
       }),
       catchError(this.handleError)
@@ -51,10 +49,8 @@ export class HomeService extends BaseApiService {
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{  
-        this.numberOfHouses = this.houses.length;     
         this.houses = houses;
         this.notifyHousesChanges();
-        this.notifyNumberOfHousesChanges();
         return houses;
       }),
       catchError(this.handleError)
@@ -95,18 +91,15 @@ export class HomeService extends BaseApiService {
       people: houseToFind.people,
       longitude: start,
       latitude: end,
-      price: houseToFind.price || 0
     }
     
-    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&longitude=${modified.latitude}&price=${modified.price}`;
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&longitude=${modified.latitude}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(
       map((houses: Array<House>)=>{
-        this.numberOfHouses = this.houses.length;
         this.houses = houses;
         this.notifyHousesChanges();
-        this.notifyNumberOfHousesChanges();
         return houses;
       }),
       catchError(this.handleError)
@@ -115,21 +108,15 @@ export class HomeService extends BaseApiService {
   
   notifyHousesChanges():void{
     this.housesSubject.next(this.houses);
+    console.log(this.houses.length);
+    
   }
-
-  notifyNumberOfHousesChanges():void{
-    this.numberOfHousesSubject.next(this.numberOfHouses);
-  }
-
-
+  
   onHomeChanges(): Observable<Array<House>>{
     return this.housesSubject.asObservable();
   }
 
-  onNumberOfHomesChanges(): Observable<number>{
-    return this.numberOfHousesSubject.asObservable();
-  }
-  
+
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
     console.error('An error occurred:', error);
     const apiError = new ApiError();

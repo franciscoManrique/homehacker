@@ -65,9 +65,9 @@ const houseSchema = new mongoose.Schema({
             //const coordinates = ret.location.coordinates;
             //delete ret.location;
             //ret.location = coordinates;
-            if (!ret.bookings) {
-                ret.bookings = [];
-            }
+            // if (!ret.bookings) {
+            //     ret.bookings = [];
+            // }
             delete ret._id;
             delete ret.__v;
             return ret;

@@ -61,11 +61,6 @@
             </div>
           </div>
         </div>
-        <small class="bold">Price: <span *ngIf="house.price">{{house.price}}€ per night</span></small>
-        <br>
-        <small class="bold">Results:  <span *ngIf="numberOfHouses">  {{numberOfHouses}}</span></small>
-        <input class="range" type="range" min="0" max="1000" name="price" #price [(ngModel)]="house.price" (input)="onSubmitFindHouse(formHouseFind)">
-        <br>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseFind.valid">Find</button>
         </div>

@@ -5,11 +5,23 @@
     </div>
   </div>
   
+  
+  
   <div class="row">
+    <!-- <small class="bold">Price: <span *ngIf="house.price">{{house.price}}€ per night</span></small> -->
+    <br>
+    <small class="bold">Results: {{houses.length}}</small>
+    <input class="range" type="range" min="0" [max]="500" name="price" #price [(ngModel)]="searchPattern">
+    <br>
+    <div *ngIf="searchPattern">
+      <p class="bold">Price: {{searchPattern}}€ per night</p>
+    </div>
     
-    <div class="col-12 extraMargin" *ngFor="let house of houses">
+    
+    <div class="col-12 extraMargin" *ngFor="let house of houses | filterByPrice:searchPattern">
       <app-house-item [house]="house"></app-house-item>
     </div>
+    
     <!--     
       <div class="col-lg-4" style="border: 1px solid red">
         asdñlasalñd

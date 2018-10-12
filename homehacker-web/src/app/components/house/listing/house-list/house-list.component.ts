@@ -14,13 +14,15 @@ import { Booking } from './../../../../models/booking.model';
 export class HouseListComponent implements OnInit, OnDestroy {
   apiError: ApiError;
   houses: Array<House> = [];
+  minPrice: number;
+  maxPrice: number;
   onHousesChangesSuscription: Subscription;
   
   constructor(private homeService: HomeService, private bookingService: BookingService) { }
   
   ngOnInit() {
     this.homeService.list().subscribe((houses: Array<House>)=> {
-      this.houses = houses;
+      this.houses = houses;      
     },
     (error: ApiError) =>{
       //ESTO NO ME HACE FALTA PORQUE LO BLOQUEO CON GUARDAS NO? ESTO ES SOLO PARA MOSTRAR ERRORES
@@ -30,7 +32,7 @@ export class HouseListComponent implements OnInit, OnDestroy {
   );
   
   this.onHousesChangesSuscription = this.homeService.onHomeChanges()
-  .subscribe((houses: Array<House>) => {
+  .subscribe((houses: Array<House>) => {    
     this.houses = houses;
   })
   

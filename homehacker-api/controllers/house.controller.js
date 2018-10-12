@@ -72,7 +72,7 @@ module.exports.filteredSearch = (req, res, next)=>{
                     houseIdsOfHousesNotToShow.push(id);
                 }
                 
-                return House.find( {$and:[ {'_id': { $nin: houseIdsOfHousesNotToShow} }, {price: { $gte: req.query.price } }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                return House.find( {$and:[ {'_id': { $nin: houseIdsOfHousesNotToShow} }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
                 .populate('owner')
                 .then(housesToShow => {
                     console.log(housesToShow);
@@ -80,9 +80,9 @@ module.exports.filteredSearch = (req, res, next)=>{
                     res.json(housesToShow);
                 });
                 
-            } else{ 
+            } else{
                 console.log('no bookings in this dates - search all houses');
-                return House.find({$and:[{people: { $gte: people } }, {price: { $lte: req.query.price }},  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                return House.find({$and:[{people: { $gte: people } },  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
                 .populate('owner')
                 .then(houses => {
                     console.log(houses);

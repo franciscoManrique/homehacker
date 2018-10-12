@@ -10,3 +10,7 @@
     /* border: 1px solid rgb(230, 230, 230);
     border-radius: 3px; */
 }
+
+.bold{
+    font-weight: 900;
+}

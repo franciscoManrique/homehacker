@@ -24,7 +24,8 @@ import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // bootstrap nav responsive
 import {AgmCoreModule} from '@agm/core'; // google maps
-import {CarouselModule} from 'ngx-bootstrap/carousel'; // carousel for detail images
+import {CarouselModule} from 'ngx-bootstrap/carousel';
+import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe'; // carousel for detail images
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {CarouselModule} from 'ngx-bootstrap/carousel'; // carousel for detail im
     MyHousesListComponent,
     MyBookingsListComponent,
     MyBookingsItemComponent,
+    FilterByPricePipe,
   ],
   imports: [
     BrowserModule,
