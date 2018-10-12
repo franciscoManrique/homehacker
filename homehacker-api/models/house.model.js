@@ -65,16 +65,16 @@ const houseSchema = new mongoose.Schema({
             //const coordinates = ret.location.coordinates;
             //delete ret.location;
             //ret.location = coordinates;
-            // if (!ret.bookings) {
-            //     ret.bookings = [];
-            // }
+            if (!ret.bookings) {
+                ret.bookings = [];
+            }
             delete ret._id;
             delete ret.__v;
             return ret;
         }
     }
 });
-
+//  LA INVERSA, AHORA TENGO REFERENCIA DEL BOOKING EN MI CASA
 houseSchema.virtual('bookings', {
     ref: 'Booking',
     localField: '_id',

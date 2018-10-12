@@ -7,10 +7,9 @@ const User = require('./../models/user.model');
 //CARGA TODAS LAS CASAS SOLO OFRECIENDO 50 HASTA QUE SE LLEVE A CABO LA BUSQUEDA FILTRADA
 module.exports.list = (req, res, next)=>{  
     console.log('LIST ALL HOUSES');
-      
-    // owner: {$ne: req.user._id} // PONERLE QUE NO SALGA YO!!!
     House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id}}]})
     .populate('owner') 
+    .populate({ path: 'bookings', populate: { path: 'user' } }) 
     .limit(50) 
     .then(houses => {  
         res.status(200).json(houses);
@@ -72,7 +71,7 @@ module.exports.filteredSearch = (req, res, next)=>{
                     houseIdsOfHousesNotToShow.push(id);
                 }
                 
-                return House.find( {$and:[ {'_id': { $nin: houseIdsOfHousesNotToShow} }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                return House.find( {$and:[ {owner: {$ne: req.user._id}}, {'_id': { $nin: houseIdsOfHousesNotToShow} }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
                 .populate('owner')
                 .then(housesToShow => {
                     console.log(housesToShow);
@@ -82,7 +81,7 @@ module.exports.filteredSearch = (req, res, next)=>{
                 
             } else{
                 console.log('no bookings in this dates - search all houses');
-                return House.find({$and:[{people: { $gte: people } },  {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
+                return House.find({$and:[{owner: {$ne: req.user._id}}, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
                 .populate('owner')
                 .then(houses => {
                     console.log(houses);

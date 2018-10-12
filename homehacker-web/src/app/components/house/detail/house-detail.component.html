@@ -10,12 +10,12 @@
 
 <div class="row">
     <div class="col-lg-8 col-md-6 col-sm-12">
-        <h1 class="card-title houseTitle">{{house.name | uppercase}}</h1>
+        <small class="card-title houseTitle">{{house.owner.email | uppercase}}</small>
         <p class="card-text">{{house.description}}</p>
         <p>{{house.start | date}} - {{house.end | date}}</p>
     </div>
-    <!-- <div *ngIf="house.owner.id !== session.user.id" class="col-lg-4 col-md-6 col-sm-12"> -->
-        <!-- <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
+    <div *ngIf="house.owner.id !== session.user.id" class="col-lg-4 col-md-6 col-sm-12">
+        <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -32,11 +32,9 @@
                 <button type="submit" class="btn btn-primary btn-block" [disabled]="!formBooking.valid">Book it!</button>
             </div>
         </form>
-    </div> -->
-<!-- </div>  -->
+    </div>
+</div> 
 
-{{house.owner.createdAt}}
-{{session.user.id}} 
 <div *ngIf="house.location">
     <agm-map [zoom]="15" [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]">
         <agm-marker [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
