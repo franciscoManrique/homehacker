@@ -4,7 +4,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-4 col-sm-12">
+    <div class="col-sm-12">
       
       <form (ngSubmit)="onSubmitFindHouse(formHouseFind)" #formHouseFind="ngForm">
         
@@ -27,7 +27,7 @@
                 <span class="input-group-text"><i class="fa fa-group"></i></span>
               </div>
               <select [(ngModel)]="house.people" name="people" class="form-control" required #people="ngModel">
-                <option value="" disabled selected>Select your option</option>
+                <option value="" disabled selected>Number of people</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -65,15 +65,6 @@
           <button type="submit" class="btn btn-primary btn-block" [disabled]="!formHouseFind.valid">Find</button>
         </div>
       </form>
-      
-    </div>
-    
-    <div class="col-lg-8">
-      <div *ngIf="house.location">
-        <agm-map [zoom]="15" [latitude]="house.location[0]" [longitude]="house.location[1]">
-          <agm-marker [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
-        </agm-map>
-      </div>
     </div>
   </div>
 </div>

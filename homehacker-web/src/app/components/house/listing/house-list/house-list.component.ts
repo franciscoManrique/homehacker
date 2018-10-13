@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewRef } from '@angular/core';
 import { HomeService } from './../../../../shared/services/home.service';
 import { House } from './../../../../models/house.model';
 import { ApiError } from './../../../../models/api-error.model';
 import { Subscription } from 'rxjs';
 import { BookingService } from './../../../../shared/services/booking.service';
 import { Booking } from './../../../../models/booking.model';
+import { FindHomeFormComponent } from '../../find/find-home-form/find-home-form.component';
 
 @Component({
   selector: 'app-house-list',
@@ -16,13 +17,14 @@ export class HouseListComponent implements OnInit, OnDestroy {
   houses: Array<House> = [];
   minPrice: number;
   maxPrice: number;
+  paintMapIfHouses: boolean = false;
   onHousesChangesSuscription: Subscription;
-  
+
   constructor(private homeService: HomeService, private bookingService: BookingService) { }
   
   ngOnInit() {
     this.homeService.list().subscribe((houses: Array<House>)=> {
-      this.houses = houses;      
+      this.houses = houses;            
     },
     (error: ApiError) =>{
       //ESTO NO ME HACE FALTA PORQUE LO BLOQUEO CON GUARDAS NO? ESTO ES SOLO PARA MOSTRAR ERRORES
@@ -32,9 +34,13 @@ export class HouseListComponent implements OnInit, OnDestroy {
   );
   
   this.onHousesChangesSuscription = this.homeService.onHomeChanges()
-  .subscribe((houses: Array<House>) => {    
+  .subscribe((houses: Array<House>) => { 
     this.houses = houses;
+    console.log(this.houses.length);
+    
   })
+  
+  // console.log(this.findHomeFormComponent);
   
 }
 

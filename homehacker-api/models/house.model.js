@@ -74,6 +74,9 @@ const houseSchema = new mongoose.Schema({
         }
     }
 });
+
+houseSchema.index({ "location": "2dsphere" });
+
 //  LA INVERSA, AHORA TENGO REFERENCIA DEL BOOKING EN MI CASA
 houseSchema.virtual('bookings', {
     ref: 'Booking',

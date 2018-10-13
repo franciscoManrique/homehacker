@@ -2,20 +2,20 @@
   <div class="row mb-5">
     <div class="col-lg-6 col-md-8 col-sm-10">
       <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="Name" name="name" [(ngModel)]="house.name" #name="ngModel" required>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="Description" name="description" [(ngModel)]="house.description" #name="ngModel" required>
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
           </div>
@@ -23,7 +23,7 @@
           <input type="text" placeholder="Search for Location" autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search>
           
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-group"></i></span>
           </div>
@@ -40,7 +40,7 @@
           </select>        
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-gears"></i></span>
           </div>
@@ -50,7 +50,7 @@
           </div>
         </div>
         
-        <div class="input-group mb-3" *ngFor="let amenity of house.amenities">
+        <div class="input-group mb-1" *ngFor="let amenity of house.amenities">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-gears"></i></span>
           </div>
@@ -60,28 +60,28 @@
           </div>
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-money"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="Money" name="price" [(ngModel)]="house.price" #price="ngModel" required>
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="From" name="start" [(ngModel)]="house.start" #start="ngModel" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" required>
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-calendar"></i></span>
           </div>
           <input type="text" class="form-control" placeholder="To" name="end" [(ngModel)]="house.end" #start="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
         </div>
         
-        <div class="input-group mb-3">
+        <div class="input-group mb-1">
           <div class="input-group-prepend">
             <span class="input-group-text"><i class="fa fa-file-o"></i></span>
           </div>
@@ -98,7 +98,7 @@
     </div>
     
     <div class="col-lg-6">
-      <div class="row mt-3 mb-3">
+      <div class="row mt-3 mb-1">
         <div *ngFor="let previewImage of previewImages">
           <img class="card-img-top img-thumbnail" [src]="previewImage">
         </div>

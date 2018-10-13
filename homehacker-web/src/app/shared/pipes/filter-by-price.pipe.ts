@@ -14,19 +14,10 @@ export class FilterByPricePipe implements PipeTransform {
       console.log('no pattern');
       return houses;
     }
-
-    houses = houses.filter(house => {
-      house.price <= Number(pattern);
-
-      if (house.price <= Number(pattern)) {
-        console.log(true);
-        
-      } else{
-        console.log(false);
-        
-      }
+    
+    return houses = houses.filter(house => {
+      return house.price <= Number(pattern)
     })
-    return houses;
   }
   
 }

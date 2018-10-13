@@ -72,7 +72,6 @@ export class MapService {
     this.addressCreateHouseSubject.next(this.addressFindHouse);    
   }
   
-
   
   // PONER QUE TIPO DE OBSERVABLE RETORNA en los dos?????
   onCoordsCreateHouseChanges(){

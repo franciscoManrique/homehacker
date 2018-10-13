@@ -3,3 +3,13 @@ hr{
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+.alert{
+    margin: 50px;
+    padding: 30px;
+}
+
+strong{
+    text-align: center;
+    display: block;
+}

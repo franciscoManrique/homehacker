@@ -25,7 +25,8 @@ import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // bootstrap nav responsive
 import {AgmCoreModule} from '@agm/core'; // google maps
 import {CarouselModule} from 'ngx-bootstrap/carousel';
-import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe'; // carousel for detail images
+import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe';
+import { ShowMapPipe } from './shared/pipes/show-map.pipe'; // carousel for detail images
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe'; // caro
     MyBookingsListComponent,
     MyBookingsItemComponent,
     FilterByPricePipe,
+    ShowMapPipe,
   ],
   imports: [
     BrowserModule,

@@ -13,11 +13,12 @@ import { HouseToFind } from '../../models/house-to-find.model';
   providedIn: 'root'
 })
 export class HomeService extends BaseApiService {
-    
+  
   houses: Array<House> = [];
   housesSubject: Subject<Array<House>> = new Subject();
   
   housesPerUser: Array<House> = [];
+  housesPerUserSubject: Subject<Array<House>> = new Subject();
   
   private static readonly HOUSE_API = `${environment.homehackerApi}`;
   private static readonly defaultOptions = {
@@ -30,13 +31,16 @@ export class HomeService extends BaseApiService {
     super();
   }
   
-  //al crear una casa con foto no tiene que ser json por lo que solo pongo withcredentials y lo paso como data del modelo
+  //CREATE HOUSE
   create(house: House):Observable<House | ApiError> {    
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
         this.houses.push(house);
-        this.notifyHousesChanges();       
+        this.notifyHousesChanges();  //notifico para la lista de casas (auque no hace falta porque hay un navigate despues)   
+        
+        // this.housesPerUser.push(house);        
+        // this.notifyHousesPerUserChanges();  //notifico para tener en tiempo real el list de mis casas tab ????      
         return house;
       }),
       catchError(this.handleError)
@@ -74,26 +78,26 @@ export class HomeService extends BaseApiService {
     .pipe(
       map((housesPerUser: Array<House>) => {        
         this.housesPerUser = housesPerUser;
+        this.notifyHousesPerUserChanges();        
         return housesPerUser;
       }),
       catchError(this.handleError)
     )
   }
   
-  
   //LIST BY WHAT THE USER CHOSE
-  findHousesByFilter(houseToFind: HouseToFind){ 
-    let [start, end] = houseToFind.location;
+  findHousesByFilter(houseToFind: HouseToFind):Observable<Array<House> | ApiError>{ 
+    let [longitude, latitude] = houseToFind.location;
     
     const modified = {
       start: Object.values(houseToFind.start).join('-'),
       end: Object.values(houseToFind.end).join('-'),
       people: houseToFind.people,
-      longitude: start,
-      latitude: end,
+      longitude: longitude,
+      latitude: latitude,
     }
-    
-    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&longitude=${modified.latitude}`;
+        
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(
@@ -106,17 +110,37 @@ export class HomeService extends BaseApiService {
     )
   }
   
-  notifyHousesChanges():void{
-    this.housesSubject.next(this.houses);
-    console.log(this.houses.length);
+  deleteHouseOfUser(id: string):Observable<void | ApiError>{
+    console.log(`${HomeService.HOUSE_API}/houses/${id}`);
     
+    return this.http.delete<void>(`${HomeService.HOUSE_API}/houses/${id}`, HomeService.defaultOptions)
+    .pipe(
+      map(() => {
+        this.housesPerUser = this.housesPerUser.filter(houses => houses.id !== id);
+        this.notifyHousesPerUserChanges();
+        return;
+      }),
+      catchError(this.handleError)
+    )
+  }
+  
+  notifyHousesChanges():void{
+    this.housesSubject.next(this.houses);    
+  }
+  
+  notifyHousesPerUserChanges():void{
+    this.housesPerUserSubject.next(this.housesPerUser);    
   }
   
   onHomeChanges(): Observable<Array<House>>{
     return this.housesSubject.asObservable();
   }
-
-
+  
+  onHomePerUserChanges(): Observable<Array<House>>{
+    return this.housesPerUserSubject.asObservable();
+  }
+  
+  
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
     console.error('An error occurred:', error);
     const apiError = new ApiError();

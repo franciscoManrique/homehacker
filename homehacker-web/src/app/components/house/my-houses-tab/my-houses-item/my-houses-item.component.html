@@ -14,24 +14,24 @@
       <div *ngIf="housePerUser.bookings.length > 0; else other_content">
         <ul *ngFor="let tenant of housePerUser.bookings">
           <li>{{tenant.user.email}} -  {{tenant.createdAt | date: 'medium'}} <a href="">Contact this tenant</a><a style="color: red;">x</a></li>
-
+          
         </ul>
       </div>
-
+      
       <!-- //IF TENANTS -->
       <!-- ELSE -->
       <ng-template #other_content><p>NO TENANTS YET</p></ng-template>
       <!-- ELSE -->
       
-      <button type="button" class="button btn btn-danger">Remove ad</button>
+      <button type="button" class="button btn btn-danger" (click)="onClickRemoveHouse(housePerUser.id)">Remove ad</button>
     </div>
-    
-  </div>
-  <div class="col-lg-6">
-    
-    <agm-map [zoom]="15" [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]">
-      <agm-marker [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]"></agm-marker>
-    </agm-map>
+    <div class="col-lg-6">
+      
+      <agm-map [zoom]="15" [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]">
+        <agm-marker [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]"></agm-marker>
+      </agm-map>
+      
+    </div>
     
   </div>
 </div>

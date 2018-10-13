@@ -14,3 +14,16 @@
 .bold{
     font-weight: 900;
 }
+
+.row{
+    margin: 10px;
+}
+
+agm-map{
+    height: 100vh;
+}
+
+.range{
+    margin: 10px auto 20px auto;
+    width: 70%;
+}

@@ -5,28 +5,30 @@
     </div>
   </div>
   
-  
-  
   <div class="row">
-    <!-- <small class="bold">Price: <span *ngIf="house.price">{{house.price}}€ per night</span></small> -->
-    <br>
-    <small class="bold">Results: {{houses.length}}</small>
-    <input class="range" type="range" min="0" [max]="500" name="price" #price [(ngModel)]="searchPattern">
-    <br>
     <div *ngIf="searchPattern">
       <p class="bold">Price: {{searchPattern}}€ per night</p>
+    </div> 
+  </div>
+  <div *ngIf="houses.length > 0" class="row">
+    <input class="range" type="range" min="0" [max]="500" name="price" #price [(ngModel)]="searchPattern" class="block range"> 
+  </div>
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="col-lg-12" *ngFor="let house of houses | filterByPrice:searchPattern">
+        <app-house-item [house]="house"></app-house-item>
+      </div>
     </div>
     
-    
-    <div class="col-12 extraMargin" *ngFor="let house of houses | filterByPrice:searchPattern">
-      <app-house-item [house]="house"></app-house-item>
+    <div *ngIf="houses | showMap:searchPattern" class="col-lg-4">
+      <agm-map [zoom]="2" [latitude]="houses[0].location.coordinates[0]" [longitude]="houses[0].location.coordinates[1]">
+        <div *ngFor="let house of houses">
+          <agm-marker  [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
+        </div>
+      </agm-map>
     </div>
     
-    <!--     
-      <div class="col-lg-4" style="border: 1px solid red">
-        asdñlasalñd
-        
-      </div> -->
-    </div>
-    
-    error: {{apiError | json}}
+  </div>
+  
+</div>
+

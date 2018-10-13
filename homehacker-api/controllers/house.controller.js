@@ -9,7 +9,7 @@ module.exports.list = (req, res, next)=>{
     console.log('LIST ALL HOUSES');
     House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id}}]})
     .populate('owner') 
-    .populate({ path: 'bookings', populate: { path: 'user' } }) 
+    // .populate({ path: 'bookings', populate: { path: 'user' } }) 
     .limit(50) 
     .then(houses => {  
         res.status(200).json(houses);
@@ -32,67 +32,93 @@ module.exports.listByDateRange = (req, res, next)=>{
         console.log(error);
         next(error);
     });
-    
 };
 
 //GET ONE
 module.exports.get = (req, res, next)=>{
+    console.log('GET ONE HOUSE');
+    
     House.findById(req.params.houseId)
     .populate('owner')
     .populate('bookings')
-    .then(house => {
-        console.log(house.owner.email);
-        
+    .then(house => {        
         res.status(200).json(house);
     })
     .catch(error => next(error));
 };
 
 //BY FILTER
-module.exports.filteredSearch = (req, res, next)=>{
-    console.log(111, req.query);
+module.exports.filteredSearch = (req, res, next) => {
+    console.log(req.query);
     
     const people = Number(req.query.people);
-    
+
     Booking.find({
         $or:[ 
             {$and:[{start:{$lte:req.query.start}},{end:{$gte:req.query.start}}]} ,
             {$and:[{start:{$lte:req.query.end}},{end:{$gte:req.query.end}}]},
             {$and:[{start:{$gte:req.query.start}},{end:{$lte:req.query.end}}]}]}
         )
-        .then(bookings => {  
-            if (bookings.length > 0) {  
-                console.log('bookings in this dates - excluding the ones booked and show the rest');
-                
-                const houseIdsOfHousesNotToShow = [];
-                
-                for (let i = 0; i < bookings.length; i++) {
-                    let id = bookings[i].house;
-                    houseIdsOfHousesNotToShow.push(id);
-                }
-                
-                return House.find( {$and:[ {owner: {$ne: req.user._id}}, {'_id': { $nin: houseIdsOfHousesNotToShow} }, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
-                .populate('owner')
-                .then(housesToShow => {
-                    console.log(housesToShow);
-                    
-                    res.json(housesToShow);
-                });
-                
-            } else{
-                console.log('no bookings in this dates - search all houses');
-                return House.find({$and:[{owner: {$ne: req.user._id}}, {people: { $gte: people } }, {start:{$lte:req.query.start}}, {end:{$gte:req.query.end}}]})
-                .populate('owner')
-                .then(houses => {
-                    console.log(houses);
-                    res.json(houses);
-                });
+        .then(bookings => {
+            const houseIdsOfHousesNotToShow = [];
+            for (let booking of bookings) {
+                houseIdsOfHousesNotToShow.push(booking.house);
             }
-        })
-        .catch(error => { 
-            next(error);
-        });
-        
+
+            console.log(houseIdsOfHousesNotToShow);
+
+
+            return House
+                .find({
+                    owner: { $ne: req.user._id },
+                    _id: { $nin: houseIdsOfHousesNotToShow },
+                    people: { $gte: people },
+                    start: { $lte: new Date(req.query.start) },
+                    end: { $gte: new Date(req.query.end) },
+                    location: {
+                        $near: {
+                            $geometry: {
+                                type: 'Point',
+                                coordinates: [ req.query.longitude, req.query.latitude ]
+                            },
+                            $minDistance: 0,
+                            $maxDistance: 5000
+                        }
+                    }
+                    })
+                    .populate('owner')
+                    .then(houses => {
+                        console.log(houses);
+                        
+                        res.json(houses);
+                    });
+        }).catch(error => next(error))        
     };
+            
+//REMOVE ONE HOUSE OF ONE USER
+module.exports.deleteOneHouseOfUser = (req, res, next)=>{            
+    // House.findByIdAndRemove(req.params.id)
+    // .then(() => {
+    //     console.log('HOUSE OF USER REMOVED');
+    //     res.status(204).json();
+    // })
+    // .catch(error => {
+    //     next(error);
+    // });
     
     
+    Promise.all([
+        House.findByIdAndDelete(req.params.id),
+        Booking.deleteMany({house: req.params.id})
+    ])
+    .then(() => { 
+        
+        res.status(204).json();
+    })
+    .catch(error => {
+        next(error);
+    });
+    
+};
+            
+            

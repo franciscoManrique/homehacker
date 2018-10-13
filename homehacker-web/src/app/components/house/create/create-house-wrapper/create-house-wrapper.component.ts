@@ -27,7 +27,7 @@ export class CreateHouseWrapperComponent implements OnInit {
     }
     
     this.homeService.create(house).subscribe((house: House) =>{
-      this.router.navigate(['/home']);      
+      this.router.navigate(['/myHouses']);      
       this.createHouseFormComponent.reset();
     },
     (error: ApiError) => {

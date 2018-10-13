@@ -21,8 +21,8 @@ agm-map {
 }
 
 .content:hover{
-    transform: scale(1.02);
-    transition: transform .7s;
+    /* transform: scale(1.02);
+    transition: transform .7s; */
 }
 
 .inline{
