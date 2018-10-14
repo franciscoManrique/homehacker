@@ -17,6 +17,7 @@ export class CreateHouseWrapperComponent implements OnInit {
   constructor(private homeService:HomeService, private router: Router) { }
   
   ngOnInit() {
+    
   }
   
   onSubmitCreateHouseForm(house: House):void{

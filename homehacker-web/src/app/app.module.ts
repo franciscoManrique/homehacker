@@ -24,9 +24,11 @@ import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // bootstrap nav responsive
 import {AgmCoreModule} from '@agm/core'; // google maps
-import {CarouselModule} from 'ngx-bootstrap/carousel';
+import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail images
 import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe';
-import { ShowMapPipe } from './shared/pipes/show-map.pipe'; // carousel for detail images
+import { ShowMapPipe } from './shared/pipes/show-map.pipe';
+import { ProfileComponent } from './components/profile/profile.component';
+import { NotifierModule } from 'angular-notifier';
 
 
 @NgModule({
@@ -49,6 +51,7 @@ import { ShowMapPipe } from './shared/pipes/show-map.pipe'; // carousel for deta
     MyBookingsItemComponent,
     FilterByPricePipe,
     ShowMapPipe,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,10 @@ import { ShowMapPipe } from './shared/pipes/show-map.pipe'; // carousel for deta
       apiKey: 'AIzaSyDeZy_fS4ry7LS6HwGT31iT0WaaJkH-Fgk',
       libraries: ['places']
     }),
-    CarouselModule
+    CarouselModule,
+    NotifierModule.withConfig( {
+      // Custom options in here
+    } )
   ],
   providers: [],
   bootstrap: [AppComponent]

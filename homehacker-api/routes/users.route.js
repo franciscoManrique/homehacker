@@ -6,9 +6,9 @@ const middlewares = require('./../middlewares/secure.middleware');
 
 //CREATE AND GET USERS
 router.post('/', userController.createUser); // CREATE
+router.patch('/:userId/edit', middlewares.isAuthenticated, middlewares.isMe, uploader.single('image'), userController.edit);//GET USERS
 router.get('/:id', middlewares.isAuthenticated, userController.getUser); //GET USER BY ID
 router.get('/', middlewares.isAuthenticated, userController.listUsers);//GET USERS
-router.patch('/:userId/edit', middlewares.isAuthenticated, middlewares.isMe, userController.edit);//GET USERS
 
 // //GET HOME(S)
 // router.get('/:userId/houses/:homeId', middlewares.isAuthenticated, userController.getHouse);//GET HOME OF A USER

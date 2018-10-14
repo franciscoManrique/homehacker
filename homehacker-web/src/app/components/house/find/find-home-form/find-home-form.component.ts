@@ -25,14 +25,17 @@ export class FindHomeFormComponent implements OnInit {
   constructor(private mapService: MapService, private homeService: HomeService) { }
   
   ngOnInit() {
+    console.log('shora');
+    console.log(this.searchElement);
+    
     this.mapService.autoCompleteCities(this.searchElement);
     
-    this.onCoordsFindHomeChanges = this.mapService.onCoordsFindHouseChanges()
+    this.onCoordsFindHomeChanges = this.mapService.onCoordsChanges()
     .subscribe((location: Array<number>) => {
       this.house.location = location;
     })
     
-    this.onAdressFindHomeChanges = this.mapService.onAdressFindHouseChanges()
+    this.onAdressFindHomeChanges = this.mapService.onAddressChanges()
     .subscribe((address: string) => {
       this.house.address = address;
     })

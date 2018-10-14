@@ -36,8 +36,8 @@
 </div> 
 
 <div *ngIf="house.location">
-    <agm-map [zoom]="15" [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]">
-        <agm-marker [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
+    <agm-map [zoom]="15" [latitude]="house.location[0]" [longitude]="house.location[1]">
+        <agm-marker [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
     </agm-map>
 </div> 
 

@@ -15,12 +15,11 @@ export class MyHousesItemComponent implements OnInit {
   apiError: ApiError;
   
   ngOnInit() {
+    
   }
   
-  onClickRemoveHouse(id: string): void{
-    this.homeService.deleteHouseOfUser(id).subscribe(() => {
-      
-    },
+  onClickRemoveHouse(id: string): void{ //NO PASAS POR SU PADRE, NO HACE FALTA
+    this.homeService.deleteHouseOfUser(id).subscribe(() => {},
     (error: ApiError) => {
       this.apiError = error;
     }

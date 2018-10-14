@@ -28,12 +28,12 @@ export class CreateHouseFormComponent implements OnInit, OnDestroy{
     
     this.mapService.autoCompleteCities(this.searchElement);    
     
-    this.onCoordsCreateHouseChanges = this.mapService.onCoordsCreateHouseChanges()
+    this.onCoordsCreateHouseChanges = this.mapService.onCoordsChanges()
     .subscribe((location: Array<number>) => {
-      this.house.location = location;                        
+      this.house.location = location;                              
     })
     
-    this.onAdressCreateHouseChanges = this.mapService.onAdressCreateHouseChanges()
+    this.onAdressCreateHouseChanges = this.mapService.onAddressChanges()
     .subscribe((address: string) => {
       this.house.address = address;                        
     })
@@ -54,11 +54,13 @@ export class CreateHouseFormComponent implements OnInit, OnDestroy{
     this.house.amenities = this.house.amenities.filter(a => {
       return a !== amenity;
     });
-    
+  
   }
   
   onSubmitCreateHouse(){      
     if (this.houseCreateForm.valid) {
+      console.log(this.house.photos[0]);
+      
       this.houseCreateSubmit.emit(this.house);
     }
   }

@@ -12,7 +12,7 @@ import { interval } from "rxjs/internal/observable/interval";
   styleUrls: ['./my-houses-list.component.css']
 })
 export class MyHousesListComponent implements OnInit, OnDestroy {
-  private static readonly POLLING_INTERVAL = 10000;
+  private static readonly POLLING_INTERVAL = 1000 * 60;
   
   apiError: ApiError;
   housesPerUser: Array<House> = [];
@@ -24,29 +24,39 @@ export class MyHousesListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     let userId = JSON.parse(localStorage.getItem('current-user')).id;    
     
+    this.homeService.getHousesByUserId(userId).subscribe((housesPerUser: Array<House>) => {
+      this.housesPerUser = housesPerUser;
+      console.log(housesPerUser);
+      
+    },
+    (error: ApiError) => {
+      this.apiError = error;
+    })
+    
     //YA NO HACE FALTA SUSCROBIRME DE FORMA NORMAL
-    this.intervalPollingSubscription = interval(MyHousesListComponent.POLLING_INTERVAL)
-    .pipe(
-      startWith(0),
-      switchMap(() => this.homeService.getHousesByUserId(userId))
-    ).subscribe(
-      (housesPerUser: Array<House>) => {
-        this.housesPerUser = housesPerUser;      
-        console.log(3, this.housesPerUser);
-      },
-      (error: ApiError)=> {
-        this.apiError = error;
-      }
-    );
+    // this.intervalPollingSubscription = interval(MyHousesListComponent.POLLING_INTERVAL)
+    // .pipe(
+    //   startWith(0),
+    //   switchMap(() => this.homeService.getHousesByUserId(userId))
+    // ).subscribe(
+    //   (housesPerUser: Array<House>) => {
+    //     this.housesPerUser = housesPerUser;      
+    //     console.log(3, this.housesPerUser);
+    //   },
+    //   (error: ApiError)=> {
+    //     this.apiError = error;
+    //   }
+    // );
     
     this.onHousesPerUserChangesSuscription = this.homeService.onHomePerUserChanges()
     .subscribe((housesPerUser: Array<House>) => {
-      this.housesPerUser = housesPerUser;
+      this.housesPerUser = housesPerUser;      
+      console.log(this.housesPerUser);
     })  
   }
   
   ngOnDestroy() {
-    this.intervalPollingSubscription.unsubscribe();
+    // this.intervalPollingSubscription.unsubscribe();
     this.onHousesPerUserChangesSuscription.unsubscribe();
   }
   

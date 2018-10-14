@@ -1,34 +1,36 @@
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-lg-3">
-      <img class="card-img-top" [src]="housePerUser.photos[0]" alt="Card image cap" [routerLink]="['/houses', housePerUser.id]" style="cursor: pointer;">
-      
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 margin-bottom">
+      <div class="relative">
+        <img class="card-img-top houseImage" [src]="housePerUser.photos[0]" alt="Card image cap" [routerLink]="['/houses', housePerUser.id]" style="cursor: pointer;">
+        <i class="fa fa-trash" (click)="onClickRemoveHouse(housePerUser.id)" aria-hidden="true"></i>
+      </div>
     </div>
-    <div class="col-lg-3">
+    
+    
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
       <h5 class="card-title">{{housePerUser.address}}</h5>
       <p class="card-text bold">{{housePerUser.price}}€ per night</p>
       <p class="card-text">{{housePerUser.start | date}} - {{housePerUser.end | date}}</p>
-      
-      
-      <!-- //IF TENANTS -->
       <div *ngIf="housePerUser.bookings.length > 0; else other_content">
-        <ul *ngFor="let tenant of housePerUser.bookings">
-          <li>{{tenant.user.email}} -  {{tenant.createdAt | date: 'medium'}} <a href="">Contact this tenant</a><a style="color: red;">x</a></li>
-          
-        </ul>
+        <div class="row margin-bottom" *ngFor="let tenant of housePerUser.bookings">
+          <img [src]="tenant.user.image" alt="image" class="circleImage"> 
+          <p class="inline margin">{{tenant.user.name}}</p>
+          <small class="bold"> <i class="fa fa-ticket" aria-hidden="true"></i>{{tenant.start | date}} - {{tenant.end | date}}</small>
+        </div>
       </div>
       
-      <!-- //IF TENANTS -->
-      <!-- ELSE -->
-      <ng-template #other_content><p>NO TENANTS YET</p></ng-template>
-      <!-- ELSE -->
+      <ng-template #other_content>
+        <div class="alert alert-warning" role="alert">
+          <strong>No tenants yet {{housePerUser.owner.name}}</strong>
+        </div>
+      </ng-template>
       
-      <button type="button" class="button btn btn-danger" (click)="onClickRemoveHouse(housePerUser.id)">Remove ad</button>
     </div>
-    <div class="col-lg-6">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 border-radius">
       
-      <agm-map [zoom]="15" [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]">
-        <agm-marker [latitude]="housePerUser.location.coordinates[0]" [longitude]="housePerUser.location.coordinates[1]"></agm-marker>
+      <agm-map [zoom]="15" [latitude]="housePerUser.location[0]" [longitude]="housePerUser.location[1]">
+        <agm-marker [latitude]="housePerUser.location[0]" [longitude]="housePerUser.location[1]"></agm-marker>
       </agm-map>
       
     </div>

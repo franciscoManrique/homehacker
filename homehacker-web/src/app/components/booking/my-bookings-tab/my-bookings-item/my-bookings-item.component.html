@@ -1,12 +1,12 @@
 <div class="container-fluid">
   <div>
     <div class="row content">
-      <div class="col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
         <img class="card-img-top" [src]="booking.house.photos[0]" alt="Card image cap" [routerLink]="['/houses', booking.house.id]" style="cursor: pointer;">      
         <i class="fa fa-ticket" aria-hidden="true"></i><p> Booked on: <span class="bold">{{booking.createdAt | date: 'medium'}}</span></p>
         
       </div>
-      <div class="col-lg-3">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
         <h5 class="card-title">{{booking.house.address}}</h5>
         <p class="card-text bold inline">{{booking.house.price}}€ per night</p>
         <small>{{booking.start | date}} - {{booking.end | date}}</small>
@@ -16,10 +16,10 @@
           <button type="button" class="button btn btn-danger" (click)="onClickRemoveBooking(booking.id)">Cancel reservation</button>
         </div>
       </div>
-      <div class="col-lg-6">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
         
-        <agm-map [zoom]="15" [latitude]="booking.house.location.coordinates[0]" [longitude]="booking.house.location.coordinates[1]">
-          <agm-marker [latitude]="booking.house.location.coordinates[0]" [longitude]="booking.house.location.coordinates[1]"></agm-marker>
+        <agm-map [zoom]="15" [latitude]="booking.house.location[0]" [longitude]="booking.house.location[1]">
+          <agm-marker [latitude]="booking.house.location[0]" [longitude]="booking.house.location[1]"></agm-marker>
         </agm-map>
         
       </div>
@@ -27,3 +27,4 @@
   </div>
 </div>
 <br>
+{{booking | json}}

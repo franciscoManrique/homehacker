@@ -20,15 +20,14 @@
       </div>
     </div>
     
-    <div *ngIf="houses | showMap:searchPattern" class="col-lg-4">
-      <agm-map [zoom]="2" [latitude]="houses[0].location.coordinates[0]" [longitude]="houses[0].location.coordinates[1]">
+    <!-- | showMap:searchPattern -->
+    <div *ngIf="houses.length > 0" class="col-lg-4">
+      <agm-map [zoom]="2" [latitude]="0" [longitude]="0">
         <div *ngFor="let house of houses">
-          <agm-marker  [latitude]="house.location.coordinates[0]" [longitude]="house.location.coordinates[1]"></agm-marker>
+          <agm-marker  [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
         </div>
       </agm-map>
     </div>
-    
   </div>
-  
 </div>
 

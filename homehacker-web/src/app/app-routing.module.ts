@@ -10,6 +10,7 @@ import { FindHomeWrapperComponent } from './components/house/find/find-home-wrap
 import { HouseDetailComponent } from './components/house/detail/house-detail.component';
 import { MyHousesListComponent } from './components/house/my-houses-tab/my-houses-list/my-houses-list.component';
 import { MyBookingsListComponent } from './components/booking/my-bookings-tab/my-bookings-list/my-bookings-list.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'houses/:id', canActivate: [IsAuthenticatedGuard], component: HouseDetailComponent},
   {path: 'myHouses', canActivate: [IsAuthenticatedGuard], component: MyHousesListComponent},
   {path: 'myBookings', canActivate: [IsAuthenticatedGuard], component: MyBookingsListComponent},
+  {path: 'profile', canActivate: [IsAuthenticatedGuard], component: ProfileComponent}
 ];
 
 @NgModule({

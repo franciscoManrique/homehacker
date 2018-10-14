@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row mb-5">
-    <div class="col-lg-6 col-md-8 col-sm-10">
+    <div class="col-12">
       <form (ngSubmit)="onSubmitCreateHouse(formHouseCreate)" #formHouseCreate="ngForm">
         <div class="input-group mb-1">
           <div class="input-group-prepend">
@@ -96,11 +96,12 @@
         </div>
       </form>
     </div>
-    
-    <div class="col-lg-6">
+  </div>
+  <div class="row">
+    <div class="col-12">
       <div class="row mt-3 mb-1">
         <div *ngFor="let previewImage of previewImages">
-          <img class="card-img-top img-thumbnail" [src]="previewImage">
+          <img class="card-img-top img-thumbnail" [src]="previewImage" style="width: 10rem;">
         </div>
       </div>
     </div>
@@ -111,3 +112,5 @@
     </agm-map>
   </div>
 </div>
+
+{{house | json}}

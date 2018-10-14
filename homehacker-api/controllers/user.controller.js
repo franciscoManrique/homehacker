@@ -28,8 +28,7 @@ module.exports.createUser = (req, res, next)=>{
 };
 
 //LIST ALL USERS
-module.exports.listUsers = (req, res, next) =>{
-    
+module.exports.listUsers = (req, res, next) =>{    
     User.find()
     .then(users => {
         res.status(200).json(users);
@@ -51,15 +50,26 @@ module.exports.getUser = (req, res, next) =>{
 };
 
 //edit user
-module.exports.edit = (req, res, next) =>{
-    criteria = {
-        $set: req.body
-    };
+module.exports.edit = (req, res, next) =>{   
+    
+    let criteria;
+    
+    if(req.file){        
+        criteria = { $set: req.body, image: `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`}
+    } else{
+        criteria = { $set: req.body};
+    }
+    
+    console.log(criteria);
+    
     User.findByIdAndUpdate(req.params.userId, criteria, { runValidators: true, new: true })
     .then(user => {
+        
         res.status(200).json(user);
     })
     .catch(error =>{
+        console.log('DAADDADA');
+        
         next(error);
     });
 };
@@ -94,12 +104,11 @@ module.exports.createHouse = (req, res, next) =>{
 
 //LIST ALL HOUSES OF ONE USER WITH BOOKINGS
 module.exports.listHousesOfUser = (req, res, next) =>{  
-    // Booking.find({house:})
     console.log('LIST HOUSES OF A USER');
     
     House.find({owner: req.params.userId})
     .populate('owner')
-    .populate({ path: 'bookings', populate: { path: 'user' } })
+    .populate({ path: 'bookings', populate: { path: 'user' } }) // AHORA TENGO BOOKINS EN MIS CASAS (A LA INVERSA CON VIRTUAL)
     .then(houses =>{
         res.status(200).json(houses);
     })

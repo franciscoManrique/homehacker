@@ -62,9 +62,10 @@ const houseSchema = new mongoose.Schema({
         virtuals: true, 
         transform: (doc, ret) => {
             ret.id = doc._id;
-            //const coordinates = ret.location.coordinates;
-            //delete ret.location;
-            //ret.location = coordinates;
+            const coordinates = ret.location.coordinates;
+            delete ret.location;
+            ret.location = coordinates;
+            
             if (!ret.bookings) {
                 ret.bookings = [];
             }
