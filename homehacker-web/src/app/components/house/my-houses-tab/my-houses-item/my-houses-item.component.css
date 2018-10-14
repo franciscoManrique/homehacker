@@ -60,7 +60,7 @@ agm-map {
 }
 
 .fa-trash{
-    font-size: 40px; 
+    font-size: 60px; 
     position: absolute;
     color: white;
     margin: 20px;
@@ -76,7 +76,7 @@ agm-map {
     border-radius: 10px;
 }
 
-.relative::before {
+/* .relative::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -85,8 +85,12 @@ agm-map {
     left: 0;
     background-color: rgba(0,0,0,.3);
     border-radius: 10px; 
-}
+} */
 
 .margin-bottom{
     margin-bottom: 20px;
+}
+
+.alert-warning{
+    text-align: center;
 }

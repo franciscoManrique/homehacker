@@ -28,8 +28,6 @@ import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail ima
 import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe';
 import { ShowMapPipe } from './shared/pipes/show-map.pipe';
 import { ProfileComponent } from './components/profile/profile.component';
-import { NotifierModule } from 'angular-notifier';
-
 
 @NgModule({
   declarations: [
@@ -64,10 +62,7 @@ import { NotifierModule } from 'angular-notifier';
       apiKey: 'AIzaSyDeZy_fS4ry7LS6HwGT31iT0WaaJkH-Fgk',
       libraries: ['places']
     }),
-    CarouselModule,
-    NotifierModule.withConfig( {
-      // Custom options in here
-    } )
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

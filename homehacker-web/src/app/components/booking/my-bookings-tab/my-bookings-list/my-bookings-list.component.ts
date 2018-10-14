@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { BookingService } from '../../../../shared/services/booking.service';
 import { Booking } from '../../../../models/booking.model';
 import { ApiError } from '../../../../models/api-error.model';
@@ -14,12 +14,14 @@ export class MyBookingsListComponent implements OnInit {
   apiError: ApiError;
   onBookingChangesSubscription: Subscription;
   
-  
-  constructor(private bookingService: BookingService) { }
+  constructor(private bookingService: BookingService) {}
   
   ngOnInit() {
     this.bookingService.list().subscribe((bookings: Array<Booking>) => {
-      this.bookings = bookings;
+      this.bookings = bookings;      
+      if (this.bookings.length === 0) {
+        //SHOW TOAST ERROR ????
+      }
     },
     (error: ApiError) =>{
       this.apiError = error;

@@ -25,15 +25,13 @@ export class MyHousesListComponent implements OnInit, OnDestroy {
     let userId = JSON.parse(localStorage.getItem('current-user')).id;    
     
     this.homeService.getHousesByUserId(userId).subscribe((housesPerUser: Array<House>) => {
-      this.housesPerUser = housesPerUser;
-      console.log(housesPerUser);
-      
+      this.housesPerUser = housesPerUser;      
     },
     (error: ApiError) => {
       this.apiError = error;
     })
     
-    //YA NO HACE FALTA SUSCROBIRME DE FORMA NORMAL
+    // NO HACE FALTA
     // this.intervalPollingSubscription = interval(MyHousesListComponent.POLLING_INTERVAL)
     // .pipe(
     //   startWith(0),

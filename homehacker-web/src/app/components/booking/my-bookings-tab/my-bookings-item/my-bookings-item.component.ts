@@ -22,14 +22,13 @@ export class MyBookingsItemComponent implements OnInit {
   
   onClickRemoveBooking(id: string){
     this.bookingService.deleteBooking(id).subscribe(() => {
-      // ESTO VA VACIO NO??
+      // ESTO VA VACIO NO????
     },
     (error: ApiError) => {
       this.apiError = error;
     })
     
   }
-  
   
 }
 
