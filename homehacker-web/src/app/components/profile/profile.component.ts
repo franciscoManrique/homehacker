@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
       this.userService.edit(user).subscribe((user: User) => {
         this.form.reset();
         this.user = user;
-        
+        this.formShow = !this.formShow;
       },
       (error: ApiError) => {
         this.apiError = error;

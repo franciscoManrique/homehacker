@@ -4,9 +4,12 @@ const Booking = require('./../models/booking.model');
 
 //BOOKINGS OF ONE USER
 module.exports.list = (req, res, next)=>{
+
     Booking.find({user: req.user._id})
-    .populate('house')
-    .then(bookings => {         
+    .populate({ path: 'house', populate: {path: 'owner'}})
+    .then(bookings => {  
+        console.log(req.user);
+              
         res.status(200).json(bookings);
     })
     .catch(error => {

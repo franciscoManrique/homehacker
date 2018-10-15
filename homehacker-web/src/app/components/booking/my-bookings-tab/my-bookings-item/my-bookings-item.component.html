@@ -2,22 +2,27 @@
   <div>
     <div class="row content">
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
-        <img class="card-img-top" [src]="booking.house.photos[0]" alt="Card image cap" [routerLink]="['/houses', booking.house.id]" style="cursor: pointer;">      
-        <i class="fa fa-ticket" aria-hidden="true"></i><p> Booked on: <span class="bold">{{booking.createdAt | date: 'medium'}}</span></p>
+        <div class="relative">
+          <img class="card-img-top house-image" [src]="booking.house.photos[0]" alt="Card image cap" [routerLink]="['/houses', booking.house.id]" style="cursor: pointer;">      
+          <p class="center"> Booked on: <span class="bold">{{booking.createdAt | date: 'medium'}}</span></p>
+          <button type="button" class="button btn btn-danger center-button" (click)="onClickRemoveBooking(booking.id)">Cancel reservation</button>
+          
+        </div>
         
       </div>
       <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-        <h5 class="card-title">{{booking.house.address}}</h5>
-        <p class="card-text bold inline">{{booking.house.price}}€ per night</p>
-        <small>{{booking.start | date}} - {{booking.end | date}}</small>
-        
-        <div class="buttonWrapper">
-          <button type="button" class=" button btn btn-dark">Contact the owner</button>
-          <button type="button" class="button btn btn-danger" (click)="onClickRemoveBooking(booking.id)">Cancel reservation</button>
+        <div class="row margin">
+          <h5 class="card-title">{{booking.house.address}}</h5>
+          <p class="card-text bold block">{{booking.house.price}}€ per night</p>
+          <p class="block">{{booking.start | date}} - {{booking.end | date}}</p>
+          <div>
+            <img [src]="booking.house.owner.image" class="owner-image" alt="owner">
+            <strong [routerLink]="['/chat', booking.house.owner.id, 'messages']" style="cursor: pointer;">Contact {{booking.house.owner.name}}</strong>
+            <!-- <i class="fa fa-envelope-open"></i> -->
+          </div>
         </div>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
-        
         <agm-map [zoom]="15" [latitude]="booking.house.location[0]" [longitude]="booking.house.location[1]">
           <agm-marker [latitude]="booking.house.location[0]" [longitude]="booking.house.location[1]"></agm-marker>
         </agm-map>
@@ -27,4 +32,3 @@
   </div>
 </div>
 <br>
-{{booking | json}}

@@ -32,9 +32,7 @@ export class HomeService extends BaseApiService {
   }
   
   //CREATE HOUSE
-  create(house: House):Observable<House | ApiError> {    
-    console.log(house.asFormData());
-    
+  create(house: House):Observable<House | ApiError> {        
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
@@ -89,6 +87,7 @@ export class HomeService extends BaseApiService {
   
   //LIST BY WHAT THE USER CHOSE
   findHousesByFilter(houseToFind: HouseToFind):Observable<Array<House> | ApiError>{ 
+    
     let [longitude, latitude] = houseToFind.location;
     
     const modified = {
@@ -97,9 +96,10 @@ export class HomeService extends BaseApiService {
       people: houseToFind.people,
       longitude: longitude,
       latitude: latitude,
+      range: houseToFind.range * 1000
     }
-    
-    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}`;
+        
+    const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}&range=${modified.range}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
     .pipe(

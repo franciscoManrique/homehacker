@@ -28,6 +28,8 @@ import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail ima
 import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe';
 import { ShowMapPipe } from './shared/pipes/show-map.pipe';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
+import { ChatItemComponent } from './components/chat/chat-item/chat-item.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     FilterByPricePipe,
     ShowMapPipe,
     ProfileComponent,
+    ChatListComponent,
+    ChatItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,8 @@ const Booking = require('./../models/booking.model');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-module.exports.isAuthenticated = (req, res, next) =>{
+module.exports.isAuthenticated = (req, res, next) =>{ 
+   
   if(req.isAuthenticated()){      
     console.log('you are auth back');
     next();
@@ -14,11 +15,22 @@ module.exports.isAuthenticated = (req, res, next) =>{
   }
 };
 
-module.exports.isMe = (req, res, next) =>{  
+module.exports.isMe = (req, res, next) =>{    
   if(!req.isAuthenticated()){
     throw createError(403);
   } else if(!req.user._id.equals(req.params.userId)){
-    throw createError(401, `You are trying to avccess with another id`);
+    throw createError(401, `You are trying to access with another id`);
+  } else{
+    console.log(`passed is me`);
+    next();
+  }
+};
+
+module.exports.chatSecure = (req, res, next) =>{  
+  if(!req.isAuthenticated()){
+    throw createError(403);
+  } else if(req.user.id == req.params.to){
+    throw createError(401, `You cannot send a message to yourself`);
   } else{
     console.log(`passed is me`);
     next();
@@ -26,7 +38,7 @@ module.exports.isMe = (req, res, next) =>{
 };
 
 module.exports.datesCheck = (req, res, next) =>{   
-
+  
   if (req.query.start && req.query.end) {
     if (new Date(req.query.start) < new Date()) {      
       throw createError(401, `The starting date is before today ${req.user.email}`);
@@ -49,25 +61,25 @@ module.exports.datesCheck = (req, res, next) =>{
 };   
 
 
-module.exports.checkBookigsOfAllHousesToDisplayAvailableHouses = (req, res, next) =>{
+// module.exports.checkBookigsOfAllHousesToDisplayAvailableHouses = (req, res, next) =>{
 
-  
-  Booking.find({$or:[{$and:[{start:{$lte:req.query.start}},{end:{$gte:req.query.start}}]} , {$and:[{start:{$lte:req.query.end}},{end:{$gte:req.query.end}}]}, {$and:[{start:{$gte:req.query.start}},{end:{$lte:req.query.end}}]}]})
-  .then(bookings => {    
-    if (bookings.length > 0) {    
-      
-      
-    } else{
-      console.log('no overall bookings yet');
-      next();
-    }
-  })
-  .catch(error => { 
-    console.log(error);
-    
-    next(error);
-  });
-};
+
+//   Booking.find({$or:[{$and:[{start:{$lte:req.query.start}},{end:{$gte:req.query.start}}]} , {$and:[{start:{$lte:req.query.end}},{end:{$gte:req.query.end}}]}, {$and:[{start:{$gte:req.query.start}},{end:{$lte:req.query.end}}]}]})
+//   .then(bookings => {    
+//     if (bookings.length > 0) {    
+
+
+//     } else{
+//       console.log('no overall bookings yet');
+//       next();
+//     }
+//   })
+//   .catch(error => { 
+//     console.log(error);
+
+//     next(error);
+//   });
+// };
 
 
 module.exports.reservationsOfHouseCheck = (req, res, next) =>{    

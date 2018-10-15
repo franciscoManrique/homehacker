@@ -65,9 +65,6 @@ module.exports.filteredSearch = (req, res, next) => {
                 houseIdsOfHousesNotToShow.push(booking.house);
             }
 
-            console.log(houseIdsOfHousesNotToShow);
-
-
             return House
                 .find({
                     owner: { $ne: req.user._id },
@@ -82,7 +79,7 @@ module.exports.filteredSearch = (req, res, next) => {
                                 coordinates: [ req.query.longitude, req.query.latitude ]
                             },
                             $minDistance: 0,
-                            $maxDistance: 5000
+                            $maxDistance: req.query.range
                         }
                     }
                     })
@@ -97,16 +94,7 @@ module.exports.filteredSearch = (req, res, next) => {
             
 //REMOVE ONE HOUSE OF ONE USER
 module.exports.deleteOneHouseOfUser = (req, res, next)=>{            
-    // House.findByIdAndRemove(req.params.id)
-    // .then(() => {
-    //     console.log('HOUSE OF USER REMOVED');
-    //     res.status(204).json();
-    // })
-    // .catch(error => {
-    //     next(error);
-    // });
-    
-    
+
     Promise.all([
         House.findByIdAndDelete(req.params.id),
         Booking.deleteMany({house: req.params.id})

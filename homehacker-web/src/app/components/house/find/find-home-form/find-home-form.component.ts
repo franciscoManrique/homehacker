@@ -25,9 +25,6 @@ export class FindHomeFormComponent implements OnInit {
   constructor(private mapService: MapService, private homeService: HomeService) { }
   
   ngOnInit() {
-    console.log('shora');
-    console.log(this.searchElement);
-    
     this.mapService.autoCompleteCities(this.searchElement);
     
     this.onCoordsFindHomeChanges = this.mapService.onCoordsChanges()
@@ -43,6 +40,8 @@ export class FindHomeFormComponent implements OnInit {
   }
   
   onSubmitFindHouse(){
+    console.log(22, this.house);
+    
     if (this.formHouseFind.valid) {
       this.houseFindSubmit.emit(this.house);
     }

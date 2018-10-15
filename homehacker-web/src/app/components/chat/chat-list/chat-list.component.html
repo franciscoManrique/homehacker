@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row" style="border: 1px solid grey; height: 70vh;">
+        from: {{message.from}}
+        to: {{message.to}}
+
+        <div class="col-12" *ngFor="let message of messages">
+            <app-chat-item [message]="message" [meId]="meId"></app-chat-item>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form (ngSubmit)="onClickSubmitMessage()" #form="ngForm">
+                <div class="input-group mb-1">
+                    <div class="input-group-prepend">
+                    </div>
+                    <input type="text" class="form-control" placeholder="text" name="price" [(ngModel)]="message.text" required>
+                </div>
+                <button class="btn btn-block btn-primary" [disabled]="!form.valid">Send message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+error: {{apiError | json}}

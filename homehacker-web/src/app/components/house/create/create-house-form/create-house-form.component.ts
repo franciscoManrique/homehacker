@@ -58,9 +58,7 @@ export class CreateHouseFormComponent implements OnInit, OnDestroy{
   }
   
   onSubmitCreateHouse(){      
-    if (this.houseCreateForm.valid) {
-      console.log(this.house.photos[0]);
-      
+    if (this.houseCreateForm.valid) {      
       this.houseCreateSubmit.emit(this.house);
     }
   }

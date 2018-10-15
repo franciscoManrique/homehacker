@@ -75,10 +75,8 @@ module.exports.edit = (req, res, next) =>{
 };
 
 
-//CREATE HOUSE CHEQUEAR ESTO CON CARLOS ===>>> 
 module.exports.createHouse = (req, res, next) =>{  
     let stringToArrayCoords = req.body.location.split(',');
-    console.log(req.body);
     
     const house = new House(req.body);
     house.location.coordinates = stringToArrayCoords;
@@ -92,9 +90,7 @@ module.exports.createHouse = (req, res, next) =>{
     }
     
     house.save()
-    .then(house => {
-        console.log(house);
-        
+    .then(house => {        
         res.status(201).json(house);
     })
     .catch(error => {

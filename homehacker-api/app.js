@@ -18,6 +18,7 @@ const usersRouter = require('./routes/users.route');
 const housesRouter = require('./routes/houses.route');
 const sessionsRouter = require('./routes/sessions.route');
 const bookingsRouter = require('./routes/bookings.route');
+const chatRouter = require('./routes/chats.route');
 
 const app = express();
 
@@ -33,20 +34,20 @@ require("./configs/session.config")(app);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use('/users/:userId/houses/:houseId/bookings/:bookingId', bookingsRouter);//check bookings of one house
-app.use('/users', usersRouter); //users and house creatng and make a booking
-app.use('/sessions', sessionsRouter);// sessions
-app.use('/houses', housesRouter);// house listing
-app.use('/bookings', bookingsRouter);// house listing
+app.use('/chat', chatRouter); // LA PONGO AQUI PORQUE SI NO COLISIONA CON LA DE USERS Y ME LLEVA A MIDDLEWARE QUE NO USO EN CHAT
+app.use('/users', usersRouter); 
+app.use('/sessions', sessionsRouter);
+app.use('/houses', housesRouter); 
+app.use('/bookings', bookingsRouter); 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+app.use(function(req, res, next) { 
+  next(createError(404)); 
+}); 
 
 app.use(function (error, req, res, next) {
   console.error('ERROR:', error);
-
+  
   res.status(error.status || 500);
   
   const data = {};

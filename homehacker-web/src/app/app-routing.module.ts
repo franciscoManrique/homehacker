@@ -11,18 +11,18 @@ import { HouseDetailComponent } from './components/house/detail/house-detail.com
 import { MyHousesListComponent } from './components/house/my-houses-tab/my-houses-list/my-houses-list.component';
 import { MyBookingsListComponent } from './components/booking/my-bookings-tab/my-bookings-list/my-bookings-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', canActivate: [IsAuthenticatedGuard], component: HouseListComponent},
-  // {path: 'houses', canActivate: [IsAuthenticatedGuard], component: HouseListComponent},
   {path: 'createHouse', canActivate: [IsAuthenticatedGuard], component:CreateHouseWrapperComponent},
   {path: 'login', canActivate: [NotGoIfLoggedInGuardGuard], component: LoginComponent},
   {path: 'register', canActivate: [NotGoIfLoggedInGuardGuard], component: RegisterComponent},
   {path: 'houses/:id', canActivate: [IsAuthenticatedGuard], component: HouseDetailComponent},
   {path: 'myHouses', canActivate: [IsAuthenticatedGuard], component: MyHousesListComponent},
   {path: 'myBookings', canActivate: [IsAuthenticatedGuard], component: MyBookingsListComponent},
-  {path: 'profile', canActivate: [IsAuthenticatedGuard], component: ProfileComponent}
+  {path: 'chat/:userId/messages', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
 ];
 
 @NgModule({

@@ -41,6 +41,7 @@ export class BookingService {
   
   //GET BOOKINGS OF ONE USER
   list():Observable<Array<Booking> | ApiError>{
+    
     return this.http.get<Array<Booking>>(`${BookingService.BOOKING_API}/bookings`, BookingService.defaultOptions)
     .pipe(
       map((bookings: Array<Booking>) => {
@@ -70,7 +71,6 @@ export class BookingService {
   onBookingChanges():Observable<Array<Booking>>{
     return this.bookingSubject.asObservable();
   }
-  
   
   handleError(error: HttpErrorResponse):Observable<ApiError>{
     const apiError = new ApiError();

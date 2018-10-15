@@ -1,0 +1,19 @@
+
+<div class="row" *ngIf="message.from.id == meId; else othercontent">
+  <div class="row" class="alert alert-primary" role="alert" style="width: 70%; float:left;" >
+    <div>
+      <img [src]="message.from.image" class="circle" alt="image">
+      {{message.message}}
+    </div>
+  </div>
+</div>
+
+<ng-template #othercontent>
+  <div class="row" class="alert alert-success" role="alert" style="width: 70%; float:right;">
+    <div style="float: right;">
+      <img [src]="message.from.image" class="circle" alt="image">
+      {{message.message}}
+    </div>
+  </div>
+</ng-template>
+

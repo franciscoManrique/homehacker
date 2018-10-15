@@ -6,4 +6,5 @@ export class HouseToFind {
     // location:
     location: Array<number>;
     address: string;
+    range?: number;
 }

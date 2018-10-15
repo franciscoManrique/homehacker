@@ -21,10 +21,13 @@
     </div>
     
     <!-- | showMap:searchPattern -->
-    <div *ngIf="houses.length > 0" class="col-lg-4">
-      <agm-map [zoom]="2" [latitude]="0" [longitude]="0">
+    <!-- houses.length > 0  -->
+    <div *ngIf="houses | showMap:searchPattern" class="col-lg-4">
+      <agm-map [zoom]="12" [latitude]="houses[0].location[0]" [longitude]="houses[0].location[1]">
         <div *ngFor="let house of houses">
           <agm-marker  [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
+          <div class='agm-info-window-content'>      <ng-content></ng-content>
+          </div>
         </div>
       </agm-map>
     </div>

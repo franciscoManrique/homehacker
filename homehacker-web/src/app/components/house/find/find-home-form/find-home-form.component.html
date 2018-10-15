@@ -1,5 +1,5 @@
 <div *ngIf="apiError">
-  {{apiError | json}}
+  <!-- {{apiError | json}} -->
 </div>
 
 <div class="container">
@@ -17,6 +17,12 @@
               </div>
               <input type="text" class="form-control" placeholder="Search for Location" name="location" #search>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <strong class="rangeCenter">Max range: {{house.range}} km</strong>
+            <input type="range" name="range" min="0" max="20" [(ngModel)]="house.range">
           </div>
         </div>
         

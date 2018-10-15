@@ -21,7 +21,6 @@ export class UserService {
     withCredentials: true
   };
   
-  
   constructor(private http: HttpClient) { }
   
   get(id: string){      
