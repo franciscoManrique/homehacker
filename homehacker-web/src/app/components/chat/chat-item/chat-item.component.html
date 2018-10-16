@@ -1,19 +1,19 @@
 
-<div class="row" *ngIf="message.from.id == meId; else othercontent">
-  <div class="row" class="alert alert-primary" role="alert" style="width: 70%; float:left;" >
-    <div>
-      <img [src]="message.from.image" class="circle" alt="image">
-      {{message.message}}
-    </div>
+<div class="row message" [ngClass]="{'alert-success': message.from.id == meId, 'alert-primary': message.from.id !== meId}">
+  <div class="content">
+    <img [src]="message.from.image" alt="image" class="profile-image">
+    <small class="owner-text"><strong>{{message.from.name | uppercase}} - {{message.createdAt | date: 'shortTime'}}</strong></small>
+    <p>{{message.message}}</p>
   </div>
 </div>
 
-<ng-template #othercontent>
-  <div class="row" class="alert alert-success" role="alert" style="width: 70%; float:right;">
-    <div style="float: right;">
-      <img [src]="message.from.image" class="circle" alt="image">
-      {{message.message}}
-    </div>
-  </div>
-</ng-template>
+<!-- <div class="row message" [ngClass]="{'alert-success': message.from, 'alert-primary': message.to}">
+  <small class="owner-text">{{message.from.name}}</small>
+  <strong>{{message.message}}</strong>
+</div> -->
 
+<!-- from: {{message.from.id }} 
+  to: {{message.to.id }}  -->
+
+  
+  

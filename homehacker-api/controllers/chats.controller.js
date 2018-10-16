@@ -5,13 +5,11 @@ const Message = require('./../models/messages.model');
 
 //CHATS WITH THAT USER
 module.exports.list = (req, res, next)=>{
-
+    
     Message.find({$or:[{$and:[{from: req.user._id},{to: req.params.userId}]},{$and:[{from: req.params.userId},{to: req.user._id}]}]})
     .populate('from')
     .populate('to')
-    .then(messages => {
-        console.log(messages);
-        
+    .then(messages => {        
         res.status(201).json(messages);
     })
     .catch(error => {
@@ -22,7 +20,7 @@ module.exports.list = (req, res, next)=>{
 //CREATE ONE CHAT WITH A MESSAGE
 module.exports.create = (req, res, next)=>{  
 
-    const message = new Message({from: me, to: him, message: req.body.text});
+    const message = new Message({from: req.user._id, to: req.params.userId, message: req.body.text});
     message.save()
     .then(message => {
         res.status(201).json(message);
