@@ -12,7 +12,7 @@ import { interval } from "rxjs/internal/observable/interval";
   styleUrls: ['./my-houses-list.component.css']
 })
 export class MyHousesListComponent implements OnInit, OnDestroy {
-  private static readonly POLLING_INTERVAL = 1000 * 60;
+  private static readonly POLLING_INTERVAL = 1000;
   
   apiError: ApiError;
   housesPerUser: Array<House> = [];
@@ -30,21 +30,6 @@ export class MyHousesListComponent implements OnInit, OnDestroy {
     (error: ApiError) => {
       this.apiError = error;
     })
-    
-    // NO HACE FALTA
-    // this.intervalPollingSubscription = interval(MyHousesListComponent.POLLING_INTERVAL)
-    // .pipe(
-    //   startWith(0),
-    //   switchMap(() => this.homeService.getHousesByUserId(userId))
-    // ).subscribe(
-    //   (housesPerUser: Array<House>) => {
-    //     this.housesPerUser = housesPerUser;      
-    //     console.log(3, this.housesPerUser);
-    //   },
-    //   (error: ApiError)=> {
-    //     this.apiError = error;
-    //   }
-    // );
     
     this.onHousesPerUserChangesSuscription = this.homeService.onHomePerUserChanges()
     .subscribe((housesPerUser: Array<House>) => {

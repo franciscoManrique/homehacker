@@ -36,11 +36,9 @@ export class HomeService extends BaseApiService {
     return this.http.post<House>(`${HomeService.HOUSE_API}/users/${this.session.user.id}/houses`, house.asFormData(), { withCredentials: true })
     .pipe(
       map((house: House) => {
-        this.houses.push(house);
-        this.notifyHousesChanges();  //notifico para la lista de casas (auque no hace falta porque hay un navigate despues)   
-        
-        // this.housesPerUser.push(house);        
-        // this.notifyHousesPerUserChanges();  //notifico para tener en tiempo real el list de mis casas tab ????      
+        this.houses.push(house);   
+        console.log(house);
+             
         return house;
       }),
       catchError(this.handleError)
@@ -54,7 +52,7 @@ export class HomeService extends BaseApiService {
     .pipe(
       map((houses: Array<House>)=>{  
         this.houses = houses;
-        this.notifyHousesChanges();
+        // this.notifyHousesChanges(); NO HACE FALTA NO???
         return houses;
       }),
       catchError(this.handleError)
@@ -98,7 +96,7 @@ export class HomeService extends BaseApiService {
       latitude: latitude,
       range: houseToFind.range * 1000
     }
-        
+    
     const query = `filter?start=${modified.start}&end=${modified.end}&people=${modified.people}&longitude=${modified.longitude}&latitude=${modified.latitude}&range=${modified.range}`;
     
     return this.http.get<Array<House>>(`${HomeService.HOUSE_API}/houses/${query}`, HomeService.defaultOptions)
@@ -112,9 +110,7 @@ export class HomeService extends BaseApiService {
     )
   }
   
-  deleteHouseOfUser(id: string):Observable<void | ApiError>{
-    console.log(`${HomeService.HOUSE_API}/houses/${id}`);
-    
+  deleteHouseOfUser(id: string):Observable<void | ApiError>{    
     return this.http.delete<void>(`${HomeService.HOUSE_API}/houses/${id}`, HomeService.defaultOptions)
     .pipe(
       map(() => {
@@ -142,21 +138,16 @@ export class HomeService extends BaseApiService {
     return this.housesPerUserSubject.asObservable();
   }
   
-  
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
     console.error('An error occurred:', error);
     const apiError = new ApiError();
-    //client side error=> 
     if (error.error instanceof ErrorEvent) {
       console.error('Client error:', error.error.message);
       apiError.message = 'Something bad happened; please try again later.';
     } else {
-      //backend error=>
       apiError.message = error.error.message;
       apiError.errors = error.error.errors;
     }
-    //EMITS AN ERROR NOTIFICATION=> NO ES LO MISMO QUE EL throw de la api     
-    //ENVIO ERROR AL CATCH DE ARRIBA DE VUELTA
     return throwError(apiError);
   }
 }

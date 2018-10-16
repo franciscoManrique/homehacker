@@ -90,7 +90,9 @@ module.exports.createHouse = (req, res, next) =>{
     }
     
     house.save()
-    .then(house => {        
+    .then(house => {    
+        console.log(house);
+            
         res.status(201).json(house);
     })
     .catch(error => {

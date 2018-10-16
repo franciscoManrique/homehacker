@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'myHouses', canActivate: [IsAuthenticatedGuard], component: MyHousesListComponent},
   {path: 'myBookings', canActivate: [IsAuthenticatedGuard], component: MyBookingsListComponent},
   {path: 'chat/:userId/messages', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
+  {path: 'profile', canActivate: [IsAuthenticatedGuard], component: ProfileComponent}
 ];
 
 @NgModule({

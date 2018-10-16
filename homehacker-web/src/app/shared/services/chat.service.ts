@@ -23,14 +23,12 @@ export class ChatService {
   constructor(private http: HttpClient) { }
   
   //LIST MESSAGES ONLY WITH THAT PERSON
-  list(userId: string): Observable<Array<Message> | ApiError>{
-    console.log(userId);
-    
+  list(userId: string): Observable<Array<Message> | ApiError>{    
     return this.http.get<Chat>(`${ChatService.CHAT_API}/chat/${userId}/messages`, ChatService.defaultOptions)
     .pipe(
       map((messages: Array<Message>) => {
         this.messages = messages;
-        this.notifyMessagesChanges();        
+        // this.notifyMessagesChanges();        
         return messages;
       })
     )
@@ -41,20 +39,23 @@ export class ChatService {
     .pipe(
       map((message: Message) => {
         this.messages.push(message);
-        this.notifyMessagesChanges();
+        console.log(2, message);
+        
+        // this.notifyMessagesChanges();
         return message;
       }),
       catchError(this.handleError)
     )
   }
   
-  notifyMessagesChanges():void{
-    this.messagesSubject.next(this.messages);
-  }
+  // notifyMessagesChanges():void{
+  //   // console.log(3, this.messages);
+  //   this.messagesSubject.next(this.messages);
+  // }
   
-  onMessagesChanges():Observable<Array<Message>>{
-    return this.messagesSubject.asObservable();
-  }
+  // onMessagesChanges():Observable<Array<Message>>{
+  //   return this.messagesSubject.asObservable();
+  // }
   
   private handleError(error: HttpErrorResponse): Observable<ApiError> {
     console.error('An error occurred:', error);

@@ -16,7 +16,7 @@ import { ApiError } from '../../models/api-error.model';
 export class ProfileComponent implements OnInit {
   private static readonly IMG_PREVIEW: string = 'http://www.nfscars.net/static/img/not-found.png';
   
-  user: User = new User(); // SI NO HAGO UNA INSTANCIA NUEVA EL ASDATAFORM NO VALDRIA ????
+  user: User = new User(); // SI NO HAGO UNA INSTANCIA NUEVA EL ASDATAFORM NO ME VALE ????
   apiError: ApiError;
   formShow: boolean = false;
   imgPreview: string | ArrayBuffer = ProfileComponent.IMG_PREVIEW;

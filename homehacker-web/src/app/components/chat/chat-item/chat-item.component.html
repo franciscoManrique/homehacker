@@ -1,4 +1,3 @@
-
 <div class="row message" [ngClass]="{'alert-success': message.from.id == meId, 'alert-primary': message.from.id !== meId}">
   <div class="content">
     <img [src]="message.from.image" alt="image" class="profile-image">
@@ -6,14 +5,3 @@
     <p>{{message.message}}</p>
   </div>
 </div>
-
-<!-- <div class="row message" [ngClass]="{'alert-success': message.from, 'alert-primary': message.to}">
-  <small class="owner-text">{{message.from.name}}</small>
-  <strong>{{message.message}}</strong>
-</div> -->
-
-<!-- from: {{message.from.id }} 
-  to: {{message.to.id }}  -->
-
-  
-  

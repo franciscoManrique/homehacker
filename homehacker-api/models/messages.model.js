@@ -23,6 +23,13 @@ const messageSchema = new mongoose.Schema({
     }
 });
 
+// asi no se puede???
+
+messageSchema.pre('save', function() {
+    this.populate('from');
+    this.populate('to');
+});
+
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;

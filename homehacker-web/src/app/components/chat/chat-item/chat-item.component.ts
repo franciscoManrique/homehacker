@@ -8,7 +8,6 @@ import { SessionService } from '../../../shared/services/session.service';
   styleUrls: ['./chat-item.component.css']
 })
 export class ChatItemComponent implements OnInit {
-  
   @Input() message: Message;
   @Input() meId: string;
 

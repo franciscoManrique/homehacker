@@ -27,17 +27,13 @@ export class HouseListComponent implements OnInit, OnDestroy {
       this.houses = houses;                  
     },
     (error: ApiError) =>{
-      //ESTO NO ME HACE FALTA PORQUE LO BLOQUEO CON GUARDAS NO? ESTO ES SOLO PARA MOSTRAR ERRORES
-      console.log('ERROR FRONT HOME LIST', error);
       this.apiError = error;
     }
   );
   
   this.onHousesChangesSuscription = this.homeService.onHomeChanges()
   .subscribe((houses: Array<House>) => { 
-    this.houses = houses;
-    console.log(11, this.houses);
-    
+    this.houses = houses;    
   })
   
   // console.log(this.findHomeFormComponent);

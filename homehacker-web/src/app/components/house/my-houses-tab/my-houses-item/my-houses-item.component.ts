@@ -18,7 +18,7 @@ export class MyHousesItemComponent implements OnInit {
     
   }
   
-  onClickRemoveHouse(id: string): void{ //NO PASAS POR SU PADRE, NO HACE FALTA
+  onClickRemoveHouse(id: string): void{
     this.homeService.deleteHouseOfUser(id).subscribe(() => {},
     (error: ApiError) => {
       this.apiError = error;
