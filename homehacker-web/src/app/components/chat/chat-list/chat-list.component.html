@@ -1,6 +1,5 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row messages" #containerMessages>
-        
         
         <div class="col-12" *ngFor="let message of messages">
             <app-chat-item [message]="message" [meId]="meId"></app-chat-item>
@@ -10,11 +9,11 @@
     </div>
     
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 fixed">
             <form (ngSubmit)="onClickSubmitMessage()" #form="ngForm">
                 <div class="input-group mb-1">
                     <!-- <input type="text" class="form-control round" placeholder="text" name="price" [(ngModel)]="message.text" required> -->
-                    <input type="text" class="form-control round" placeholder="text" name="price" [(ngModel)]="message.text">
+                    <input type="text" class="form-control input-chat round" placeholder="text" name="price" [(ngModel)]="message.text">
                     <input type="image" name="submit" [src]="iconSend" class="icon-send" alt="Submit">
                 </div>
             </form>

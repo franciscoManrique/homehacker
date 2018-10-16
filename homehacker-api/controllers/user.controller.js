@@ -88,6 +88,8 @@ module.exports.createHouse = (req, res, next) =>{
             house.photos.push(`${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
         }
     }
+
+    console.log('Delete me')
     
     house.save()
     .then(house => {    

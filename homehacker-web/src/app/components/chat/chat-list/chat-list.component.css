@@ -1,5 +1,5 @@
 .messages{
-    height: 80vh;
+    height: 78vh;
     overflow: scroll;
 }
 
@@ -14,8 +14,8 @@
 }
 
 .icon-send{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin-left: 10px;
     cursor: pointer;
 }
@@ -25,4 +25,11 @@
     border-bottom-right-radius: 24px !important;
     border-top-left-radius: 24px !important;
     border-bottom-left-radius: 24px !important;
+}
+
+.fixed{
+    /* height: 80px; */
+    /* position: fixed;
+    bottom: 10px;
+    width: 80%; */
 }

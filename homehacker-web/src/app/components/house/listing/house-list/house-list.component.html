@@ -10,7 +10,8 @@
       <p class="bold">Price: {{searchPattern}}€ per night</p>
     </div> 
   </div>
-  <div *ngIf="houses.length > 0" class="row">
+  <div class="row">
+    <!-- RANGE NO VA EN MOBILE PERO SI EN PRODUCCION ???? -->
     <input class="range" type="range" min="0" [max]="500" name="price" #price [(ngModel)]="searchPattern" class="block range"> 
   </div>
   <div class="row">

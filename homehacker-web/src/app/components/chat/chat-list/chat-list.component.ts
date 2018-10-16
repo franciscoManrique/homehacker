@@ -28,6 +28,7 @@ export class ChatListComponent implements OnInit, OnDestroy {
   
   ngOnInit(){
     
+    //ESTO NO TIRA???
     // let container = this.containerMessages.nativeElement;
     // container.scrollTop = container.scrollHeight - container.clientHeight;
     
@@ -35,50 +36,52 @@ export class ChatListComponent implements OnInit, OnDestroy {
     this.meId = this.message.from; // me
     
     //Params map ME SIGUE DANDO ERROR A VECES DE _ID EN CHAT LIST CONTROLLER????
-    this.route.params.subscribe(params =>{ //ASI ESTA MAL????   this.route.data.subscribe(data => {});
-    this.message.to = params.userId; // him
-  });
+    this.route.params.subscribe(params =>{
+      this.message.to = params.userId; // him
+    });  
+    
+    // PORQUE ME MUESTRA EL NUEVO SIN SIQUIERA NOTIFICAR CAMBIOS => PORQUE YA LOS TIENE!!!
+    // this.chatService.list(this.message.to).subscribe((messages: Array<Message>) => {
+    //   console.log(1, messages);
+    //   this.messages = messages;
+    // })
+    
+    
+    //INTERVAL NO HACE FALTA NOTIFICAR CAMBIOS EN SERVICIOS => PORQUE YA RECARGA LA PAGINA DIRECTAMENTE!!!
+    this.intervalPollingSubscription = interval(ChatListComponent.POLLING_INTERVAL)
+    .pipe(
+      startWith(0),
+      switchMap(() => this.chatService.list(this.message.to))
+    ).subscribe(
+      (messages: Array<Message>) => {
+        this.messages = messages;     
+        this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; 
+      },
+      (error: ApiError)=> {
+        this.apiError = error;
+      }
+    );
+  }
   
-  //PORQUE ME MUESTRA EL NUEVO SIN SIQUIERA NOTIFICAR CAMBIOS????????
-  // this.chatService.list(this.message.to).subscribe((messages: Array<Message>) => {
-  //   console.log(1, messages);
-  //   this.messages = messages;
-  // })
   
   
-  //INTERVAL
-  this.intervalPollingSubscription = interval(ChatListComponent.POLLING_INTERVAL)
-  .pipe(
-    startWith(0),
-    switchMap(() => this.chatService.list(this.message.to))
-  ).subscribe(
-    (messages: Array<Message>) => {
-      this.messages = messages;      
-      console.log(333, this.messages);
-    },
-    (error: ApiError)=> {
-      this.apiError = error;
-    }
-  );
-  
-}
-
-
-
-onClickSubmitMessage(){
-  if (this.form.valid) {    
-    this.chatService.sendMessage(this.message).subscribe((message: Message) => {      
-      //NO HAGO NADA AQUI?????
-    },
-    (error: ApiError) => {
-      this.apiError = error;
-    }
-  )
-}
+  onClickSubmitMessage(){
+    if (this.form.valid) {    
+      this.chatService.sendMessage(this.message).subscribe((message: Message) => {    
+        //NO HAGO NADA AQUI?????
+        // this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; //SCROLLTOP VA MAL AQUI ??????????????
+        //PONER MAPAS INFO WINDOW https://stackoverflow.com/questions/39739508/how-could-i-call-a-angular2-function-from-a-google-map-infowindow ?????????????
+        this.form.reset();
+      },
+      (error: ApiError) => {
+        this.apiError = error;
+      }
+    )
+  }
 }
 
 ngOnDestroy(){
-  // this.intervalPollingSubscription.unsubscribe();
+  this.intervalPollingSubscription.unsubscribe();
 }
 
 }

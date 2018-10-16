@@ -11,7 +11,7 @@ import { HomeService } from '../../../shared/services/home.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  toggleMenu: boolean = true;
+  // toggleMenu: boolean = true;
   user: User;
   onUserChanges: Subscription;
   
@@ -24,10 +24,10 @@ export class HeaderComponent implements OnInit {
     .subscribe((user: User) => this.user = user);
   }
   
-  showMenu(){
-    this.toggleMenu = !this.toggleMenu;
-    console.log(this.toggleMenu);
-  }
+  // showMenu(){
+  //   this.toggleMenu = !this.toggleMenu;
+  //   console.log(this.toggleMenu);
+  // }
   
   onClickLogOut(){
     this.sessionService.logout().subscribe(()=>{

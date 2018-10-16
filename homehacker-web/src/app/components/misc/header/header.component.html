@@ -1,7 +1,7 @@
 
 <div *ngIf="user">
-  <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
+  <nav class="navbar navbar-dark bg-primary">
+    <div [ngbCollapse]="!isNavbarCollapsed" class="collapse navbar-collapse" id="navbarsDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown" [routerLink]="['/home']">Home</a>

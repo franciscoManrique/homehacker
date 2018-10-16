@@ -16,7 +16,7 @@ import { ApiError } from '../../models/api-error.model';
 export class ProfileComponent implements OnInit {
   private static readonly IMG_PREVIEW: string = 'http://www.nfscars.net/static/img/not-found.png';
   
-  user: User = new User(); // SI NO HAGO UNA INSTANCIA NUEVA EL ASDATAFORM NO ME VALE ????
+  user: User = new User();
   apiError: ApiError;
   formShow: boolean = false;
   imgPreview: string | ArrayBuffer = ProfileComponent.IMG_PREVIEW;
@@ -29,7 +29,6 @@ export class ProfileComponent implements OnInit {
     
     const userId = this.sessionService.user.id;
     this.userService.get(userId).subscribe((user: User) => {
-      // this.user = user; //NO LO HAGO ASI PORQUE SI IGUALO DIRECTAMENTE  EL asFormData no funcionaria ????
       this.user.name = user.name;
       this.user.description = user.description;
       this.user.id = user.id;
@@ -46,7 +45,7 @@ export class ProfileComponent implements OnInit {
       
       this.userService.edit(user).subscribe((user: User) => {
         this.form.reset();
-        this.user = user;
+        this.user = Object.assign(new User(), user); // ASI ES SIN MUTAR EL OBJETO!!!
         this.formShow = !this.formShow;
       },
       (error: ApiError) => {

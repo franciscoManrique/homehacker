@@ -41,7 +41,7 @@ export class ChatService {
         this.messages.push(message);
         console.log(2, message);
         
-        // this.notifyMessagesChanges();
+        // this.notifyMessagesChanges(); 
         return message;
       }),
       catchError(this.handleError)

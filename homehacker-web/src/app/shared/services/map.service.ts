@@ -30,8 +30,8 @@ export class MapService {
           this.place = autocomplete.getPlace();
           
           this.location.splice(0, 2);
-          this.location.push(this.place.geometry.location.lat())
           this.location.push(this.place.geometry.location.lng())
+          this.location.push(this.place.geometry.location.lat())
           this.address = this.place.formatted_address;
           this.notifyCoords();
           this.notifyAddress();

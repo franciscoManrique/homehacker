@@ -34,12 +34,10 @@ export class MyHousesListComponent implements OnInit, OnDestroy {
     this.onHousesPerUserChangesSuscription = this.homeService.onHomePerUserChanges()
     .subscribe((housesPerUser: Array<House>) => {
       this.housesPerUser = housesPerUser;      
-      console.log(this.housesPerUser);
     })  
   }
   
   ngOnDestroy() {
-    // this.intervalPollingSubscription.unsubscribe();
     this.onHousesPerUserChangesSuscription.unsubscribe();
   }
   

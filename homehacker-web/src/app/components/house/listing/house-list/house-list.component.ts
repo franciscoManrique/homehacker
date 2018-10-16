@@ -24,7 +24,7 @@ export class HouseListComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.homeService.list().subscribe((houses: Array<House>)=> {
-      this.houses = houses;                  
+      this.houses = houses;
     },
     (error: ApiError) =>{
       this.apiError = error;
@@ -35,9 +35,7 @@ export class HouseListComponent implements OnInit, OnDestroy {
   .subscribe((houses: Array<House>) => { 
     this.houses = houses;    
   })
-  
-  // console.log(this.findHomeFormComponent);
-  
+    
 }
 
 ngOnDestroy(){

@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 export class FindHomeFormComponent implements OnInit {
   house: HouseToFind = new HouseToFind();
   @ViewChild('formHouseFind') formHouseFind: FormGroup;
-  @Input() apiError: ApiError; // ??????
+  @Input() apiError: ApiError;
   @Output() houseFindSubmit: EventEmitter<HouseToFind> = new EventEmitter();
   @ViewChild('search') searchElement: ElementRef;
   onCoordsFindHomeChanges: Subscription;

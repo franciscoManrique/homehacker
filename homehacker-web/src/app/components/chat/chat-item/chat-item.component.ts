@@ -14,7 +14,6 @@ export class ChatItemComponent implements OnInit {
   constructor(private sessionService: SessionService) { }
   
   ngOnInit() {
-   
   }
   
 }
