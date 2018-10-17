@@ -20,10 +20,16 @@
 }
 
 agm-map{
-    height: 100vh;
+    height: 30vh;
+    /* width: 77vw; */
 }
 
 .range{
     margin: 10px auto 20px auto;
     width: 70%;
+}
+
+p{
+    font-size: 30px;
+    font-size: 3.5vw;
 }

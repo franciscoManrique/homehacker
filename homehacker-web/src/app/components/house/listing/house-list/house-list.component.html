@@ -11,27 +11,24 @@
     </div> 
   </div>
   <div class="row">
-    <!-- RANGE NO VA EN MOBILE PERO SI EN PRODUCCION ???? -->
     <input class="range" type="range" min="0" [max]="500" name="price" #price [(ngModel)]="searchPattern" class="block range"> 
   </div>
+  
+  <!-- | showMap:searchPattern -->
+  <!-- houses.length > 0  -->
+  <div *ngIf="houses | showMap:searchPattern" class="col-lg-4">
+    <agm-map [zoom]="12" [latitude]="houses[0].location[0]" [longitude]="houses[0].location[1]">
+      <div *ngFor="let house of houses">
+        <agm-marker  [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
+        <div class='agm-info-window-content'>   
+        </div>
+      </div>
+    </agm-map>
+  </div>
   <div class="row">
-    <div class="col-lg-8">
       <div class="col-lg-12" *ngFor="let house of houses | filterByPrice:searchPattern">
         <app-house-item [house]="house"></app-house-item>
       </div>
-    </div>
-    
-    <!-- | showMap:searchPattern -->
-    <!-- houses.length > 0  -->
-    <div *ngIf="houses | showMap:searchPattern" class="col-lg-4">
-      <agm-map [zoom]="12" [latitude]="houses[0].location[0]" [longitude]="houses[0].location[1]">
-        <div *ngFor="let house of houses">
-          <agm-marker  [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
-          <div class='agm-info-window-content'>      <ng-content></ng-content>
-          </div>
-        </div>
-      </agm-map>
-    </div>
   </div>
 </div>
 

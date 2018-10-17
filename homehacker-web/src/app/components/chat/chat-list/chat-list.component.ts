@@ -15,7 +15,7 @@ import { Subscription, interval } from 'rxjs';
   styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnInit, OnDestroy {
-  private static readonly POLLING_INTERVAL = 1000;
+  private static readonly POLLING_INTERVAL = 500;
   @ViewChild('form') form: FormGroup;
   @ViewChild('containerMessages') containerMessages: ElementRef;
   iconSend = 'https://cdn0.iconfinder.com/data/icons/new-design/512/57-Send-512.png';
@@ -55,7 +55,6 @@ export class ChatListComponent implements OnInit, OnDestroy {
     ).subscribe(
       (messages: Array<Message>) => {
         this.messages = messages;     
-        this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; 
       },
       (error: ApiError)=> {
         this.apiError = error;
@@ -69,6 +68,8 @@ export class ChatListComponent implements OnInit, OnDestroy {
     if (this.form.valid) {    
       this.chatService.sendMessage(this.message).subscribe((message: Message) => {    
         //NO HAGO NADA AQUI?????
+        this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; 
+
         // this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; //SCROLLTOP VA MAL AQUI ??????????????
         //PONER MAPAS INFO WINDOW https://stackoverflow.com/questions/39739508/how-could-i-call-a-angular2-function-from-a-google-map-infowindow ?????????????
         this.form.reset();

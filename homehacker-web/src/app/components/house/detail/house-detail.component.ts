@@ -34,6 +34,9 @@ export class HouseDetailComponent implements OnInit {
       this.apiError = error;
     }
   );
+
+
+
 }
 
 onSubmitBooking(){  

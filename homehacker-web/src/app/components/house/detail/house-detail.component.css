@@ -30,3 +30,17 @@
 agm-map {
     height: 300px;
 }
+
+*{
+    font-weight: 100;
+}
+
+.owner-image{
+    width: 50px;
+    border-radius:5px; 
+    margin-right: 10px;
+}
+
+.description{
+    font-size: 10px;
+}

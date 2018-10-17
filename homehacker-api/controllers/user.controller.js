@@ -164,11 +164,11 @@ module.exports.makeBooking = (req, res, next) =>{
                     });
                 } else{
                     console.log('This dates are not available for this house');
-                    throw createError(409, `This dates are not available for this house ${req.user.email}`);
+                    throw createError(409, `This dates are not available for this house`);
                 }  
             }
         } else{
-            throw createError(403, `the house doesnt exist ${req.user.email}`);
+            throw createError(403, `the house doesnt exist`);
         }
     })
     .catch(error => {   

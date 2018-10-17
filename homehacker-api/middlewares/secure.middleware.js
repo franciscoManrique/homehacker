@@ -41,18 +41,18 @@ module.exports.datesCheck = (req, res, next) =>{
   
   if (req.query.start && req.query.end) {
     if (new Date(req.query.start) < new Date()) {      
-      throw createError(401, `The starting date is before today ${req.user.email}`);
+      throw createError(401, `The starting date is before today`);
     } else if(new Date(req.query.start) > new Date(req.query.end)){
-      throw createError(401, `The starting date is later than the ending date ${req.user.email}`);
+      throw createError(401, `The starting date is later than the ending date`);
     } else{
       console.log('passed dates validation(no wrong dates) having query');
       next();
     }
   } else if(req.body.start && req.body.end){
     if (new Date(req.body.start) < new Date()) {
-      throw createError(401, `the start date is before today ${req.user.email}`);
+      throw createError(401, `the start date is before today`);
     } else if(new Date(req.body.start) > new Date(req.body.end)){
-      throw createError(401, `The start date is after the end date ${req.user.email}`);
+      throw createError(401, `The start date is after the end date`);
     }  else{
       console.log('passed dates validation(no wrong dates) having body');
       next();
@@ -102,8 +102,8 @@ module.exports.reservationsOfHouseCheck = (req, res, next) =>{
       
       if (inConflict) {
         inConflict = false;
-        console.log(`you booking is in conflict with other booking`);
-        throw createError(403, `you booking is in conflict with other booking`);
+        console.log(`You booking is in conflict with other booking`);
+        throw createError(403, `Your booking is in conflict with other booking`);
       } else{
         console.log('you booking is not in conflict with other bookings');
         next();
