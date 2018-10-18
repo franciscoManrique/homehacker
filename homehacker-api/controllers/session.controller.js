@@ -10,7 +10,7 @@ module.exports.create = (req, res, next) =>{
     if (!email || !password) {
         console.log('NO HAY EMAIL OR PASSWORD');
         throw createError(400, `user or email is empty`);
-    } else{
+    } else{        
         passport.authenticate('auth-local', (error, user) =>{
             if (error) {
                 next(error);

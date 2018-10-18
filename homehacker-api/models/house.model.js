@@ -78,8 +78,6 @@ const houseSchema = new mongoose.Schema({
 
 houseSchema.index({ "location": "2dsphere" });
 
-// A VECES ME DA ESTE ERROR => ERA LANG ANTES QUE LAT!!! ???
-// Can't extract geo keys: { _id: ObjectId('5bc3514ab…itude is out of bounds, lng: 35.8617 lat: 104.195"}cant extract geo keys si pongo china
 
 //  LA INVERSA, AHORA TENGO REFERENCIA DEL BOOKING EN MI CASA
 houseSchema.virtual('bookings', {

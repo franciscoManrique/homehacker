@@ -7,10 +7,11 @@ const User = require('./../models/user.model');
 //CARGA TODAS LAS CASAS SOLO OFRECIENDO 50 HASTA QUE SE LLEVE A CABO LA BUSQUEDA FILTRADA
 module.exports.list = (req, res, next)=>{  
     console.log('LIST ALL HOUSES');
-    House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id}}]})
+    House.find({$and:[{start:{ $gte: Date.now()}}]})
     .populate('owner') 
     // .populate({ path: 'bookings', populate: { path: 'user' } }) 
-    .limit(50) 
+    .limit(50)
+    .sort({price: 1})
     .then(houses => {  
         res.status(200).json(houses);
     })
@@ -19,20 +20,20 @@ module.exports.list = (req, res, next)=>{
     });
 };
 
-//BY DATES RANGE
-module.exports.listByDateRange = (req, res, next)=>{    
-    House.find({$and: [{start:{ $lte: req.query.start}},{end:{ $gte: req.query.end}}]}) // BOOSCAR SOBRE BOOKINGS
-    .populate('owner')
-    .then(houses => {    
-        console.log(houses);
+// //BY DATES RANGE
+// module.exports.listByDateRange = (req, res, next)=>{    
+//     House.find({$and: [{start:{ $lte: req.query.start}},{end:{ $gte: req.query.end}}]}) // BOOSCAR SOBRE BOOKINGS
+//     .populate('owner')
+//     .then(houses => {    
+//         console.log(houses);
         
-        res.status(200).json(houses);
-    })
-    .catch(error => {  
-        console.log(error);
-        next(error);
-    });
-};
+//         res.status(200).json(houses);
+//     })
+//     .catch(error => {  
+//         console.log(error);
+//         next(error);
+//     });
+// };
 
 //GET ONE
 module.exports.get = (req, res, next)=>{
@@ -67,7 +68,7 @@ module.exports.filteredSearch = (req, res, next) => {
 
             return House
                 .find({
-                    owner: { $ne: req.user._id },
+                    // owner: { $ne: req.user._id },
                     _id: { $nin: houseIdsOfHousesNotToShow },
                     people: { $gte: people },
                     start: { $lte: new Date(req.query.start) },
@@ -82,10 +83,10 @@ module.exports.filteredSearch = (req, res, next) => {
                             $maxDistance: req.query.range
                         }
                     }
-                    })
+                    }).sort({price: 1})
                     .populate('owner')
                     .then(houses => {
-                        console.log(houses);
+                        console.log(houses.length);
                         
                         res.json(houses);
                     });
