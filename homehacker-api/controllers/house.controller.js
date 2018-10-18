@@ -7,7 +7,7 @@ const User = require('./../models/user.model');
 //CARGA TODAS LAS CASAS SOLO OFRECIENDO 50 HASTA QUE SE LLEVE A CABO LA BUSQUEDA FILTRADA
 module.exports.list = (req, res, next)=>{  
     console.log('LIST ALL HOUSES');
-    House.find({$and:[{start:{ $gte: Date.now()}}]})
+    House.find({$and:[{start:{ $gte: Date.now()}},{owner: {$ne: req.user._id}}]})
     .populate('owner') 
     // .populate({ path: 'bookings', populate: { path: 'user' } }) 
     .limit(50)
@@ -68,7 +68,7 @@ module.exports.filteredSearch = (req, res, next) => {
 
             return House
                 .find({
-                    // owner: { $ne: req.user._id },
+                    owner: { $ne: req.user._id },
                     _id: { $nin: houseIdsOfHousesNotToShow },
                     people: { $gte: people },
                     start: { $lte: new Date(req.query.start) },
