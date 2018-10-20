@@ -18,7 +18,9 @@ export class LoginComponent {
   constructor(private sessionService: SessionService, private router: Router) { }
   
   onSubmitLogin(){    
+    
     if (this.loginForm.valid) {    
+      console.log('das');
       this.sessionService.authenticate(this.user).subscribe((user: User)=>{
         this.router.navigate(['/home']);
       },

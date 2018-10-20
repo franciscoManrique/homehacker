@@ -15,7 +15,7 @@ import { Subscription, interval } from 'rxjs';
   styleUrls: ['./chat-list.component.css']
 })
 export class ChatListComponent implements OnInit, OnDestroy {
-  private static readonly POLLING_INTERVAL = 500;
+  private static readonly POLLING_INTERVAL = 1000;
   @ViewChild('form') form: FormGroup;
   @ViewChild('containerMessages') containerMessages: ElementRef;
   iconSend = 'https://cdn0.iconfinder.com/data/icons/new-design/512/57-Send-512.png';
@@ -28,33 +28,24 @@ export class ChatListComponent implements OnInit, OnDestroy {
   
   ngOnInit(){
     
-    //ESTO NO TIRA???
-    // let container = this.containerMessages.nativeElement;
-    // container.scrollTop = container.scrollHeight - container.clientHeight;
+    this.message.from = this.sessionService.user; //me
+    this.meId = this.sessionService.user.id; // me
     
-    this.message.from = this.sessionService.user.id; //me
-    this.meId = this.message.from; // me
-    
-    //Params map ME SIGUE DANDO ERROR A VECES DE _ID EN CHAT LIST CONTROLLER????
     this.route.params.subscribe(params =>{
-      this.message.to = params.userId; // him
-    });  
+      console.log(params.userId);
+      this.message.to = new User(); //DEBO INICIALIZARLO!!!!
+      this.message.to.id = params.userId; // him  
+    });
     
-    // PORQUE ME MUESTRA EL NUEVO SIN SIQUIERA NOTIFICAR CAMBIOS => PORQUE YA LOS TIENE!!!
-    // this.chatService.list(this.message.to).subscribe((messages: Array<Message>) => {
-    //   console.log(1, messages);
-    //   this.messages = messages;
-    // })
-    
-    
-    //INTERVAL NO HACE FALTA NOTIFICAR CAMBIOS EN SERVICIOS => PORQUE YA RECARGA LA PAGINA DIRECTAMENTE!!!
     this.intervalPollingSubscription = interval(ChatListComponent.POLLING_INTERVAL)
     .pipe(
       startWith(0),
-      switchMap(() => this.chatService.list(this.message.to))
+      switchMap(() => this.chatService.list(this.message.to.id))
     ).subscribe(
       (messages: Array<Message>) => {
-        this.messages = messages;     
+        this.messages = messages;    
+        this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight;
+        
       },
       (error: ApiError)=> {
         this.apiError = error;
@@ -65,13 +56,10 @@ export class ChatListComponent implements OnInit, OnDestroy {
   
   
   onClickSubmitMessage(){
-    if (this.form.valid) {    
+    console.log(this.message);
+    
+    if (this.form.valid) {        
       this.chatService.sendMessage(this.message).subscribe((message: Message) => {    
-        //NO HAGO NADA AQUI?????
-        this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; 
-
-        // this.containerMessages.nativeElement.scrollTop = this.containerMessages.nativeElement.scrollHeight; //SCROLLTOP VA MAL AQUI ??????????????
-        //PONER MAPAS INFO WINDOW https://stackoverflow.com/questions/39739508/how-could-i-call-a-angular2-function-from-a-google-map-infowindow ?????????????
         this.form.reset();
       },
       (error: ApiError) => {

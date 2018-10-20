@@ -1,7 +1,10 @@
+import { Booking } from "./booking.model";
+import { User } from "./user.model";
+
 export class House {
     id?:string; //?no estara cuando yo lo cree pero si cuando lo reciba
     name: string;
-    owner?: string;
+    owner?: User;
     price: number;
     start: Date; 
     end: Date;
@@ -11,8 +14,8 @@ export class House {
     amenities?: Array<string> = [];
     location: Array<number>;
     address: string;
+    bookings: Booking[]; //!!!!
     
-  
     public asFormData(): FormData{
         const data = new FormData();
         

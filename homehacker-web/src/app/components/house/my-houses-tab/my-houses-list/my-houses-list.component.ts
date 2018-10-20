@@ -4,7 +4,6 @@ import { House } from '../../../../models/house.model';
 import { ApiError } from '../../../../models/api-error.model';
 import { Subscription } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { interval } from "rxjs/internal/observable/interval";
 
 @Component({
   selector: 'app-my-houses-list',
@@ -12,7 +11,6 @@ import { interval } from "rxjs/internal/observable/interval";
   styleUrls: ['./my-houses-list.component.css']
 })
 export class MyHousesListComponent implements OnInit, OnDestroy {
-  private static readonly POLLING_INTERVAL = 1000;
   
   apiError: ApiError;
   housesPerUser: Array<House> = [];

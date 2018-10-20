@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, Subject } from 'rxjs';
-import { Chat } from '../../models/chat/chat.model';
 import { ApiError } from '../../models/api-error.model';
 import { Message } from '../../models/message.model';
 import { map, catchError } from 'rxjs/operators';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,9 @@ export class ChatService {
   
   //LIST MESSAGES ONLY WITH THAT PERSON
   list(userId: string): Observable<Array<Message> | ApiError>{    
-    return this.http.get<Chat>(`${ChatService.CHAT_API}/chat/${userId}/messages`, ChatService.defaultOptions)
+      console.log(`${ChatService.CHAT_API}/chat/${userId}/messages`);
+      
+    return this.http.get<Array<Message>>(`${ChatService.CHAT_API}/chat/${userId}/messages`, ChatService.defaultOptions)
     .pipe(
       map((messages: Array<Message>) => {
         this.messages = messages;
@@ -34,13 +36,11 @@ export class ChatService {
     )
   }
   
-  sendMessage(message: Message):Observable<Message | ApiError>{
-    return this.http.post<Message>(`${ChatService.CHAT_API}/chat/${message.to}/message`, message, ChatService.defaultOptions)
+  sendMessage(message: Message):Observable<Message | ApiError>{    
+    return this.http.post<Message>(`${ChatService.CHAT_API}/chat/${message.to.id}/message`, message, ChatService.defaultOptions)
     .pipe(
       map((message: Message) => {
-        this.messages.push(message);
-        console.log(2, message);
-        
+        this.messages.push(message);        
         // this.notifyMessagesChanges(); 
         return message;
       }),

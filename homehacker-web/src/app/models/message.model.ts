@@ -1,5 +1,9 @@
+import { User } from "./user.model";
+
 export class Message {
-    from: string;
-    to: string;
-    message: string;
+    from: User;
+    to: User;
+    text: string;
+    updatedAt: Date;
+    createdAt: Date;
 }

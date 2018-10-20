@@ -2,6 +2,6 @@
   <div class="content">
     <img [src]="message.from.image" alt="image" class="profile-image">
     <small class="owner-text"><strong>{{message.from.name | uppercase}} - {{message.createdAt | date: 'shortTime'}}</strong></small>
-    <p>{{message.message}}</p>
+    <p>{{message.text}}</p>
   </div>
 </div>

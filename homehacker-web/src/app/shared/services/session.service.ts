@@ -19,7 +19,7 @@ export class SessionService {
     withCredentials: true
   };
   
-  user: User;
+  public user: User;
   userSubject: Subject<User> = new Subject(); // 1. mi sujeto que va a cambiar
   
   constructor(private http: HttpClient, private mapService: MapService) { 
@@ -30,6 +30,8 @@ export class SessionService {
   }
   
   authenticate(user: User):Observable<User | ApiError>{
+    console.log('das');
+    
     return this.http.post<User>(SessionService.SESSION_API, user, SessionService.defaultOptions)
     .pipe(
       map((user: User)=>{

@@ -1,7 +1,7 @@
 <div *ngIf="housesPerUser.length > 0; else othercontent">
     <div class="col-12" *ngFor="let housePerUser of housesPerUser">
-        <hr>
         <app-my-houses-item [housePerUser]="housePerUser"></app-my-houses-item>
+        <hr>
     </div>
 </div>
 

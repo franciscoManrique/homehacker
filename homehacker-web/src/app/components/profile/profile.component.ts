@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   
   user: User = new User();
   apiError: ApiError;
+  profileShow: boolean = true;
   formShow: boolean = false;
   imgPreview: string | ArrayBuffer = ProfileComponent.IMG_PREVIEW;
   onUserChangesSuscription: Subscription;
@@ -25,7 +26,7 @@ export class ProfileComponent implements OnInit {
   
   constructor(private sessionService: SessionService, private userService: UserService) { }
   
-  ngOnInit() {   
+  ngOnInit() {
     
     const userId = this.sessionService.user.id;
     this.userService.get(userId).subscribe((user: User) => {
@@ -40,23 +41,25 @@ export class ProfileComponent implements OnInit {
     
   }
   
-  onSubmitForm(user: User = new User()):void{            
+  onSubmitForm(user: User = new User()): void {
     if (this.form.valid) {
       
       this.userService.edit(user).subscribe((user: User) => {
         this.form.reset();
         this.user = Object.assign(new User(), user); // ASI ES SIN MUTAR EL OBJETO!!!
         this.formShow = !this.formShow;
+        this.profileShow = !this.profileShow;
       },
       (error: ApiError) => {
         this.apiError = error;
       })
     }
-
+    
   }
   
-  toggleForm(){
+  toggleForm() {
     this.formShow = !this.formShow;
+    this.profileShow = !this.profileShow;
   }
   
   onChangeImageFile(image: HTMLInputElement): void {

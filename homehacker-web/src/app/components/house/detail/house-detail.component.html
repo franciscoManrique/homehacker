@@ -9,56 +9,30 @@
 </carousel>
 
 <div class="row">
-    <div class="col-lg-8 col-md-6 col-sm-12">
-        <img [src]="house.owner?.image" alt="image" class="owner-image"> 
-        <div class="row">
-            <div class="col-xs-12  col-sm-12 col-md-10 col-lg-10">
-                <p class="card-text">{{house.description}}</p>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-                Amenities: 
-                <ul *ngFor="let amenity of house.amenities">
-                    <li>{{amenity}}</li>
-                </ul>
-            </div>
-        </div>
-        <small>{{house.start | date}} - {{house.end | date}}</small>
-        div
+    <p class="card-text description">{{house.description}}</p>
+</div>
+<div class="row">
+    <strong>Amenities: </strong>
+    <div *ngFor="let amenity of house.amenities">
+        <p>{{amenity}}, </p>
     </div>
-    <!-- PORQUE PONGO ? ????? -->
-    <div *ngIf="house.owner?.id !== session.user?.id" class="col-lg-4 col-md-6 col-sm-12"> 
+</div>
+
+<!-- PORQUE PONGO ? ????? -->
+<div class="row">
+    <div *ngIf="house.owner?.id !== session.user?.id" class="col-lg-4 col-md-6 col-sm-12">
         <form (ngSubmit)="onSubmitBooking(formBooking)" #formBooking="ngForm">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="text" 
-                class="form-control"  
-                placeholder="From" 
-                name="start" 
-                [ngClass]="{ 'is-invalid': apiError }"
-                [(ngModel)]="booking.start" 
-                #start="ngModel" 
-                ngbDatepicker 
-                #d="ngbDatepicker" 
-                (click)="d.toggle()" 
-                required>  
+                <input type="text" class="form-control"  placeholder="From" name="start" [ngClass]="{ 'is-invalid': apiError }" [(ngModel)]="booking.start"  #start="ngModel"  ngbDatepicker  #d="ngbDatepicker"  (click)="d.toggle()"  required>  
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                 </div>
-                <input type="text" 
-                class="form-control" 
-                placeholder="To" 
-                name="end" 
-                [ngClass]="{'is-invalid': apiError }"
-                [(ngModel)]="booking.end" 
-                #end="ngModel" 
-                ngbDatepicker 
-                #d2="ngbDatepicker" 
-                (click)="d2.toggle()" 
-                required>
+                <input type="text" class="form-control" placeholder="To" name="end" [ngClass]="{'is-invalid': apiError }"[(ngModel)]="booking.end" #end="ngModel" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" required>
             </div>  
             <div style="color: red;" *ngIf="apiError">
                 <small>{{apiError.message}}</small>
@@ -68,12 +42,11 @@
             </div>
         </form>
     </div>
-</div> 
+</div>
 
 <div *ngIf="house.location">
-    <agm-map [zoom]="15" [latitude]="house.location[0]" [longitude]="house.location[1]">
-        <agm-marker [latitude]="house.location[0]" [longitude]="house.location[1]"></agm-marker>
+    <agm-map [zoom]="15" [longitude]="house.location[0]" [latitude]="house.location[1]">
+        <agm-marker [longitude]="house.location[0]" [latitude]="house.location[1]"></agm-marker>
     </agm-map>
 </div> 
-
 

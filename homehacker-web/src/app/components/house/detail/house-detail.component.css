@@ -31,8 +31,8 @@ agm-map {
     height: 300px;
 }
 
-*{
-    font-weight: 100;
+*:not(strong){
+    /* font-weight: 100; */
 }
 
 .owner-image{
@@ -42,5 +42,5 @@ agm-map {
 }
 
 .description{
-    font-size: 10px;
+    font-size: 13px;
 }

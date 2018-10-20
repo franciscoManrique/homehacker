@@ -21,44 +21,50 @@ export class HouseDetailComponent implements OnInit {
   @ViewChild('formBooking') formBooking: FormGroup;
   apiError: ApiError;
   
-  constructor(private homeService: HomeService, private route: ActivatedRoute, private bookingService: BookingService, private router: Router, private session: SessionService) { }
-  
-  
-  ngOnInit() {
-    const houseId = this.route.snapshot.paramMap.get('id');
-    
-    this.homeService.get(houseId).subscribe((house: House) =>{
-      this.house = house;      
-    },
-    (error: ApiError) => {
-      this.apiError = error;
+  constructor(private homeService: HomeService, 
+    private route: ActivatedRoute,
+    private bookingService: BookingService,
+    private router: Router,
+    public session: SessionService) {   //ESTE PUBLIC ES NECESARIO PARA USARLO EN MI HTML !!!!
+      
     }
-  );
-
-
-
-}
-
-onSubmitBooking(){  
-  if(this.formBooking.valid){
-    let booking = undefined;
     
-    booking = {
-      start: Object.values(this.booking.start).join('-'),
-      end: Object.values(this.booking.end).join('-'),
-      house: this.house.id,
-      user: this.house.owner
-    }
-    this.bookingService.makeBooking(booking).subscribe((booking: Booking) => {
-      this.router.navigate(['/myBookings']);
-    },
-    (error => {      
-      this.apiError = error;
-    }))
+    
+    ngOnInit() {
+      const houseId = this.route.snapshot.paramMap.get('id');
+      
+      this.homeService.get(houseId).subscribe((house: House) =>{
+        this.house = house;      
+      },
+      (error: ApiError) => {
+        this.apiError = error;
+      }
+    );
+    
+    
+    
   }
-}
-
-
+  
+  onSubmitBooking(){  
+    if(this.formBooking.valid){
+      let booking = undefined;
+      
+      booking = {
+        start: Object.values(this.booking.start).join('-'),
+        end: Object.values(this.booking.end).join('-'),
+        house: this.house.id,
+        user: this.house.owner
+      }
+      this.bookingService.makeBooking(booking).subscribe((booking: Booking) => {
+        this.router.navigate(['/myBookings']);
+      },
+      (error => {      
+        this.apiError = error;
+      }))
+    }
+  }
+  
+  
 }
 
 

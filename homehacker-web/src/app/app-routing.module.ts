@@ -11,7 +11,8 @@ import { HouseDetailComponent } from './components/house/detail/house-detail.com
 import { MyHousesListComponent } from './components/house/my-houses-tab/my-houses-list/my-houses-list.component';
 import { MyBookingsListComponent } from './components/booking/my-bookings-tab/my-bookings-list/my-bookings-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
+import { ChatListComponent } from './components/message/chat-list/chat-list.component';
+import { PageNotFoundComponent } from './components/misc/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'myHouses', canActivate: [IsAuthenticatedGuard], component: MyHousesListComponent},
   {path: 'myBookings', canActivate: [IsAuthenticatedGuard], component: MyBookingsListComponent},
   {path: 'chat/:userId/messages', canActivate: [IsAuthenticatedGuard], component: ChatListComponent},
-  {path: 'profile', canActivate: [IsAuthenticatedGuard], component: ProfileComponent}
+  {path: 'profile', canActivate: [IsAuthenticatedGuard], component: ProfileComponent},
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

@@ -7,29 +7,66 @@
 
 .extraMargin{
     margin-bottom: 30px;
-    /* border: 1px solid rgb(230, 230, 230);
-    border-radius: 3px; */
-}
 
-.bold{
-    font-weight: 900;
 }
-
 .row{
     margin: 10px;
 }
 
 agm-map{
     height: 30vh;
-    /* width: 77vw; */
+}
+
+.padding-rigth-0{
+    padding-right: 0;
+}
+
+.padding-0{
+    padding: 0;
+}
+
+.img-info-window{
+    width: 100%;
+}
+
+map.infoWindow.width{
+    max-width: 100px !important;
 }
 
 .range{
     margin: 10px auto 20px auto;
-    width: 70%;
+    width: 100%;
 }
 
 p{
     font-size: 30px;
     font-size: 3.5vw;
+}
+
+.relative{
+    position: relative;
+    width: 100%;
+}
+
+.absoluteLeft{
+    position: absolute;
+    left: 0;
+}
+
+.absoluteRight{
+    position: absolute;
+    right: 0;
+}
+
+.description{
+    height: 60px;
+    overflow: scroll;
+}
+
+.padding-0{
+    padding: 0;
+}
+
+.no-margin{
+    margin: 0;
 }

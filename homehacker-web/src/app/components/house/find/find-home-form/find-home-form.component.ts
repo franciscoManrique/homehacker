@@ -39,10 +39,10 @@ export class FindHomeFormComponent implements OnInit {
     
   }
   
-  onSubmitFindHouse(){
-    console.log(22, this.house);
-    
+  onSubmitFindHouse(){    
     if (this.formHouseFind.valid) {
+      console.log(this.house);
+      
       this.houseFindSubmit.emit(this.house);
     }
   }

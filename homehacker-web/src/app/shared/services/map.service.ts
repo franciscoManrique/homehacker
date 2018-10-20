@@ -29,9 +29,11 @@ export class MapService {
         this.ngZone.run(() => {
           this.place = autocomplete.getPlace();
           
-          this.location.splice(0, 2);
+          this.location = [];
           this.location.push(this.place.geometry.location.lng())
           this.location.push(this.place.geometry.location.lat())
+          console.log(this.location);
+          
           this.address = this.place.formatted_address;
           this.notifyCoords();
           this.notifyAddress();

@@ -19,6 +19,8 @@ export class FindHomeWrapperComponent implements OnInit {
   constructor(private homeService: HomeService, private router: Router) { }
   
   ngOnInit() {
+    
+    //CUANDO TENGO APIERROR Y LUEGO LO HAGO BIEN EL ERROR SIGUE PRESENTE?????
   }
   
   findHouseToggle(){
@@ -28,7 +30,9 @@ export class FindHomeWrapperComponent implements OnInit {
   onSubmitFindHouse(houseToFind: HouseToFind){
     
     this.homeService.findHousesByFilter(houseToFind)
-    .subscribe((houses: Array<House>) => {}, // VACIO ?????
+    .subscribe((houses: Array<House>) => {
+      this.findHouseToggle();
+    },
     (error: ApiError) => {
       this.apiError = error;
     }

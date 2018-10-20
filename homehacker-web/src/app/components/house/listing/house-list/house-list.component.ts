@@ -15,16 +15,24 @@ import { FindHomeFormComponent } from '../../find/find-home-form/find-home-form.
 export class HouseListComponent implements OnInit, OnDestroy {
   apiError: ApiError;
   houses: Array<House> = [];
+  prices: Array<number> = [];
   minPrice: number;
   maxPrice: number;
   paintMapIfHouses: boolean = false;
   onHousesChangesSuscription: Subscription;
-  
+  searchPattern: string;
   constructor(private homeService: HomeService, private bookingService: BookingService) { }
   
   ngOnInit() {
     this.homeService.list().subscribe((houses: Array<House>)=> {
       this.houses = houses;
+      this.prices = [];
+
+      houses.forEach((house) => {        
+        this.prices.push(house.price)
+        this.maxPrice = Math.max(...this.prices);
+        this.minPrice = Math.min(...this.prices);
+      })
     },
     (error: ApiError) =>{
       this.apiError = error;
@@ -34,9 +42,33 @@ export class HouseListComponent implements OnInit, OnDestroy {
   this.onHousesChangesSuscription = this.homeService.onHomeChanges()
   .subscribe((houses: Array<House>) => { 
     this.houses = houses;    
+    this.prices = [];
+    houses.forEach((house) => {
+      this.prices.push(house.price)      
+      this.maxPrice = Math.max(...this.prices);
+      this.minPrice = Math.min(...this.prices);
+    })
   })
-    
+  
 }
+
+clickedmarker(infowindow){
+  console.log(infowindow);
+  console.log('dsaad');
+  
+  
+}
+
+// clickedMarker(label: string, infoWindow, marker, index: number) {
+//   if( this.infoWindowOpened ===  infoWindow)
+//    return;
+
+//  if(this.infoWindowOpened !== null)
+//  {
+//   this.infoWindowOpened.close();
+//  }
+//  this.infoWindowOpened = infoWindow;
+// }
 
 ngOnDestroy(){
   console.log('destroyed house list suscription');

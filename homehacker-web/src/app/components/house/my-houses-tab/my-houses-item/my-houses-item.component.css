@@ -60,10 +60,10 @@ agm-map {
 }
 
 .fa-trash{
-    font-size: 60px; 
+    font-size: 30px; 
     position: absolute;
     color: white;
-    margin: 20px;
+    margin: 10px;
     left: 0;
 }
 
@@ -72,20 +72,13 @@ agm-map {
     left: 0;
 }
 
-.houseImage{
-    border-radius: 10px;
+.align-text{
+    text-align: center;
 }
 
-/* .relative::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgba(0,0,0,.3);
-    border-radius: 10px; 
-} */
+.houseImage{
+    border-radius: 5px;
+}
 
 .margin-bottom{
     margin-bottom: 20px;

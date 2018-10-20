@@ -8,7 +8,7 @@
 }
 
 *:not(strong){
-    font-weight: 100;
+    /* font-weight: 100; */
 }
 
 
@@ -20,5 +20,8 @@
 
 .house{
     margin-bottom: 30px;
-    padding: 10px;
+}
+
+.house-photo{
+    padding: 0;
 }

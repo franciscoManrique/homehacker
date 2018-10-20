@@ -6,7 +6,9 @@ import { House } from '../../models/house.model';
 })
 export class FilterByPricePipe implements PipeTransform {
   
-  transform(houses: Array<House>, pattern: string): Array<House> {
+  transform(houses: Array<House>, pattern: number): Array<House> {
+    console.log(typeof pattern);
+    
     if(!houses){
       console.log('no houses');
       return [];
@@ -16,7 +18,7 @@ export class FilterByPricePipe implements PipeTransform {
     }
     
     return houses = houses.filter(house => {
-      return house.price <= Number(pattern)
+      return house.price <= pattern
     })
   }
   

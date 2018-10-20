@@ -35,13 +35,4 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/login']);
     });
   }
-  
-  onKeyUpSearch(pattern: string):void{
-    if (pattern.length > 3) {
-      // this.homeService.get().subscribe(() => {
-        
-      // })
-    }
-    
-  }
 }

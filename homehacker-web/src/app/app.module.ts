@@ -22,8 +22,8 @@ import { MyHousesListComponent } from './components/house/my-houses-tab/my-house
 import { MyBookingsListComponent } from './components/booking/my-bookings-tab/my-bookings-list/my-bookings-list.component';
 import { MyBookingsItemComponent } from './components/booking/my-bookings-tab/my-bookings-item/my-bookings-item.component';
 import { ProfileComponent } from './components/profile/profile.component';
-import { ChatListComponent } from './components/chat/chat-list/chat-list.component';
-import { ChatItemComponent } from './components/chat/chat-item/chat-item.component';
+import { ChatListComponent } from './components/message/chat-list/chat-list.component';
+import { ChatItemComponent } from './components/message/chat-item/chat-item.component';
 
 //PIPES
 import { FilterByPricePipe } from './shared/pipes/filter-by-price.pipe';
@@ -33,6 +33,21 @@ import { ShowMapPipe } from './shared/pipes/show-map.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // bootstrap nav responsive
 import {AgmCoreModule} from '@agm/core'; // google maps
 import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail images
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card'
+import { MatInputModule } from '@angular/material/input'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatListModule } from '@angular/material/list'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PageNotFoundComponent } from './components/misc/page-not-found/page-not-found.component';
+import { FooterComponent } from './components/misc/footer/footer.component';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +71,8 @@ import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail ima
     ProfileComponent,
     ChatListComponent,
     ChatItemComponent,
+    PageNotFoundComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +85,19 @@ import {CarouselModule} from 'ngx-bootstrap/carousel';// carousel for detail ima
       apiKey: 'AIzaSyDeZy_fS4ry7LS6HwGT31iT0WaaJkH-Fgk',
       libraries: ['places']
     }),
-    CarouselModule
+    CarouselModule,
+
+    BrowserAnimationsModule,
+    MatCheckboxModule,
+    MatButtonModule, 
+    MatTabsModule,
+    MatIconModule,
+    MatCardModule,
+    MatInputModule,
+    MatDividerModule,
+    MatListModule,
+    MatProgressSpinnerModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
