@@ -17,7 +17,8 @@ const bookingSchema = new mongoose.Schema({
 		required: 'Must have start date - default value is the created date'
 	},
 	end: {
-		type: Date,
+        type: Date,
+        
 		required: 'Must have end date - default value is the created date + 1 week'
     }
 }, {timestamps: true,
